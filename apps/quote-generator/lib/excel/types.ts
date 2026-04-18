@@ -28,6 +28,10 @@ export type SkeletonResult = {
     sheetsDetected: Record<string, string>;
     bomRowsExtracted: number;
     laborCategoriesExtracted: number;
+    totalSheetsRead: number;
+    matchedSheets: number;
+    unmatchedSheets: string[];
+    serviceSectionsExtracted: number;
   };
 };
 

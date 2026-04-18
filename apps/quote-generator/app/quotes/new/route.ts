@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { chats, quotes } from "@/lib/db/schema";
+import { DEFAULT_LOCAL_APP_URL } from "@/lib/dev-auth";
 import { emptyQuoteData } from "@/lib/quote/defaults";
 import { newId as nanoid } from "@/lib/util/ids";
 
@@ -22,7 +23,7 @@ export async function POST() {
   });
   await db.insert(chats).values({ id: nanoid(), quoteId });
 
-  const baseUrl = process.env.BETTER_AUTH_URL ?? "http://localhost:3000";
+  const baseUrl = process.env.BETTER_AUTH_URL ?? DEFAULT_LOCAL_APP_URL;
   return NextResponse.redirect(new URL(`/quotes/${quoteId}`, baseUrl), {
     status: 303,
   });

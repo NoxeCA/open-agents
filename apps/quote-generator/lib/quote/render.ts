@@ -9,6 +9,10 @@ export class PdfValidationError extends Error {
 export class PdfAuthError extends Error { constructor() { super("PDF API auth failed"); this.name = "PdfAuthError"; } }
 export class PdfGenerationError extends Error { constructor(msg: string) { super(msg); this.name = "PdfGenerationError"; } }
 
+type PdfValidationBody = {
+  details?: Array<{ path?: string }>;
+};
+
 export async function callPdfApi(data: QuoteData): Promise<ArrayBuffer> {
   const url = process.env.NOXE_DOCUMENTS_URL;
   const key = process.env.NOXE_DOCUMENTS_API_KEY;
@@ -26,9 +30,13 @@ export async function callPdfApi(data: QuoteData): Promise<ArrayBuffer> {
     });
     if (res.status === 401) throw new PdfAuthError();
     if (res.status === 400) {
-      const body = await res.json().catch(() => ({}));
+      const body = (await res.json().catch(() => ({}))) as PdfValidationBody;
       const details = body?.details ?? [];
-      const missingPaths = Array.isArray(details) ? details.map((d: any) => d.path).filter(Boolean) : [];
+      const missingPaths = Array.isArray(details)
+        ? details
+            .map((detail) => detail.path)
+            .filter((path): path is string => typeof path === "string")
+        : [];
       throw new PdfValidationError(missingPaths, body);
     }
     if (!res.ok) {

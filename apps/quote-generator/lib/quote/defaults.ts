@@ -2,11 +2,11 @@ import type { QuoteData } from "./schema";
 export function emptyQuoteData(): Partial<QuoteData> {
   return {
     lang: "fr",
-    includeAboutUs: true,
-    includeCulture: true,
-    includeCeoMessage: true,
-    includeTeam: true,
-    includePartners: true,
+    includeAboutUs: false,
+    includeCulture: false,
+    includeCeoMessage: false,
+    includeTeam: false,
+    includePartners: false,
     includeTermsAndConditions: true,
     services: [],
     exclusions: [],

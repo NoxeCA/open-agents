@@ -9,10 +9,14 @@ import { parseWorkbook } from "@/lib/excel/parse";
 
 import type { ParseExcelOutput } from "../tool-types";
 
+function isNonEmptyRow(row: unknown[]) {
+  return row.some((value) => value !== null && value !== "");
+}
+
 export function parseExcelTool({ quoteId }: { quoteId: string }) {
   return tool({
     description:
-      "Parse an uploaded Excel file and return a compact sheet summary. Use this immediately after the user uploads an Excel file, then call `propose_quote_skeleton` with the same fileId.",
+      "Parse an uploaded Excel file and return a workbook-wide summary covering every sheet. Use this immediately after the user uploads an Excel file. After this completes, call `propose_quote_skeleton` with the same fileId before asking clarifying questions.",
     inputSchema: z.object({
       fileId: z
         .string()
@@ -47,9 +51,13 @@ export function parseExcelTool({ quoteId }: { quoteId: string }) {
             name: s.name,
             nRows: s.nRows,
             nCols: s.nCols,
+            nonEmptyRows: s.rows.filter((row) => isNonEmptyRow(row)).length,
           })),
           firstRowsPreview: Object.fromEntries(
-            wb.sheets.map((s) => [s.name, s.rows.slice(0, 3)]),
+            wb.sheets.map((s) => [
+              s.name,
+              s.rows.filter((row) => isNonEmptyRow(row)).slice(0, 8),
+            ]),
           ),
         };
       } catch (e) {

@@ -1,4 +1,5 @@
 import { askUserQuestionTool } from "./ask-user-question";
+import { inspectContextFileTool } from "./inspect-context-file";
 import { listQuoteLayoutsTool } from "./list-quote-layouts";
 import { parseExcelTool } from "./parse-excel";
 import { patchQuoteTool } from "./patch-quote";
@@ -13,6 +14,7 @@ export type BuildToolsContext = {
 export function buildTools(ctx: BuildToolsContext) {
   return {
     parse_excel: parseExcelTool(ctx),
+    inspect_context_file: inspectContextFileTool(ctx),
     propose_quote_skeleton: proposeQuoteSkeletonTool(ctx),
     patch_quote: patchQuoteTool(ctx),
     ask_user_question: askUserQuestionTool,

@@ -3,6 +3,8 @@ import { and, asc, desc, eq } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { chatMessages, chats, quoteFiles, quotes } from "@/lib/db/schema";
+import { normalizeQuoteData } from "@/lib/quote/normalize";
+import type { QuoteData } from "@/lib/quote/schema";
 import { requireQuoteOwnership } from "@/lib/util/ownership";
 import { QuoteWorkspace } from "./quote-workspace";
 
@@ -52,7 +54,10 @@ export default async function QuotePage({
 
   return (
     <QuoteWorkspace
-      quote={quote}
+      quote={{
+        ...quote,
+        data: normalizeQuoteData(quote.data as Partial<QuoteData>),
+      }}
       chat={chat}
       initialMessages={messages}
       initialPdfFileId={latestPdf?.id ?? null}

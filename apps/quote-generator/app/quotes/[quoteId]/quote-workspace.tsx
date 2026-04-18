@@ -31,6 +31,8 @@ export function QuoteWorkspace({
   const [pdfFileId, setPdfFileId] = useState<string | null>(initialPdfFileId);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [quoteData, setQuoteData] = useState<any>(quote.data);
+  const [draftedPrompt, setDraftedPrompt] = useState("");
+  const [draftedPromptVersion, setDraftedPromptVersion] = useState(0);
 
   const onQuoteUpdated = useCallback(async () => {
     try {
@@ -48,6 +50,11 @@ export function QuoteWorkspace({
     }
   }, [quote.id]);
 
+  const handleDraftPrompt = useCallback((prompt: string) => {
+    setDraftedPrompt(prompt);
+    setDraftedPromptVersion((current) => current + 1);
+  }, []);
+
   return (
     <ResizablePanelGroup orientation="horizontal" className="h-screen">
       <ResizablePanel defaultSize={55} minSize={30}>
@@ -56,6 +63,8 @@ export function QuoteWorkspace({
           chatId={chat.id}
           initialMessages={initialMessages}
           onQuoteUpdated={onQuoteUpdated}
+          draftedPrompt={draftedPrompt}
+          draftedPromptVersion={draftedPromptVersion}
         />
       </ResizablePanel>
       <ResizableHandle withHandle />
@@ -64,6 +73,8 @@ export function QuoteWorkspace({
           quoteId={quote.id}
           pdfFileId={pdfFileId}
           quoteData={quoteData}
+          onQuoteUpdated={onQuoteUpdated}
+          onDraftAssistantPrompt={handleDraftPrompt}
         />
       </ResizablePanel>
     </ResizablePanelGroup>

@@ -15,6 +15,7 @@ export type SheetSummary = {
   name: string;
   nRows: number;
   nCols: number;
+  nonEmptyRows: number;
 };
 
 export type ParseExcelOutput =
@@ -30,7 +31,9 @@ export type ParseExcelOutput =
 export type ProposeQuoteSkeletonInput = { fileId: string };
 
 export type ProposeQuoteSkeletonStats = {
+  sheetsRead: number;
   sheetsConsidered: number;
+  unmatchedSheets: string[];
   partsDetected: number;
   servicesDetected: number;
 };
@@ -94,6 +97,43 @@ export type AskUserQuestionOutput =
   | { answers: Record<string, string | string[]> }
   | { declined: true };
 
+// ---- inspect_context_file ----------------------------------------------
+
+export type InspectContextFileInput = {
+  fileId: string;
+  focus?: string;
+};
+
+export type InspectContextFieldHint = {
+  label: string;
+  value: string;
+  confidence: "low" | "medium" | "high";
+  quotePathHint?: string;
+};
+
+export type InspectContextFileOutput =
+  | {
+      ok: true;
+      fileId: string;
+      filename: string;
+      mediaType: string;
+      evidenceQuotes: string[];
+      summary: string;
+      customerSignals: string[];
+      scopeSignals: string[];
+      commercialSignals: string[];
+      quoteFieldHints: InspectContextFieldHint[];
+      needsConfirmation: string[];
+    }
+  | {
+      ok: false;
+      error: string;
+      errorCode?:
+        | "provider_billing"
+        | "provider_execution"
+        | "attachment_processing";
+    };
+
 // ---- render_pdf --------------------------------------------------------
 
 export type RenderPdfInput = Record<string, never>;
@@ -108,6 +148,7 @@ export type RenderPdfOutput =
       ok: false;
       error: string;
       missingPaths?: string[];
+      blockingIssues?: string[];
     };
 
 // ---- list_quote_layouts ------------------------------------------------

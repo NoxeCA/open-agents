@@ -1,4 +1,3 @@
-import { anthropic } from "@ai-sdk/anthropic";
 import {
   convertToModelMessages,
   stepCountIs,
@@ -10,7 +9,11 @@ import { eq } from "drizzle-orm";
 
 import { db } from "@/lib/db";
 import { quotes } from "@/lib/db/schema";
+import { normalizeQuoteData } from "@/lib/quote/normalize";
+import type { QuoteData } from "@/lib/quote/schema";
 
+import { buildQuoteAgentPromptContext } from "./prompt-context";
+import { resolveQuoteAgentModel } from "./model";
 import { buildSystemPrompt } from "./system-prompt";
 import { buildTools, type QuoteAgentTools } from "./tools";
 
@@ -21,7 +24,6 @@ export type RunQuoteAgentOptions = {
   onFinish?: StreamTextOnFinishCallback<QuoteAgentTools>;
 };
 
-const MODEL_ID = "claude-sonnet-4-6";
 const MAX_STEPS = 25;
 
 export async function runQuoteAgent(opts: RunQuoteAgentOptions) {
@@ -36,15 +38,23 @@ export async function runQuoteAgent(opts: RunQuoteAgentOptions) {
   }
 
   const lang: "fr" | "en" = quote.lang === "en" ? "en" : "fr";
+  const normalizedQuoteData = normalizeQuoteData(
+    quote.data as Partial<QuoteData>,
+  );
+  const promptContext = await buildQuoteAgentPromptContext({
+    quote,
+    userId: opts.userId,
+  });
 
   return streamText({
-    model: anthropic(MODEL_ID),
+    model: resolveQuoteAgentModel(),
     system: buildSystemPrompt({
       quote: {
         lang,
         title: quote.title,
-        data: quote.data,
+        data: normalizedQuoteData,
       },
+      promptContext,
     }),
     messages: await convertToModelMessages(opts.messages),
     tools: buildTools({ quoteId: opts.quoteId, userId: opts.userId }),

@@ -10,8 +10,8 @@ export function ParseExcelToolCall({ input, output, state }: ToolCallProps) {
   const filename =
     (input?.filename as string | undefined) ??
     (input?.name as string | undefined);
-  const sheetCount = Array.isArray(output?.sheets)
-    ? output.sheets.length
+  const sheetCount = Array.isArray(output?.sheetSummaries)
+    ? output.sheetSummaries.length
     : undefined;
   return (
     <Card className="my-1 gap-2 py-2">

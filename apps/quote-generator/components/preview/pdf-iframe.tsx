@@ -16,6 +16,7 @@ export function PdfIframe({ src }: Props) {
     <iframe
       src={src}
       title="Quote PDF preview"
+      loading="lazy"
       className="h-full w-full border-0 bg-background"
     />
   );

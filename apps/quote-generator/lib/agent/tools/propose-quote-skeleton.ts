@@ -6,7 +6,9 @@ import { downloadBlob } from "@/lib/blob";
 import { db } from "@/lib/db";
 import { quoteFiles, quotes } from "@/lib/db/schema";
 import { proposeSkeleton } from "@/lib/excel/heuristics";
+import { persistQuoteData } from "@/lib/memory/persist-quote-data";
 import { parseWorkbook } from "@/lib/excel/parse";
+import { normalizeQuoteData } from "@/lib/quote/normalize";
 
 import type { ProposeQuoteSkeletonOutput } from "../tool-types";
 
@@ -33,7 +35,7 @@ function shallowMergeNonNull(
 export function proposeQuoteSkeletonTool({ quoteId }: { quoteId: string }) {
   return tool({
     description:
-      "After `parse_excel`, infer a starter QuoteData skeleton from the workbook and merge it into the current quote. Returns which top-level keys were populated and which still need confirmation.",
+      "After `parse_excel`, infer a starter QuoteData skeleton from the workbook and merge it into the current quote. Returns which top-level keys were populated, what still needs confirmation, and workbook stats. Use these results to summarize what you found before asking only the highest-value follow-up questions.",
     inputSchema: z.object({
       fileId: z
         .string()
@@ -84,12 +86,18 @@ export function proposeQuoteSkeletonTool({ quoteId }: { quoteId: string }) {
         string,
         unknown
       >;
-      const merged = shallowMergeNonNull(existing, skeleton);
+      const merged = normalizeQuoteData(
+        shallowMergeNonNull(existing, skeleton),
+      );
 
-      await db
-        .update(quotes)
-        .set({ data: merged, updatedAt: new Date() })
-        .where(eq(quotes.id, quoteId));
+      await persistQuoteData({
+        quote: {
+          id: quote.id,
+          title: quote.title,
+          lang: quote.lang,
+        },
+        data: merged,
+      });
 
       const proposedKeys = collectTopLevelKeys(skeleton);
       const rawNeedsConfirmation = Array.isArray(
@@ -110,15 +118,25 @@ export function proposeQuoteSkeletonTool({ quoteId }: { quoteId: string }) {
             sheetsDetected?: Record<string, string>;
             bomRowsExtracted?: number;
             laborCategoriesExtracted?: number;
+            totalSheetsRead?: number;
+            matchedSheets?: number;
+            unmatchedSheets?: string[];
+            serviceSectionsExtracted?: number;
           }
         | undefined;
-      const sheetsConsidered = rawStats?.sheetsDetected
-        ? Object.keys(rawStats.sheetsDetected).length
-        : 0;
       const stats = {
-        sheetsConsidered,
+        sheetsRead: rawStats?.totalSheetsRead ?? 0,
+        sheetsConsidered:
+          rawStats?.matchedSheets ??
+          (rawStats?.sheetsDetected
+            ? Object.keys(rawStats.sheetsDetected).length
+            : 0),
+        unmatchedSheets: rawStats?.unmatchedSheets ?? [],
         partsDetected: rawStats?.bomRowsExtracted ?? 0,
-        servicesDetected: rawStats?.laborCategoriesExtracted ?? 0,
+        servicesDetected:
+          rawStats?.serviceSectionsExtracted ??
+          rawStats?.laborCategoriesExtracted ??
+          0,
       };
 
       return {

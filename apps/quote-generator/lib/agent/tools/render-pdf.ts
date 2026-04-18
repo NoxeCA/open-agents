@@ -5,8 +5,11 @@ import { z } from "zod";
 import { uploadBlob } from "@/lib/blob";
 import { db } from "@/lib/db";
 import { quoteFiles, quotes } from "@/lib/db/schema";
+import { persistQuoteData } from "@/lib/memory/persist-quote-data";
+import { normalizeQuoteData } from "@/lib/quote/normalize";
+import { assessQuoteProductionReadiness } from "@/lib/quote/render-readiness";
 import { callPdfApi, PdfValidationError } from "@/lib/quote/render";
-import { quoteDataSchema } from "@/lib/quote/schema";
+import type { QuoteData } from "@/lib/quote/schema";
 import { nanoid } from "@/lib/util/ids";
 
 import type { RenderPdfOutput } from "../tool-types";
@@ -14,7 +17,7 @@ import type { RenderPdfOutput } from "../tool-types";
 export function renderPdfTool({ quoteId }: { quoteId: string }) {
   return tool({
     description:
-      "Render the current QuoteData to a PDF via the Noxe documents API, persist it to blob storage, and attach it to the quote. Call this after the quote has all mandatory fields, or after applying a patch the user asked for. Returns a `pdfUrl` the UI can load in the preview pane.",
+      "Render the current QuoteData to a PDF via the Noxe documents API, persist it to blob storage, and attach it to the quote. Call this only when the quote is production-ready: required fields are filled, no placeholder text remains, and unresolved confirmations have already been patched. Returns a `pdfUrl` the UI can load in the preview pane.",
     inputSchema: z.object({}),
     execute: async (): Promise<RenderPdfOutput> => {
       const [row] = await db
@@ -27,21 +30,22 @@ export function renderPdfTool({ quoteId }: { quoteId: string }) {
         return { ok: false, error: "Quote not found" };
       }
 
-      const parsed = quoteDataSchema.safeParse(row.data);
-      if (!parsed.success) {
-        const missingPaths = parsed.error.issues.map((i) =>
-          i.path.join("."),
-        );
+      const normalizedData = normalizeQuoteData(
+        row.data as Partial<QuoteData>,
+      );
+      const readiness = assessQuoteProductionReadiness(normalizedData);
+      if (readiness.renderReadiness === "blocked" || !readiness.parsedData) {
         return {
           ok: false,
-          error: "validation_failed",
-          missingPaths,
+          error: "not_production_ready",
+          missingPaths: readiness.blockers,
+          blockingIssues: readiness.blockingIssues,
         };
       }
 
       let pdf: ArrayBuffer | Uint8Array | Buffer;
       try {
-        pdf = await callPdfApi(parsed.data);
+        pdf = await callPdfApi(readiness.parsedData);
       } catch (e) {
         if (e instanceof PdfValidationError) {
           return {
@@ -67,10 +71,22 @@ export function renderPdfTool({ quoteId }: { quoteId: string }) {
           : `quote-${quoteId}`;
 
       try {
+        if (JSON.stringify(readiness.normalizedData) !== JSON.stringify(row.data)) {
+          await persistQuoteData({
+            quote: {
+              id: row.id,
+              title: row.title,
+              lang: row.lang,
+            },
+            data: readiness.normalizedData,
+          });
+        }
+
         await db.insert(quoteFiles).values({
           id: pdfFileId,
           quoteId,
           kind: "pdf",
+          mediaType: "application/pdf",
           blobUrl: url,
           blobPathname: pathname,
           filename: `${baseName}.pdf`,

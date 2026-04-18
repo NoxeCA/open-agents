@@ -18,7 +18,7 @@ const questionSchema = z.object({
 });
 
 export const askUserQuestionInputSchema = z.object({
-  questions: z.array(questionSchema).min(1).max(4),
+  questions: z.array(questionSchema).min(1),
 });
 
 export type AskUserQuestionInput = z.infer<typeof askUserQuestionInputSchema>;
@@ -45,13 +45,17 @@ WHEN TO USE:
 - Resolve \`needsConfirmation\` items surfaced by \`propose_quote_skeleton\`.
 - Disambiguate between multiple plausible values found in the Excel.
 - Gather preferences not present in the workbook (layout, payment terms, delivery date).
+- Ask only after checking the current quote state, prior chat answers, and any reusable memory you already have.
+- Right after ingestion, prefer one consolidated kickoff batch that validates the highest-value missing facts in a single pass instead of spreading them across several phases.
 
 USAGE NOTES:
-- Ask up to 4 questions at once; each question has 2-4 options.
+- There is no fixed hard cap on question count. Ask as many questions as genuinely needed to unblock the quote, but do not treat a large batch as a goal.
+- In the first batch after ingestion, prioritize identity + recipient + commercial choices: who is preparing the quote, who it is for, the final contact block, payment schedule, exclusions, assumptions, optional sections, or layout.
 - Keep option labels to 1-5 words. Use \`description\` for the trade-off.
 - Users can always select "Other" to provide free text.
 - Use \`multiSelect: true\` when more than one answer is valid (e.g. which services to include).
 - If you recommend a specific option, put it first and suffix its label with "(Recommended)".
+- Prefer recommended options that reuse stable defaults or recent repeated values, but do not silently overwrite customer-specific facts.
 - Questions render as tabs in the UI; the user navigates between them before submitting.`,
   inputSchema: askUserQuestionInputSchema,
   outputSchema: askUserQuestionOutputSchema,

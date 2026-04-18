@@ -4,15 +4,17 @@ import { uploadBlob } from "@/lib/blob";
 import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { quoteFiles } from "@/lib/db/schema";
+import {
+  classifyUploadedQuoteFile,
+  getStoredQuoteFilePath,
+} from "@/lib/files/quote-file-types";
 import { nanoid } from "@/lib/util/ids";
 import {
   QuoteNotFoundError,
   requireQuoteOwnership,
 } from "@/lib/util/ownership";
 
-const MAX_SIZE_BYTES = 10 * 1024 * 1024; // 10 MB
-const XLSX_MIME =
-  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+const MAX_SIZE_BYTES = 20 * 1024 * 1024; // 20 MB
 
 type RouteContext = {
   params: Promise<{ quoteId: string }>;
@@ -48,41 +50,48 @@ export async function POST(req: Request, ctx: RouteContext) {
   }
 
   const file = raw;
-  const filename = file.name || "upload.xlsx";
-  const lowerName = filename.toLowerCase();
-  const isXlsxMime = file.type === XLSX_MIME;
-  const isXlsxExt = lowerName.endsWith(".xlsx");
+  const filename = file.name || "upload";
+  const fileInfo = classifyUploadedQuoteFile(file);
 
-  if (!isXlsxMime && !isXlsxExt) {
-    return new Response("Only .xlsx files are supported", { status: 415 });
+  if (!fileInfo) {
+    return new Response(
+      "Unsupported file type. Supported: .xlsx, .pdf, .png, .jpg, .jpeg, .webp, .txt, .eml",
+      { status: 415 },
+    );
   }
 
   if (file.size > MAX_SIZE_BYTES) {
-    return new Response("File too large (max 10MB)", { status: 413 });
+    return new Response("File too large (max 20MB)", { status: 413 });
   }
 
   const buf = await file.arrayBuffer();
   // Also guard against size lies via Content-Length.
   if (buf.byteLength > MAX_SIZE_BYTES) {
-    return new Response("File too large (max 10MB)", { status: 413 });
+    return new Response("File too large (max 20MB)", { status: 413 });
   }
 
   const bytes = new Uint8Array(buf);
   const sha256 = createHash("sha256").update(bytes).digest("hex");
 
   const fileId = nanoid();
-  const pathname = `quotes/${quoteId}/excel/${fileId}.xlsx`;
+  const pathname = getStoredQuoteFilePath({
+    quoteId,
+    fileId,
+    category: fileInfo.category,
+    extension: fileInfo.extension,
+  });
 
   const { url, pathname: blobPathname } = await uploadBlob({
     pathname,
     body: bytes,
-    contentType: isXlsxMime ? file.type : XLSX_MIME,
+    contentType: fileInfo.mediaType,
   });
 
   await db.insert(quoteFiles).values({
     id: fileId,
     quoteId,
-    kind: "excel",
+    kind: fileInfo.kind,
+    mediaType: fileInfo.mediaType,
     blobUrl: url,
     blobPathname,
     filename,
@@ -92,6 +101,9 @@ export async function POST(req: Request, ctx: RouteContext) {
 
   return Response.json({
     fileId,
+    kind: fileInfo.kind,
+    category: fileInfo.category,
+    mediaType: fileInfo.mediaType,
     filename,
     size: bytes.byteLength,
   });

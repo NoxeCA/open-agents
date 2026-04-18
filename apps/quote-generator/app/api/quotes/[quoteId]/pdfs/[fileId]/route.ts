@@ -1,5 +1,6 @@
 import { and, eq } from "drizzle-orm";
 
+import { downloadBlob } from "@/lib/blob";
 import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { quoteFiles } from "@/lib/db/schema";
@@ -45,22 +46,19 @@ export async function GET(req: Request, ctx: RouteContext) {
     return new Response("Not Found", { status: 404 });
   }
 
-  const upstream = await fetch(row.blobUrl);
-  if (!upstream.ok || !upstream.body) {
-    return new Response("Bad Gateway", { status: 502 });
-  }
-
   const url = new URL(req.url);
   const asAttachment = url.searchParams.get("download") === "1";
+  let pdfBytes: ArrayBuffer;
+  try {
+    pdfBytes = await downloadBlob(row.blobUrl);
+  } catch {
+    return new Response("Bad Gateway", { status: 502 });
+  }
 
   const headers = new Headers();
   headers.set("Content-Type", "application/pdf");
   headers.set("Cache-Control", "private, no-store");
-
-  const contentLength = upstream.headers.get("content-length");
-  if (contentLength) {
-    headers.set("Content-Length", contentLength);
-  }
+  headers.set("Content-Length", String(pdfBytes.byteLength));
 
   if (asAttachment) {
     const safe = (row.filename ?? "quote.pdf").replace(/"/g, "");
@@ -72,7 +70,7 @@ export async function GET(req: Request, ctx: RouteContext) {
     headers.set("Content-Disposition", "inline");
   }
 
-  return new Response(upstream.body, {
+  return new Response(pdfBytes, {
     status: 200,
     headers,
   });

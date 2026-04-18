@@ -1,5 +1,6 @@
 "use client";
 
+import { CollapsibleMessageText } from "@/components/chat/collapsible-message-text";
 import { AskUserQuestionToolCall } from "@/components/tool-call/ask-user-question";
 import { GenericToolCall } from "@/components/tool-call/generic";
 import { ListQuoteLayoutsToolCall } from "@/components/tool-call/list-quote-layouts";
@@ -31,7 +32,7 @@ export function MessagePart({ part, onToolOutput }: Props) {
 
   if (type === "text") {
     const text = (part.text as string | undefined) ?? "";
-    return <div className="whitespace-pre-wrap">{text}</div>;
+    return <CollapsibleMessageText text={text} />;
   }
 
   if (type === "step-start" || type === "step-finish") {

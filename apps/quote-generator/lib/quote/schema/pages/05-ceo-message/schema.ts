@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const ceoMessagePageSchema = z.object({
-  includeCeoMessage: z.boolean().default(true),
+  includeCeoMessage: z.boolean().default(false),
   ceo: z.object({
     message: z.string().min(1),
     values: z.tuple([z.string(), z.string(), z.string()]),

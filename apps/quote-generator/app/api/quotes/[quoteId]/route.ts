@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { quoteFiles } from "@/lib/db/schema";
+import { normalizeQuoteData } from "@/lib/quote/normalize";
+import type { QuoteData } from "@/lib/quote/schema";
 import { and, eq, desc } from "drizzle-orm";
 import {
   requireQuoteOwnership,
@@ -30,7 +32,10 @@ export async function GET(
       .orderBy(desc(quoteFiles.createdAt))
       .limit(1);
     return NextResponse.json({
-      quote,
+      quote: {
+        ...quote,
+        data: normalizeQuoteData(quote.data as Partial<QuoteData>),
+      },
       chat,
       latestPdfFileId: latestPdf[0]?.id ?? null,
     });

@@ -8,6 +8,6 @@ export const teamMemberSchema = z.object({
 });
 
 export const teamPageSchema = z.object({
-  includeTeam: z.boolean().default(true),
+  includeTeam: z.boolean().default(false),
   team: z.array(teamMemberSchema).optional(),
 });

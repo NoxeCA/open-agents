@@ -2,7 +2,13 @@ import { getSessionCookie } from "better-auth/cookies";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+import { isDevAuthBypassed } from "@/lib/dev-auth";
+
 export function middleware(request: NextRequest) {
+  if (isDevAuthBypassed()) {
+    return NextResponse.next();
+  }
+
   const sessionCookie = getSessionCookie(request);
 
   if (!sessionCookie) {

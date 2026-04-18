@@ -4,6 +4,8 @@ import { z } from "zod";
 
 import { db } from "@/lib/db";
 import { quotes } from "@/lib/db/schema";
+import { persistQuoteData } from "@/lib/memory/persist-quote-data";
+import { normalizeQuoteData } from "@/lib/quote/normalize";
 import { applyPatch, validatePartial } from "@/lib/quote/patch";
 import type { Operation } from "@/lib/quote/patch";
 import type { QuoteData } from "@/lib/quote/schema";
@@ -48,6 +50,7 @@ export function patchQuoteTool({ quoteId }: { quoteId: string }) {
           row.data as Partial<QuoteData>,
           ops as Operation[],
         );
+        next = normalizeQuoteData(next);
       } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
         return { ok: false, error: `Patch failed: ${message}` };
@@ -55,10 +58,14 @@ export function patchQuoteTool({ quoteId }: { quoteId: string }) {
 
       const { issues } = validatePartial(next);
 
-      await db
-        .update(quotes)
-        .set({ data: next, updatedAt: new Date() })
-        .where(eq(quotes.id, quoteId));
+      await persistQuoteData({
+        quote: {
+          id: row.id,
+          title: row.title,
+          lang: row.lang,
+        },
+        data: next,
+      });
 
       return {
         ok: true,
