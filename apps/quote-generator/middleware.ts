@@ -1,8 +1,18 @@
-// TODO: Agent 1 will fill in Better Auth session/domain-allowlist logic here.
-// Note: Next 16 renames this to `proxy.ts`; keep filename as-is per scaffolding spec.
+import { getSessionCookie } from "better-auth/cookies";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export function middleware() {}
+export function middleware(request: NextRequest) {
+  const sessionCookie = getSessionCookie(request);
+
+  if (!sessionCookie) {
+    const loginUrl = new URL("/login", request.url);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  return NextResponse.next();
+}
 
 export const config = {
-  matcher: [],
+  matcher: ["/quotes/:path*", "/api/chat", "/api/quotes/:path*"],
 };
