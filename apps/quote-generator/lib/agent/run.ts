@@ -46,7 +46,7 @@ export async function runQuoteAgent(opts: RunQuoteAgentOptions) {
         data: quote.data,
       },
     }),
-    messages: convertToModelMessages(opts.messages),
+    messages: await convertToModelMessages(opts.messages),
     tools: buildTools({ quoteId: opts.quoteId, userId: opts.userId }),
     stopWhen: stepCountIs(MAX_STEPS),
     onFinish: opts.onFinish,

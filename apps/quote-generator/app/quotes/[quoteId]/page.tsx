@@ -45,7 +45,7 @@ export default async function QuotePage({
     .select()
     .from(quoteFiles)
     .where(
-      and(eq(quoteFiles.quoteId, quoteId), eq(quoteFiles.kind, "generated_pdf")),
+      and(eq(quoteFiles.quoteId, quoteId), eq(quoteFiles.kind, "pdf")),
     )
     .orderBy(desc(quoteFiles.createdAt))
     .limit(1);

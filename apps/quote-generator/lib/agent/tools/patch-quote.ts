@@ -6,6 +6,7 @@ import { db } from "@/lib/db";
 import { quotes } from "@/lib/db/schema";
 import { applyPatch, validatePartial } from "@/lib/quote/patch";
 import type { Operation } from "@/lib/quote/patch";
+import type { QuoteData } from "@/lib/quote/schema";
 
 import type { PatchQuoteOutput } from "../tool-types";
 
@@ -41,9 +42,12 @@ export function patchQuoteTool({ quoteId }: { quoteId: string }) {
         return { ok: false, error: "Quote not found" };
       }
 
-      let next: unknown;
+      let next: Partial<QuoteData>;
       try {
-        next = applyPatch(row.data as unknown, ops as Operation[]);
+        next = applyPatch(
+          row.data as Partial<QuoteData>,
+          ops as Operation[],
+        );
       } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
         return { ok: false, error: `Patch failed: ${message}` };

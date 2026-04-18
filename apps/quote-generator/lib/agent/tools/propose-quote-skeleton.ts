@@ -92,15 +92,33 @@ export function proposeQuoteSkeletonTool({ quoteId }: { quoteId: string }) {
         .where(eq(quotes.id, quoteId));
 
       const proposedKeys = collectTopLevelKeys(skeleton);
-      const needsConfirmation: string[] = Array.isArray(
+      const rawNeedsConfirmation = Array.isArray(
         skeletonResult?.needsConfirmation,
       )
         ? skeletonResult.needsConfirmation
         : [];
+      const needsConfirmation: string[] = rawNeedsConfirmation.map((n) => {
+        if (typeof n === "string") return n;
+        if (n && typeof n === "object") {
+          const obj = n as { path?: unknown; reason?: unknown };
+          return `${String(obj.path ?? "?")}: ${String(obj.reason ?? "needs confirmation")}`;
+        }
+        return String(n);
+      });
+      const rawStats = skeletonResult?.stats as
+        | {
+            sheetsDetected?: Record<string, string>;
+            bomRowsExtracted?: number;
+            laborCategoriesExtracted?: number;
+          }
+        | undefined;
+      const sheetsConsidered = rawStats?.sheetsDetected
+        ? Object.keys(rawStats.sheetsDetected).length
+        : 0;
       const stats = {
-        sheetsConsidered: skeletonResult?.stats?.sheetsConsidered ?? 0,
-        partsDetected: skeletonResult?.stats?.partsDetected ?? 0,
-        servicesDetected: skeletonResult?.stats?.servicesDetected ?? 0,
+        sheetsConsidered,
+        partsDetected: rawStats?.bomRowsExtracted ?? 0,
+        servicesDetected: rawStats?.laborCategoriesExtracted ?? 0,
       };
 
       return {

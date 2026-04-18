@@ -49,7 +49,7 @@ export function QuoteWorkspace({
   }, [quote.id]);
 
   return (
-    <ResizablePanelGroup direction="horizontal" className="h-screen">
+    <ResizablePanelGroup orientation="horizontal" className="h-screen">
       <ResizablePanel defaultSize={55} minSize={30}>
         <ChatPane
           quoteId={quote.id}

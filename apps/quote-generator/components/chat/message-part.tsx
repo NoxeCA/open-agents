@@ -44,6 +44,7 @@ export function MessagePart({ part, onToolOutput }: Props) {
   if (type.startsWith("tool-")) {
     const toolName = type.slice("tool-".length);
     const toolProps = {
+      name: toolName,
       input: part.input,
       output: part.output,
       state: part.state,
@@ -64,7 +65,7 @@ export function MessagePart({ part, onToolOutput }: Props) {
       case "list_quote_layouts":
         return <ListQuoteLayoutsToolCall {...toolProps} />;
       default:
-        return <GenericToolCall name={toolName} {...toolProps} />;
+        return <GenericToolCall {...toolProps} />;
     }
   }
 
