@@ -4,8 +4,8 @@ import fs from 'fs';
 import path from 'path';
 import { PDFDocument, rgb } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
-import type { FC } from "react";
-import { getTranslations, type Language } from '../../locales/loader';
+import type { FC } from 'react';
+import { getTranslations, type Language } from '@/lib/locales/loader';
 import type { QuoteData } from './types';
 import type { PageNumberCollector } from './shared/pagination';
 import { SECTION_KEYS } from './shared/pagination';
@@ -154,6 +154,7 @@ export const QuoteDocument: FC<{ data: QuoteData; pageNumbers: PageNumberCollect
       />
       {data.optionalPages && data.optionalPages.length > 0 && (
         <OptionalPages
+          root={data}
           pages={data.optionalPages}
           lang={lang}
           pageHeader={pageHeader}
@@ -174,6 +175,7 @@ export const QuoteDocument: FC<{ data: QuoteData; pageNumbers: PageNumberCollect
       />
       {data.includeTermsAndConditions !== false && (
         <TermsAndConditionsPage
+          data={data}
           lang={lang}
           pageHeader={pageHeader}
           logoBase64={logoBase64}
@@ -237,10 +239,6 @@ export async function generateQuotePDF(quoteData: QuoteData): Promise<Buffer> {
 
       for (let i = 0; i < quoteData.attachedDocuments.length; i++) {
         const attachedDoc = quoteData.attachedDocuments[i];
-        if (!attachedDoc) {
-          continue;
-        }
-
         try {
           console.log(`Appending document ${i + 1}: ${attachedDoc.filename}`);
 

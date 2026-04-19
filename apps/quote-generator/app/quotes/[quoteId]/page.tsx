@@ -3,6 +3,7 @@ import { and, asc, desc, eq } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { chatMessages, chats, quoteFiles, quotes } from "@/lib/db/schema";
+import { normalizeUiMessages } from "@/lib/chat/normalize-ui-message";
 import { normalizeQuoteData } from "@/lib/quote/normalize";
 import type { QuoteData } from "@/lib/quote/schema";
 import { requireQuoteOwnership } from "@/lib/util/ownership";
@@ -71,7 +72,7 @@ export default async function QuotePage({
       }}
       quoteRows={quoteRows}
       chat={chat}
-      initialMessages={messages}
+      initialMessages={normalizeUiMessages(messages)}
       initialPdfFileId={latestPdf?.id ?? null}
     />
   );

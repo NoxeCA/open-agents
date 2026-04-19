@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
-import type { FC } from "react";
-import type { QuoteTranslations } from '../../../../locales/loader';
+import { FC } from 'react';
+import type { QuoteTranslations } from '@/lib/locales/loader';
 import type { QuoteData } from '../../types';
 import type { PageNumberCollector } from '../../shared/pagination';
 import { SECTION_KEYS, formatPageRange } from '../../shared/pagination';
@@ -11,10 +11,6 @@ import { tableOfContentsStyles as styles } from './styles';
 interface TocEntry {
   label: string;
   page: string;
-}
-
-function hasItems(items: string[]) {
-  return items.some((item) => item.trim().length > 0);
 }
 
 function buildTocEntries(
@@ -63,21 +59,15 @@ function buildTocEntries(
 
   if (data.optionalPages && data.optionalPages.length > 0) {
     data.optionalPages.forEach((optPage, i) => {
-      entries.push(simple(optPage.pageTitle, SECTION_KEYS.optionalKey(i)));
+      entries.push(
+        simple(optPage.pageTitle || optPage.title || `Page ${i + 1}`, SECTION_KEYS.optionalKey(i)),
+      );
     });
   }
 
-  if (hasItems(data.exclusions)) {
-    entries.push(simple(lang.toc.exclusion, SECTION_KEYS.exclusionsConditions));
-  }
-
-  if (hasItems(data.specialConditions)) {
-    entries.push(simple(lang.toc.specialCondition, SECTION_KEYS.exclusionsConditions));
-  }
-
-  if (hasItems(data.paymentTerms)) {
-    entries.push(simple(lang.toc.paymentTerms, SECTION_KEYS.exclusionsConditions));
-  }
+  entries.push(simple(lang.toc.exclusion, SECTION_KEYS.exclusionsConditions));
+  entries.push(simple(lang.toc.specialCondition, SECTION_KEYS.exclusionsConditions));
+  entries.push(simple(lang.toc.paymentTerms, SECTION_KEYS.exclusionsConditions));
 
   if (data.includeTermsAndConditions !== false) {
     entries.push(simple(lang.toc.termsAndConditions, SECTION_KEYS.termsAndConditions));

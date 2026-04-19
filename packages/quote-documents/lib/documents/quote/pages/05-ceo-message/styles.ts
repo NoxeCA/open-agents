@@ -1,5 +1,5 @@
 import { StyleSheet } from '@react-pdf/renderer';
-import { colors } from '../../../shared/constants';
+import { colors } from '@/lib/documents/shared/constants';
 
 export const ceoMessageStyles = StyleSheet.create({
   // Hex pattern - absolute top-right, same as cover page

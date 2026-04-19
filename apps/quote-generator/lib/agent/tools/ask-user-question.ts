@@ -45,6 +45,7 @@ WHEN TO USE:
 - Resolve \`needsConfirmation\` items surfaced by \`propose_quote_skeleton\`.
 - Disambiguate between multiple plausible values found in the Excel.
 - Gather preferences not present in the workbook (layout, payment terms, delivery date).
+- Clarify the intended page or region only when more than one editable PDF region is plausible for the user's request.
 - Ask only after checking the current quote state, prior chat answers, and any reusable memory you already have.
 - Right after ingestion, prefer one consolidated kickoff batch that validates the highest-value missing facts in a single pass instead of spreading them across several phases.
 
@@ -83,7 +84,7 @@ USAGE NOTES:
 
       return {
         type: "text",
-        value: `User has answered your questions: ${formattedAnswers}. Apply these answers via \`patch_quote\` before continuing.`,
+        value: `User has answered your questions: ${formattedAnswers}. Apply these answers via \`patch_quote\` before continuing. If an answer describes where content should appear in the PDF, patch the matching stable document region path rather than /notes.`,
       };
     }
 

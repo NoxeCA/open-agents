@@ -1,29 +1,24 @@
-import React from 'react';
-import { Text, View, Image } from '@react-pdf/renderer';
-import type { FC } from "react";
-import type { QuoteTranslations } from '../../../../locales/loader';
-import type { PageNumberCollector } from '../../shared/pagination';
-import type { ExclusionsConditionsPageData } from './types';
-import { SECTION_KEYS } from '../../shared/pagination';
-import PageShell from '../../components/PageShell';
-import SectionMarker from '../../components/SectionMarker';
-import { exclusionsConditionsStyles as styles } from './styles';
+import { Text, View, Image } from "@react-pdf/renderer";
+import { type FC } from "react";
+import type { QuoteTranslations } from "@/lib/locales/loader";
+import type { PageNumberCollector } from "../../shared/pagination";
+import { QuoteEditableRegion } from "../../components/editable-region";
+import type { ExclusionsConditionsPageData } from "./types";
+import { SECTION_KEYS } from "../../shared/pagination";
+import PageShell from "../../components/PageShell";
+import SectionMarker from "../../components/SectionMarker";
+import { exclusionsConditionsStyles as styles } from "./styles";
 
 const BulletList: FC<{ items: string[] }> = ({ items }) => (
   <View style={styles.sectionGap}>
     {items.map((item, i) => (
       <View key={i} style={styles.bulletItem}>
-        <Text style={styles.bullet}>{'\u2022'}</Text>
+        <Text style={styles.bullet}>{"\u2022"}</Text>
         <Text style={styles.bulletText}>{item}</Text>
       </View>
     ))}
   </View>
 );
-
-function normalizeItems(items: string[]) {
-  return items.map((item) => item.trim()).filter((item) => item.length > 0);
-}
-
 
 interface ExclusionsConditionsPageProps {
   data: ExclusionsConditionsPageData;
@@ -44,63 +39,88 @@ const ExclusionsConditionsPage: FC<ExclusionsConditionsPageProps> = ({
   infoIconBase64,
   pageNumbers,
 }) => (
-  <PageShell pageHeader={pageHeader} logoBase64={logoBase64} arrowsBase64={arrowsBase64}>
-    <SectionMarker collector={pageNumbers} sectionKey={SECTION_KEYS.exclusionsConditions} position="start" />
+  <PageShell
+    pageHeader={pageHeader}
+    logoBase64={logoBase64}
+    arrowsBase64={arrowsBase64}
+  >
+    <SectionMarker
+      collector={pageNumbers}
+      sectionKey={SECTION_KEYS.exclusionsConditions}
+      position="start"
+    />
 
-    {(() => {
-      const exclusions = normalizeItems(data.exclusions);
-      const specialConditions = normalizeItems(data.specialConditions);
-      const notes = normalizeItems(data.notes);
-      const paymentTerms = normalizeItems(data.paymentTerms);
+    {/* Exclusion(s) */}
+    <Text style={styles.sectionHeading}>
+      {data.exclusions.length > 1
+        ? lang.exclusions.exclusionTitlePlural
+        : lang.exclusions.exclusionTitle}
+    </Text>
+    <BulletList items={data.exclusions} />
+    <QuoteEditableRegion
+      root={data}
+      local={data}
+      section="exclusions-conditions"
+      sectionAliases={["commercial", "exclusions"]}
+      anchor="afterExclusions"
+      anchorAliases={["after-exclusions"]}
+      regionIds={["commercial:after-exclusions"]}
+      style={styles.sectionGap}
+    />
 
-      return (
-        <>
-          {/* Exclusion(s) */}
-          {exclusions.length > 0 && (
-            <>
-              <Text style={styles.sectionHeading}>
-                {exclusions.length > 1 ? lang.exclusions.exclusionTitlePlural : lang.exclusions.exclusionTitle}
-              </Text>
-              <BulletList items={exclusions} />
-            </>
-          )}
+    {/* Special Condition(s) */}
+    <Text style={styles.sectionHeading}>
+      {data.specialConditions.length > 1
+        ? lang.exclusions.specialConditionsTitlePlural
+        : lang.exclusions.specialConditionsTitle}
+    </Text>
+    <BulletList items={data.specialConditions} />
+    <QuoteEditableRegion
+      root={data}
+      local={data}
+      section="exclusions-conditions"
+      sectionAliases={["commercial", "exclusions"]}
+      anchor="afterSpecialConditions"
+      anchorAliases={["after-special-conditions"]}
+      regionIds={["commercial:after-special-conditions"]}
+      style={styles.sectionGap}
+    />
 
-          {/* Special Condition(s) */}
-          {specialConditions.length > 0 && (
-            <>
-              <Text style={styles.sectionHeading}>
-                {specialConditions.length > 1
-                  ? lang.exclusions.specialConditionsTitlePlural
-                  : lang.exclusions.specialConditionsTitle}
-              </Text>
-              <BulletList items={specialConditions} />
-            </>
-          )}
+    {/* Note(s) */}
+    <Text style={styles.sectionHeading}>
+      {data.notes.length > 1
+        ? lang.exclusions.noteTitlePlural
+        : lang.exclusions.noteTitle}
+    </Text>
+    <BulletList items={data.notes} />
+    <QuoteEditableRegion
+      root={data}
+      local={data}
+      section="exclusions-conditions"
+      sectionAliases={["commercial", "exclusions"]}
+      anchor="afterNotes"
+      anchorAliases={["after-notes"]}
+      regionIds={["commercial:after-notes"]}
+      style={styles.sectionGap}
+    />
 
-          {/* Note(s) */}
-          {notes.length > 0 && (
-            <>
-              <Text style={styles.sectionHeading}>
-                {notes.length > 1 ? lang.exclusions.noteTitlePlural : lang.exclusions.noteTitle}
-              </Text>
-              <BulletList items={notes} />
-            </>
-          )}
-
-          {/* Payment Term(s) */}
-          {paymentTerms.length > 0 && (
-            <>
-              <Text style={styles.sectionHeading}>
-                {paymentTerms.length > 1
-                  ? lang.exclusions.paymentTermTitlePlural
-                  : lang.exclusions.paymentTermTitle}
-              </Text>
-              <BulletList items={paymentTerms} />
-            </>
-          )}
-        </>
-      );
-    })()}
+    {/* Payment Term(s) */}
+    <Text style={styles.sectionHeading}>
+      {data.paymentTerms.length > 1
+        ? lang.exclusions.paymentTermTitlePlural
+        : lang.exclusions.paymentTermTitle}
+    </Text>
+    <BulletList items={data.paymentTerms} />
+    <QuoteEditableRegion
+      root={data}
+      local={data}
+      section="exclusions-conditions"
+      sectionAliases={["commercial", "exclusions"]}
+      anchor="afterPaymentTerms"
+      anchorAliases={["after-payment-terms"]}
+      regionIds={["commercial:after-payment-terms"]}
+      style={styles.sectionGap}
+    />
 
     {/* Warranty — label is bold dark, text is regular gray */}
     <Text style={styles.warrantyText}>
@@ -114,6 +134,17 @@ const ExclusionsConditionsPage: FC<ExclusionsConditionsPageProps> = ({
       <Text style={styles.infoText}>{lang.exclusions.infoText}</Text>
     </View>
 
+    <QuoteEditableRegion
+      root={data}
+      local={data}
+      section="exclusions-conditions"
+      sectionAliases={["commercial", "exclusions"]}
+      anchor="afterInfo"
+      anchorAliases={["after-info"]}
+      regionIds={["commercial:after-info"]}
+      style={styles.sectionGap}
+    />
+
     {/* Contact + Signature block */}
     <View style={styles.bottomRow}>
       <View style={styles.contactBlock}>
@@ -125,7 +156,9 @@ const ExclusionsConditionsPage: FC<ExclusionsConditionsPageProps> = ({
 
       <View style={styles.signatureBlock}>
         <View style={styles.signatureRow}>
-          <Text style={styles.signatureLabel}>{lang.exclusions.clientSignature}</Text>
+          <Text style={styles.signatureLabel}>
+            {lang.exclusions.clientSignature}
+          </Text>
           <View style={styles.signatureLine} />
         </View>
         <View style={styles.signatureRow}>
@@ -135,7 +168,11 @@ const ExclusionsConditionsPage: FC<ExclusionsConditionsPageProps> = ({
       </View>
     </View>
 
-    <SectionMarker collector={pageNumbers} sectionKey={SECTION_KEYS.exclusionsConditions} position="end" />
+    <SectionMarker
+      collector={pageNumbers}
+      sectionKey={SECTION_KEYS.exclusionsConditions}
+      position="end"
+    />
   </PageShell>
 );
 

@@ -34,7 +34,9 @@ function withoutHeavyDocumentSpec(data: unknown) {
 
   const record = { ...(data as Record<string, unknown>) };
   const document =
-    record.document && typeof record.document === "object" && !Array.isArray(record.document)
+    record.document &&
+    typeof record.document === "object" &&
+    !Array.isArray(record.document)
       ? { ...(record.document as Record<string, unknown>) }
       : null;
 
@@ -43,13 +45,17 @@ function withoutHeavyDocumentSpec(data: unknown) {
   }
 
   const spec =
-    document.spec && typeof document.spec === "object" && !Array.isArray(document.spec)
+    document.spec &&
+    typeof document.spec === "object" &&
+    !Array.isArray(document.spec)
       ? (document.spec as Record<string, unknown>)
       : null;
 
   if (spec) {
     const elements =
-      spec.elements && typeof spec.elements === "object" && !Array.isArray(spec.elements)
+      spec.elements &&
+      typeof spec.elements === "object" &&
+      !Array.isArray(spec.elements)
         ? (spec.elements as Record<string, unknown>)
         : {};
     document.spec = {
@@ -104,7 +110,9 @@ function buildAttachmentContent(
       : ["- none"]),
     "",
     "quote_field_hints:",
-    ...(hintLines.length > 0 ? hintLines.map((line) => `- ${line}`) : ["- none"]),
+    ...(hintLines.length > 0
+      ? hintLines.map((line) => `- ${line}`)
+      : ["- none"]),
     "",
     "needs_confirmation:",
     ...(attachment.needsConfirmation.length > 0
@@ -158,13 +166,12 @@ function buildSourcePriorityContent(
   sourcePriority: QuoteAgentPromptContext["sourcePriority"],
 ) {
   return sourcePriority
-    .map(
-      (item) =>
-        [
-          `source: ${item.source}`,
-          `priority: ${item.priority}`,
-          `usage: ${item.usage}`,
-        ].join("\n"),
+    .map((item) =>
+      [
+        `source: ${item.source}`,
+        `priority: ${item.priority}`,
+        `usage: ${item.usage}`,
+      ].join("\n"),
     )
     .join("\n\n");
 }
@@ -213,16 +220,113 @@ function buildCurrentPdfStructureContent(data: unknown) {
     hasNonEmptyArray(record.optionalPages) ? "optional_pages" : null,
     "exclusions_and_conditions",
     record.includeTermsAndConditions !== false ? "terms_and_conditions" : null,
-  ].filter((value): value is string => Boolean(value));
+  ].filter((value): value is string => value !== null);
+
+  const proposalBlocks =
+    record.proposal &&
+    typeof record.proposal === "object" &&
+    !Array.isArray(record.proposal) &&
+    Array.isArray((record.proposal as Record<string, unknown>).blocks)
+      ? ((record.proposal as Record<string, unknown>).blocks as unknown[])
+          .length
+      : 0;
+  const serviceBlockCount = hasNonEmptyArray(record.services)
+    ? (record.services as Array<Record<string, unknown>>).reduce(
+        (sum, service) => {
+          const overviewBlocks = Array.isArray(service.overviewBlocks)
+            ? service.overviewBlocks.length
+            : 0;
+          const tableIntroBlocks = Array.isArray(service.tableIntroBlocks)
+            ? service.tableIntroBlocks.length
+            : 0;
+          const tableOutroBlocks = Array.isArray(service.tableOutroBlocks)
+            ? service.tableOutroBlocks.length
+            : 0;
+          const footerBlocks = Array.isArray(service.footerBlocks)
+            ? service.footerBlocks.length
+            : 0;
+          return (
+            sum +
+            overviewBlocks +
+            tableIntroBlocks +
+            tableOutroBlocks +
+            footerBlocks
+          );
+        },
+        0,
+      )
+    : 0;
+  const optionalPageBlockCount = hasNonEmptyArray(record.optionalPages)
+    ? (record.optionalPages as Array<Record<string, unknown>>).reduce(
+        (sum, page) =>
+          sum + (Array.isArray(page.blocks) ? page.blocks.length : 0),
+        0,
+      )
+    : 0;
 
   return [
     `lang: ${typeof record.lang === "string" ? record.lang : "fr"}`,
     `service_count: ${hasNonEmptyArray(record.services) ? (record.services as unknown[]).length : 0}`,
     `optional_page_count: ${hasNonEmptyArray(record.optionalPages) ? (record.optionalPages as unknown[]).length : 0}`,
+    `proposal_block_count: ${proposalBlocks}`,
+    `service_block_count: ${serviceBlockCount}`,
+    `optional_page_block_count: ${optionalPageBlockCount}`,
     `attached_document_count: ${hasNonEmptyArray(record.attachedDocuments) ? (record.attachedDocuments as unknown[]).length : 0}`,
+    "region_editing_rules:",
+    "- rendererMap.editableRegions is the authoritative map for page/location edits",
+    "- /documentContent/regions/proposal:body/blocks = rich proposal-page narrative content",
+    "- /documentContent/regions/service:n:overview/blocks = content before a service pricing table",
+    "- /documentContent/regions/service:n:before-table/blocks = content above a service pricing table",
+    "- /documentContent/regions/service:n:after-table/blocks = content below a service pricing table and above totals",
+    "- /documentContent/regions/service:n:after-tax/blocks = content below totals and the tax disclaimer on service pricing pages",
+    "- /documentContent/regions/optional:n:body/blocks = flexible appendix/custom-page body content",
+    "- notes and specialConditions render on the exclusions_and_conditions page near the end of the PDF",
+    "supported_rich_block_types:",
+    "- heading",
+    "- paragraph",
+    "- quote",
+    "- list",
+    "- table",
+    "- image",
+    "- stats",
+    "- divider",
+    "- spacer",
+    "location_to_region_defaults:",
+    "- add text under the table => /documentContent/regions/service:n:after-table/blocks",
+    "- add text above the table => /documentContent/regions/service:n:before-table/blocks",
+    "- add text under totals or under taxes => /documentContent/regions/service:n:after-tax/blocks",
+    "- add intro narrative before pricing => /documentContent/regions/service:n:overview/blocks or /documentContent/regions/proposal:body/blocks",
+    "- add freeform custom page content => /documentContent/regions/optional:n:body/blocks",
     "renderer_sections:",
     ...sections.map((section) => `- ${section}`),
   ].join("\n");
+}
+
+function buildRendererMapContent(
+  rendererMap: QuoteAgentPromptContext["quoteState"]["rendererMap"],
+) {
+  if (rendererMap.length === 0) {
+    return "No renderer regions are available yet.";
+  }
+
+  return rendererMap
+    .map((entry) =>
+      [
+        `pages: ${entry.pageStart}${entry.pageStart === entry.pageEnd ? "" : `-${entry.pageEnd}`}`,
+        `title: ${entry.title}`,
+        `kind: ${entry.kind}`,
+        "editable_regions:",
+        ...(entry.editableRegions.length > 0
+          ? entry.editableRegions.flatMap((region) => [
+              `- ${region.regionId}`,
+              `  patch_paths: ${region.patchPaths.join(", ")}`,
+              `  location_hints: ${region.locationHints.join(", ")}`,
+              `  supported_blocks: ${region.supportedBlocks.join(", ") || "none"}`,
+            ])
+          : ["- none"]),
+      ].join("\n"),
+    )
+    .join("\n\n");
 }
 
 function buildDocumentsBlock(opts: BuildSystemPromptOptions) {
@@ -233,7 +337,7 @@ function buildDocumentsBlock(opts: BuildSystemPromptOptions) {
       source: "current_quote_summary",
       documentType: "working_summary",
       priority: "highest",
-      content: safeSnapshot(promptContext.quoteState, 7000),
+      content: safeSnapshot(promptContext.quoteState, 9000),
     }),
     buildDocument({
       index: 2,
@@ -254,6 +358,13 @@ function buildDocumentsBlock(opts: BuildSystemPromptOptions) {
     }),
     buildDocument({
       index: 4,
+      source: "current_renderer_map",
+      documentType: "visual_edit_map",
+      priority: "high",
+      content: buildRendererMapContent(promptContext.quoteState.rendererMap),
+    }),
+    buildDocument({
+      index: 5,
       source: "source_priority",
       documentType: "source_hierarchy",
       priority: "high",
@@ -261,7 +372,7 @@ function buildDocumentsBlock(opts: BuildSystemPromptOptions) {
     }),
     ...promptContext.contextAttachments.map((attachment, index) =>
       buildDocument({
-        index: index + 5,
+        index: index + 6,
         source: `context_attachment:${attachment.filename}`,
         documentType: "supporting_attachment_analysis",
         priority: "high",
@@ -269,49 +380,49 @@ function buildDocumentsBlock(opts: BuildSystemPromptOptions) {
       }),
     ),
     buildDocument({
-      index: promptContext.contextAttachments.length + 5,
+      index: promptContext.contextAttachments.length + 6,
       source: "customer_memory",
       documentType: "memory",
       priority: "medium",
       content: safeSnapshot(promptContext.customerMemory, 4000),
     }),
     buildDocument({
-      index: promptContext.contextAttachments.length + 6,
+      index: promptContext.contextAttachments.length + 7,
       source: "sales_rep_memory",
       documentType: "memory",
       priority: "medium",
       content: safeSnapshot(promptContext.salesRepContext, 5000),
     }),
     buildDocument({
-      index: promptContext.contextAttachments.length + 7,
+      index: promptContext.contextAttachments.length + 8,
       source: "company_commercial_defaults",
       documentType: "approved_commercial_defaults",
       priority: "medium",
       content: safeSnapshot(promptContext.companyCommercialDefaults, 5000),
     }),
     buildDocument({
-      index: promptContext.contextAttachments.length + 8,
+      index: promptContext.contextAttachments.length + 9,
       source: "company_profile",
       documentType: "brand_guidance",
       priority: "low",
       content: safeSnapshot(promptContext.companyProfile, 4000),
     }),
     buildDocument({
-      index: promptContext.contextAttachments.length + 9,
+      index: promptContext.contextAttachments.length + 10,
       source: "noxe_quote_playbook",
       documentType: "style_and_commercial_patterns",
       priority: "low",
       content: buildPlaybookContent(),
     }),
     buildDocument({
-      index: promptContext.contextAttachments.length + 10,
+      index: promptContext.contextAttachments.length + 11,
       source: "document_archetypes",
       documentType: "structure_guidance",
       priority: "low",
       content: buildArchetypeGuidanceContent(),
     }),
     buildDocument({
-      index: promptContext.contextAttachments.length + 11,
+      index: promptContext.contextAttachments.length + 12,
       source: "quote_crafting_examples",
       documentType: "examples",
       priority: "low",
@@ -367,6 +478,21 @@ You are Claude, created by Anthropic. You are the quote copilot for Noxe. Your j
     Patch the smallest necessary set of fields.
     If supporting documents are incomplete, add explicit assumptions instead of hiding uncertainty.
     Keep exclusions and payment terms commercially firm and production-ready.
+    Document edits are region-based. When the user asks for something at a visual location, resolve it to quote_state.rendererMap[*].editableRegions first.
+    In rendererMap, regionId is the stable keyed document region id, and patchPaths contain the canonical /documentContent/regions/... path to use.
+    Prefer stable keyed region paths like /documentContent/regions/service:0:after-tax/blocks when patching rich content.
+    Do not require a one-off schema field for every sentence. Use the nearest editable region exposed by the existing component.
+    For richer custom PDF composition, prefer existing structured slots over inventing new top-level shapes:
+    - /documentContent/regions/proposal:body/blocks for richer intro pages
+    - /documentContent/regions/service:n:overview/blocks for pre-table narrative
+    - /documentContent/regions/service:n:before-table/blocks for content above pricing tables
+    - /documentContent/regions/service:n:after-table/blocks for content below pricing tables and above totals
+    - /documentContent/regions/service:n:after-tax/blocks for content below totals and the tax disclaimer on service pricing pages
+    - /documentContent/regions/optional:n:body/blocks for freeform appendix or story pages with headings, paragraphs, lists, tables, images, quotes, stats, dividers, and spacers
+    If the user asks to "add text" in one of those regions, default to a paragraph block instead of inventing a new top-level string field.
+    When patching inside a keyed region's blocks collection:
+    - if the keyed region already has blocks, append using add ... /-
+    - if the keyed region is missing, add the keyed region path with an array containing the new block
   </stage>
   <stage name="ready" exit_criteria="PDF rendered once for the current revision">
     Call render_pdf only when quote_state.renderReadiness is ready.
@@ -388,6 +514,9 @@ You are Claude, created by Anthropic. You are the quote copilot for Noxe. Your j
 - Before patching from an attachment or workbook inference, ground yourself in the most relevant evidence quotes or exact tool findings.
 - If attachment evidence is ambiguous, do not silently patch it. Ask for confirmation.
 - Report attachment-analysis failures honestly using the tool error. Do not claim a file is unreadable unless the tool explicitly says so.
+- If the user refers to a page number or a visual location in the PDF, consult quote_state.rendererMap first, then choose the nearest editableRegions entry for that location.
+- Use the stable keyed region path listed there. Prefer regionId-aligned paths over legacy array-indexed storage paths whenever a keyed region exists.
+- The patch tool will bridge the keyed path to the current stored quote shape and report the resolved path plus touched region.
 </grounding_policy>
 
 <commercial_policy>
@@ -413,7 +542,18 @@ You are Claude, created by Anthropic. You are the quote copilot for Noxe. Your j
 <tool_policy>
 - Always use the three canonical layout values: zero-ventilation, itemized-without-price, itemized-with-price.
 - For detailed section tables, line items belong in services[n].bomItems, not services[n].items.
+- For document edits, prefer stable keyed region paths over generic notes:
+  - "under the table" => /documentContent/regions/service:n:after-table/blocks
+  - "above the table" => /documentContent/regions/service:n:before-table/blocks
+  - "under totals" or "under taxes" => /documentContent/regions/service:n:after-tax/blocks
+  - proposal intro/body edits => /documentContent/regions/proposal:body/blocks
+  - appendix/custom-page edits => /documentContent/regions/optional:n:body/blocks
+- Do not prefer legacy storage paths like /services/0/tableOutroBlocks when a /documentContent/regions/... path exists for the same edit target.
+- If the user wants a simple inserted sentence or paragraph in a rich-content region, create a paragraph block with the appropriate tone.
+- Do not use /notes or /specialConditions for page-specific edits inside service pricing pages. Those fields render on the exclusions_and_conditions page near the end of the PDF.
+- Use /notes or /specialConditions only when the user truly means the commercial notes/conditions page near the end of the PDF.
 - Keep clarifying questions short and use multiSelect when more than one answer can be valid.
+- Ask a clarification question about location only when two or more editable regions are plausible. Do not ask if one region clearly matches the request.
 - Do not call render_pdf more than once per user turn unless the user explicitly asks for a re-render.
 </tool_policy>
 

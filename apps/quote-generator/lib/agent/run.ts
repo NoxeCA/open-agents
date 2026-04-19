@@ -7,6 +7,7 @@ import {
 } from "ai";
 import { eq } from "drizzle-orm";
 
+import { normalizeUiMessages } from "@/lib/chat/normalize-ui-message";
 import { db } from "@/lib/db";
 import { quotes } from "@/lib/db/schema";
 import { normalizeQuoteData } from "@/lib/quote/normalize";
@@ -31,7 +32,9 @@ type MessagePartLike = {
 };
 
 function sanitizeMessagesForModel(messages: UIMessage[]): UIMessage[] {
-  return messages.flatMap((message) => {
+  const normalizedMessages = normalizeUiMessages(messages);
+
+  return normalizedMessages.flatMap((message) => {
     const parts = message.parts.filter((part) => {
       const type = (part as MessagePartLike).type ?? "";
 
@@ -39,11 +42,9 @@ function sanitizeMessagesForModel(messages: UIMessage[]): UIMessage[] {
         return true;
       }
 
-      // Older persisted messages stored generic tool-call parts that the
-      // modern UI converter does not treat as skippable incomplete tools.
-      // Quote state is already persisted in the database, so these tool cards
-      // are safe to omit from model context.
-      if (type === "tool-call" || type === "reasoning") {
+      // Reasoning parts are UI-only and can cause provider-side prefill
+      // issues when replayed into the next model turn.
+      if (type === "reasoning") {
         return false;
       }
 

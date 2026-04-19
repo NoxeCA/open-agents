@@ -3,7 +3,13 @@
   "include": ["./**/*"],
   "exclude": ["node_modules"],
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    },
     "strictNullChecks": true,
+    "verbatimModuleSyntax": false,
+    "noUncheckedIndexedAccess": false,
     "resolveJsonModule": true,
     "jsx": "react-jsx"
   }

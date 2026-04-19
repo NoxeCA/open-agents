@@ -1,4 +1,4 @@
-import { colors } from '../../shared/constants';
+import { colors } from '@/lib/documents/shared/constants';
 
 // Base page style — every page inherits this
 export const basePageStyle = {

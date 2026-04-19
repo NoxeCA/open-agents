@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev:local": "next dev --port 3001",
+    "dev:local": "next dev --port 3000",
+    "render:sample-pdf": "bun run scripts/render-sample-quote.ts",
     "db:up": "docker compose -f compose.yaml up -d db",
     "db:down": "docker compose -f compose.yaml down",
     "db:logs": "docker compose -f compose.yaml logs -f db",

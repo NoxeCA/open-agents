@@ -9,8 +9,8 @@ import {
   type AnthropicLanguageModelOptions,
 } from "@ai-sdk/anthropic";
 
-const ANTHROPIC_MODEL_ID = "claude-sonnet-4-6";
-const GATEWAY_MODEL_ID = "anthropic/claude-sonnet-4.6";
+const ANTHROPIC_MODEL_ID = "google/gemini-3-flash";
+const GATEWAY_MODEL_ID = "google/gemini-3-flash";
 
 const ANTHROPIC_DEFAULTS = {
   effort: "high",

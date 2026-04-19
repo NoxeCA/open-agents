@@ -16,6 +16,22 @@ type PartLike = {
   [key: string]: any;
 };
 
+function inferLegacyToolState(part: PartLike) {
+  if (typeof part.state === "string" && part.state.length > 0) {
+    return part.state;
+  }
+
+  if (part.output !== undefined) {
+    return "output-available";
+  }
+
+  if (part.toolName === "ask_user_question") {
+    return "input-available";
+  }
+
+  return "input-streaming";
+}
+
 type Props = {
   part: PartLike;
   role: string;
@@ -56,17 +72,33 @@ export function MessagePart({ part, role, quoteId, onToolOutput }: Props) {
   if (type === "file" || type.startsWith("file-")) return null;
 
   if (type === "tool-call") {
-    return (
-      <GenericToolCall
-        name={(part.toolName as string | undefined) ?? "tool"}
-        input={part.input}
-        output={part.output}
-        state={(part.state as string | undefined) ?? "completed"}
-        toolCallId={part.toolCallId}
-        quoteId={quoteId}
-        onToolOutput={onToolOutput}
-      />
-    );
+    const toolName = (part.toolName as string | undefined) ?? "tool";
+    const toolProps = {
+      name: toolName,
+      input: part.input,
+      output: part.output,
+      state: inferLegacyToolState(part),
+      toolCallId: part.toolCallId,
+      quoteId,
+      onToolOutput,
+    };
+
+    switch (toolName) {
+      case "parse_excel":
+        return <ParseExcelToolCall {...toolProps} />;
+      case "propose_quote_skeleton":
+        return <ProposeQuoteSkeletonToolCall {...toolProps} />;
+      case "patch_quote":
+        return <PatchQuoteToolCall {...toolProps} />;
+      case "ask_user_question":
+        return <AskUserQuestionToolCall {...toolProps} />;
+      case "render_pdf":
+        return <RenderPdfToolCall {...toolProps} />;
+      case "list_quote_layouts":
+        return <ListQuoteLayoutsToolCall {...toolProps} />;
+      default:
+        return <GenericToolCall {...toolProps} />;
+    }
   }
 
   if (type.startsWith("tool-")) {

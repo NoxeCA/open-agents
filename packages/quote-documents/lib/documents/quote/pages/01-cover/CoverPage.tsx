@@ -1,8 +1,8 @@
 import React from 'react';
 import { Image, Page, Text, View } from '@react-pdf/renderer';
-import type { FC } from "react";
+import { FC } from 'react';
 import type { QuoteData } from '../../types';
-import type { QuoteTranslations, Language } from '../../../../locales/loader';
+import type { QuoteTranslations, Language } from '@/lib/locales/loader';
 import { formatDateLong } from '../../shared/formatters';
 import { coverStyles as styles } from './styles';
 
@@ -25,11 +25,7 @@ const shortenName = (name: string, maxLen: number): string => {
 
   // Abbreviate segments from the end backward, skipping the first name (group 0, seg 0)
   for (let i = segments.length - 1; i >= 1; i--) {
-    const segment = segments[i];
-    if (!segment) continue;
-    const abbreviated = segment.text.charAt(0);
-    if (!abbreviated) continue;
-    segment.text = `${abbreviated}.`;
+    segments[i].text = segments[i].text[0] + '.';
     // Rebuild the name
     const result = rebuildName(parts, segments);
     if (result.length <= maxLen) return result;
@@ -42,11 +38,7 @@ const rebuildName = (
   segments: { groupIdx: number; segIdx: number; text: string }[]
 ): string => {
   const groups: string[][] = parts.map(() => []);
-  segments.forEach((segment) => {
-    const group = groups[segment.groupIdx];
-    if (!group) return;
-    group.push(segment.text);
-  });
+  segments.forEach(s => groups[s.groupIdx].push(s.text));
   return groups.map(g => g.join('-')).join(' ');
 };
 

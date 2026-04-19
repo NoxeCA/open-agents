@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, Image } from '@react-pdf/renderer';
-import type { FC } from "react";
-import type { QuoteTranslations } from '../../../../locales/loader';
+import { FC } from 'react';
+import type { QuoteTranslations } from '@/lib/locales/loader';
 import type { PageNumberCollector } from '../../shared/pagination';
 import type { CeoMessagePageData } from './types';
 import { SECTION_KEYS } from '../../shared/pagination';

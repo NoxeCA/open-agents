@@ -1,3 +1,8 @@
+import {
+  getDocumentPlanSectionForLegacyFlag,
+  isQuoteDocumentPlanSectionEnabled,
+} from "./document/document-plan";
+
 export const optionalSectionLibrary = [
   {
     key: "includeAboutUs",
@@ -113,7 +118,14 @@ export function isOptionalSectionEnabled(
   quoteData: Record<string, unknown> | null | undefined,
   key: OptionalSectionKey,
 ) {
-  return Boolean(quoteData?.[key]);
+  if (typeof quoteData?.[key] === "boolean") {
+    return Boolean(quoteData[key]);
+  }
+
+  const sectionKey = getDocumentPlanSectionForLegacyFlag(key);
+  return sectionKey
+    ? isQuoteDocumentPlanSectionEnabled(quoteData, sectionKey)
+    : false;
 }
 
 export function getIncludedOptionalSections(

@@ -1,14 +1,16 @@
 import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
-import type { FC } from "react";
-import type { QuoteTranslations } from '../../../../locales/loader';
+import { FC } from 'react';
+import type { QuoteTranslations } from '@/lib/locales/loader';
 import type { PageNumberCollector } from '../../shared/pagination';
+import { QuoteEditableRegion } from '../../components/editable-region';
 import { SECTION_KEYS } from '../../shared/pagination';
 import PageShell from '../../components/PageShell';
 import SectionMarker from '../../components/SectionMarker';
 import { cultureStyles as styles } from './styles';
 
 interface CulturePageProps {
+  data?: unknown;
   lang: QuoteTranslations;
   pageHeader: string;
   logoBase64: string;
@@ -17,6 +19,7 @@ interface CulturePageProps {
 }
 
 const CulturePage: FC<CulturePageProps> = ({
+  data,
   lang,
   pageHeader,
   logoBase64,
@@ -27,6 +30,15 @@ const CulturePage: FC<CulturePageProps> = ({
     <SectionMarker collector={pageNumbers} sectionKey={SECTION_KEYS.culture} position="start" />
 
     <Text style={styles.title}>{lang.culture.title}</Text>
+
+    <QuoteEditableRegion
+      root={data}
+      section="culture"
+      anchor="afterIntro"
+      anchorAliases={["after-intro"]}
+      regionIds={["culture:after-intro"]}
+      style={{ marginBottom: 16 }}
+    />
 
     <View style={styles.columnsContainer}>
       <View style={styles.leftColumn}>
@@ -45,6 +57,22 @@ const CulturePage: FC<CulturePageProps> = ({
         <Text style={styles.sectionText}>{lang.culture.ourVisionText}</Text>
       </View>
     </View>
+
+    <QuoteEditableRegion
+      root={data}
+      section="culture"
+      anchor="body"
+      regionIds={["culture:body"]}
+      style={{ marginTop: 16 }}
+    />
+
+    <QuoteEditableRegion
+      root={data}
+      section="culture"
+      anchor="footer"
+      regionIds={["culture:footer"]}
+      style={{ marginTop: 16 }}
+    />
 
     <SectionMarker collector={pageNumbers} sectionKey={SECTION_KEYS.culture} position="end" />
   </PageShell>

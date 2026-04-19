@@ -91,6 +91,98 @@ export type QuoteDocumentSectionKind = z.infer<
 >;
 export type QuoteDocumentSection = z.infer<typeof quoteDocumentSectionSchema>;
 
+export const quoteDocumentPlanArchetypeSchema = z.enum([
+  "project-proposal",
+  "service-agreement",
+]);
+
+export const quoteDocumentPlanPresetSchema = z.enum([
+  "essentielle",
+  "confiance",
+  "technique",
+  "service",
+]);
+
+export const quoteDocumentPlanDetailLevelSchema = z.enum([
+  "small",
+  "medium",
+  "large",
+]);
+
+export const quoteDocumentPlanSectionVariantSchema =
+  quoteDocumentPlanDetailLevelSchema;
+
+export const quoteDocumentPlanServiceLayoutSchema = z.enum([
+  "zero-ventilation",
+  "itemized-without-price",
+  "itemized-with-price",
+]);
+
+export const quoteDocumentPlanCommercialPresetSchema = z.enum([
+  "signature-progress",
+  "signature-advancement",
+  "service-billing",
+  "custom",
+]);
+
+export const quoteDocumentPlanSectionKeySchema = z.enum([
+  "cover",
+  "overview",
+  "services",
+  "about",
+  "culture",
+  "leadership",
+  "team",
+  "partners",
+  "commercial",
+  "terms",
+]);
+
+export const quoteDocumentPlanSectionSelectionSchema = z.object({
+  key: quoteDocumentPlanSectionKeySchema,
+  enabled: z.boolean().default(true),
+  variant: quoteDocumentPlanSectionVariantSchema.default("medium"),
+});
+
+export const quoteDocumentPlanSchema = z.object({
+  version: z.literal(1).default(1),
+  locked: z.literal(true).default(true),
+  archetype: quoteDocumentPlanArchetypeSchema.default("project-proposal"),
+  preset: quoteDocumentPlanPresetSchema.default("essentielle"),
+  detailLevel: quoteDocumentPlanDetailLevelSchema.default("medium"),
+  serviceLayoutPolicy: quoteDocumentPlanServiceLayoutSchema.default(
+    "itemized-with-price",
+  ),
+  commercialPreset: quoteDocumentPlanCommercialPresetSchema.default("custom"),
+  sectionSelections: z.array(quoteDocumentPlanSectionSelectionSchema).default([]),
+});
+
+export type QuoteDocumentPlanArchetype = z.infer<
+  typeof quoteDocumentPlanArchetypeSchema
+>;
+export type QuoteDocumentPlanPreset = z.infer<
+  typeof quoteDocumentPlanPresetSchema
+>;
+export type QuoteDocumentPlanDetailLevel = z.infer<
+  typeof quoteDocumentPlanDetailLevelSchema
+>;
+export type QuoteDocumentPlanServiceLayout = z.infer<
+  typeof quoteDocumentPlanServiceLayoutSchema
+>;
+export type QuoteDocumentPlanCommercialPreset = z.infer<
+  typeof quoteDocumentPlanCommercialPresetSchema
+>;
+export type QuoteDocumentPlanSectionKey = z.infer<
+  typeof quoteDocumentPlanSectionKeySchema
+>;
+export type QuoteDocumentPlanSectionSelection = z.infer<
+  typeof quoteDocumentPlanSectionSelectionSchema
+>;
+export type QuoteDocumentPlanSectionVariant = z.infer<
+  typeof quoteDocumentPlanSectionVariantSchema
+>;
+export type QuoteDocumentPlan = z.infer<typeof quoteDocumentPlanSchema>;
+
 export const quoteDocumentThemePresets: Array<{
   id: QuoteDocumentTheme;
   label: string;
@@ -453,6 +545,7 @@ export const quoteDocumentStateSchema = z.object({
   density: quoteDocumentDensitySchema.default("balanced"),
   accent: quoteDocumentAccentSchema.default("sand"),
   sections: z.array(quoteDocumentSectionSchema).min(1),
+  documentPlan: quoteDocumentPlanSchema.optional(),
   spec: z.custom<Spec>(isQuoteDocumentSpec, {
     message: "Invalid quote document spec",
   }),

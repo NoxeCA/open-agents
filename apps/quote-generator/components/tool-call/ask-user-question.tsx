@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, MessageCircleQuestion } from "lucide-react";
+import { Check, Loader2, MessageCircleQuestion } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -28,6 +28,9 @@ type Question = {
 };
 
 type AnswerValue = string | string[];
+type SubmittedPayload =
+  | { answers: Record<string, AnswerValue> }
+  | { declined: true };
 
 function questionKey(q: Question, i: number) {
   return q.question || `q-${i}`;
@@ -57,6 +60,8 @@ export function AskUserQuestionToolCall({
     initialAnswers,
   );
   const [otherText, setOtherText] = useState<Record<string, string>>({});
+  const [submittedPayload, setSubmittedPayload] =
+    useState<SubmittedPayload | null>(null);
   const [activeTab, setActiveTab] = useState<string>(
     questions.length > 0 ? questionKey(questions[0], 0) : "",
   );
@@ -65,12 +70,21 @@ export function AskUserQuestionToolCall({
   const isDeclined = isAnswered && output && "declined" in output && output.declined;
   const hasAnswersOut =
     isAnswered && output && "answers" in output && output.answers;
+  const pendingSubmittedPayload = !isAnswered ? submittedPayload : null;
+  const isLocallyPending = pendingSubmittedPayload !== null;
+  const submittedAnswers =
+    hasAnswersOut && output && "answers" in output
+      ? (output.answers as Record<string, AnswerValue>)
+      : null;
+  const showSubmittedSummary = Boolean(submittedAnswers);
 
   const setSingle = (qKey: string, label: string) => {
+    if (isLocallyPending) return;
     setAnswers((prev) => ({ ...prev, [qKey]: label }));
   };
 
   const toggleMulti = (qKey: string, label: string) => {
+    if (isLocallyPending) return;
     setAnswers((prev) => {
       const curr = Array.isArray(prev[qKey]) ? (prev[qKey] as string[]) : [];
       const exists = curr.includes(label);
@@ -98,15 +112,18 @@ export function AskUserQuestionToolCall({
 
   const handleSubmit = () => {
     if (!toolCallId || !onToolOutput) return;
+    const nextPayload = { answers: buildFinalAnswers() } as const;
+    setSubmittedPayload(nextPayload);
     onToolOutput({
       tool: "ask_user_question",
       toolCallId,
-      output: { answers: buildFinalAnswers() },
+      output: nextPayload,
     });
   };
 
   const handleSkip = () => {
     if (!toolCallId || !onToolOutput) return;
+    setSubmittedPayload({ declined: true });
     onToolOutput({
       tool: "ask_user_question",
       toolCallId,
@@ -133,12 +150,14 @@ export function AskUserQuestionToolCall({
           <MessageCircleQuestion className="size-3.5" />
           <span>
             {questions.length} question{questions.length === 1 ? "" : "s"}
-            {isDeclined
-              ? " • declined"
+            {isLocallyPending
+              ? " • traitement en cours"
+              : isDeclined
+              ? " • ignoré"
               : hasAnswersOut
-                ? " • answered"
+                ? " • répondu"
                 : state === "input-available"
-                  ? " • waiting for you"
+                  ? " • votre réponse est attendue"
                   : ""}
           </span>
         </div>
@@ -187,6 +206,7 @@ export function AskUserQuestionToolCall({
                           key={opt.label}
                           type="button"
                           title={opt.description}
+                          disabled={isLocallyPending}
                           onClick={() =>
                             q.multiSelect
                               ? toggleMulti(q.question, opt.label)
@@ -220,6 +240,7 @@ export function AskUserQuestionToolCall({
                       rows={2}
                       placeholder="Saisissez une réponse personnalisée..."
                       className="rounded-xl text-sm"
+                      disabled={isLocallyPending}
                     />
                   </div>
                 </TabsContent>
@@ -228,12 +249,10 @@ export function AskUserQuestionToolCall({
           </Tabs>
         )}
 
-        {hasAnswersOut && (
+        {showSubmittedSummary && submittedAnswers && (
           <div className="space-y-1.5">
             {questions.map((q) => {
-              const a = (output.answers as Record<string, AnswerValue>)[
-                q.question
-              ];
+              const a = submittedAnswers[q.question];
               const str = Array.isArray(a) ? a.join(", ") : (a ?? "—");
               return (
                 <div key={q.question} className="text-xs">
@@ -255,11 +274,27 @@ export function AskUserQuestionToolCall({
 
         {state === "input-available" && onToolOutput && toolCallId && (
           <div className="flex items-center justify-end gap-2">
-            <Button size="sm" variant="ghost" onClick={handleSkip}>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={handleSkip}
+              disabled={isLocallyPending}
+            >
               Passer
             </Button>
-            <Button size="sm" onClick={handleSubmit} disabled={!canSubmit}>
-              Envoyer les réponses
+            <Button
+              size="sm"
+              onClick={handleSubmit}
+              disabled={!canSubmit || isLocallyPending}
+            >
+              {isLocallyPending ? (
+                <>
+                  <Loader2 className="mr-2 size-3.5 animate-spin" />
+                  Envoi en cours…
+                </>
+              ) : (
+                "Envoyer les réponses"
+              )}
             </Button>
           </div>
         )}

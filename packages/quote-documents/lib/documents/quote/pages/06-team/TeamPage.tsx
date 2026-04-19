@@ -1,9 +1,10 @@
 import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
-import type { FC } from "react";
-import type { QuoteTranslations } from '../../../../locales/loader';
+import { FC } from 'react';
+import type { QuoteTranslations } from '@/lib/locales/loader';
 import type { PageNumberCollector } from '../../shared/pagination';
 import type { TeamPageData, TeamMember } from './types';
+import { QuoteEditableRegion } from '../../components/editable-region';
 import { SECTION_KEYS } from '../../shared/pagination';
 import PageShell from '../../components/PageShell';
 import SectionMarker from '../../components/SectionMarker';
@@ -54,9 +55,37 @@ const TeamPage: FC<TeamPageProps> = ({
       <Text style={styles.title}>{lang.team.title}</Text>
       <Text style={styles.intro}>{lang.team.intro}</Text>
 
+      <QuoteEditableRegion
+        root={data}
+        local={data}
+        section="team"
+        anchor="afterIntro"
+        anchorAliases={["after-intro"]}
+        regionIds={["team:after-intro"]}
+        style={{ marginBottom: 16 }}
+      />
+
       {members.map((member, i) => (
         <MemberCard key={i} member={member} />
       ))}
+
+      <QuoteEditableRegion
+        root={data}
+        local={data}
+        section="team"
+        anchor="body"
+        regionIds={["team:body"]}
+        style={{ marginTop: 16 }}
+      />
+
+      <QuoteEditableRegion
+        root={data}
+        local={data}
+        section="team"
+        anchor="footer"
+        regionIds={["team:footer"]}
+        style={{ marginTop: 16 }}
+      />
 
       <SectionMarker collector={pageNumbers} sectionKey={SECTION_KEYS.team} position="end" />
     </PageShell>

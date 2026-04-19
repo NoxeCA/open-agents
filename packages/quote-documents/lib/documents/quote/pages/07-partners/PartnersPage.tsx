@@ -1,14 +1,16 @@
 import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
-import type { FC } from "react";
-import type { QuoteTranslations } from '../../../../locales/loader';
+import { FC } from 'react';
+import type { QuoteTranslations } from '@/lib/locales/loader';
 import type { PageNumberCollector } from '../../shared/pagination';
+import { QuoteEditableRegion } from '../../components/editable-region';
 import { SECTION_KEYS } from '../../shared/pagination';
 import PageShell from '../../components/PageShell';
 import SectionMarker from '../../components/SectionMarker';
 import { partnersStyles as styles } from './styles';
 
 interface PartnersPageProps {
+  data?: unknown;
   lang: QuoteTranslations;
   pageHeader: string;
   logoBase64: string;
@@ -17,6 +19,7 @@ interface PartnersPageProps {
 }
 
 const PartnersPage: FC<PartnersPageProps> = ({
+  data,
   lang,
   pageHeader,
   logoBase64,
@@ -31,6 +34,15 @@ const PartnersPage: FC<PartnersPageProps> = ({
 
       <Text style={styles.title}>{lang.partners.title}</Text>
       <Text style={styles.intro}>{lang.partners.intro}</Text>
+
+      <QuoteEditableRegion
+        root={data}
+        section="partners"
+        anchor="afterIntro"
+        anchorAliases={["after-intro"]}
+        regionIds={["partners:after-intro"]}
+        style={{ marginBottom: 16 }}
+      />
 
       {categories.map((category: { name: string; partners: string[] }, catIdx: number) => (
         <React.Fragment key={catIdx}>
@@ -52,6 +64,22 @@ const PartnersPage: FC<PartnersPageProps> = ({
       ))}
 
       {categories.length > 0 && <View style={styles.separator} />}
+
+      <QuoteEditableRegion
+        root={data}
+        section="partners"
+        anchor="body"
+        regionIds={["partners:body"]}
+        style={{ marginTop: 16 }}
+      />
+
+      <QuoteEditableRegion
+        root={data}
+        section="partners"
+        anchor="footer"
+        regionIds={["partners:footer"]}
+        style={{ marginTop: 16 }}
+      />
 
       <SectionMarker collector={pageNumbers} sectionKey={SECTION_KEYS.partners} position="end" />
     </PageShell>

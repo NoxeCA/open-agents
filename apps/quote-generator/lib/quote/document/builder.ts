@@ -6,6 +6,7 @@ import {
   quoteDocumentDensityPresets,
   quoteDocumentSectionCatalog,
   quoteDocumentThemePresets,
+  type QuoteDocumentPlan,
   type QuoteDocumentAccent,
   type QuoteDocumentDensity,
   type QuoteDocumentSection,
@@ -13,6 +14,10 @@ import {
   type QuoteDocumentState,
   type QuoteDocumentTheme,
 } from "./catalog";
+import {
+  buildQuoteDocumentComposition,
+  buildQuoteDocumentPlan,
+} from "./document-plan";
 
 type QuoteDocumentSeed = Partial<QuoteDocumentState> | null | undefined;
 
@@ -941,6 +946,10 @@ export function buildQuoteDocumentState(
   seed?: QuoteDocumentSeed,
 ): QuoteDocumentState {
   const lang = getLang(data);
+  const documentPlan = buildQuoteDocumentPlan({
+    ...(data as Record<string, unknown>),
+    document: seed ?? data.document,
+  } as Partial<QuoteData> & Record<string, unknown>);
   const normalized = {
     version: 1 as const,
     theme:
@@ -964,12 +973,19 @@ export function buildQuoteDocumentState(
       ...section,
       title: section.title ?? getDefaultSectionTitle(section.kind, lang),
     })),
+    documentPlan,
     spec: buildQuoteDocumentSpec(data, normalized),
   };
 }
 
 export function syncQuoteDocumentState(data: Partial<QuoteData>) {
   return buildQuoteDocumentState(data, data.document);
+}
+
+export function syncQuoteDocumentPlan(
+  data: Partial<QuoteData> & Record<string, unknown>,
+) {
+  return buildQuoteDocumentPlan(data);
 }
 
 export function getDocumentSectionLabels(document: QuoteDocumentState) {
@@ -983,6 +999,7 @@ export function summarizeQuoteDocumentState(document: QuoteDocumentState) {
     accent: document.accent,
     pageCount: document.sections.length,
     sections: getDocumentSectionLabels(document),
+    documentPlan: summarizeQuoteDocumentPlan(document.documentPlan),
   };
 }
 
@@ -1007,3 +1024,22 @@ export function describeDocumentCatalog() {
     ],
   };
 }
+
+function summarizeQuoteDocumentPlan(documentPlan: QuoteDocumentPlan | undefined) {
+  if (!documentPlan) {
+    return null;
+  }
+
+  return {
+    archetype: documentPlan.archetype,
+    preset: documentPlan.preset,
+    detailLevel: documentPlan.detailLevel,
+    serviceLayoutPolicy: documentPlan.serviceLayoutPolicy,
+    commercialPreset: documentPlan.commercialPreset,
+    sections: documentPlan.sectionSelections
+      .filter((section) => section.enabled)
+      .map((section) => section.key),
+  };
+}
+
+export { buildQuoteDocumentComposition, buildQuoteDocumentPlan };

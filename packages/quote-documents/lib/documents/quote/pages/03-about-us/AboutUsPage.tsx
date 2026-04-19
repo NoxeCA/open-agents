@@ -1,8 +1,9 @@
 import React from 'react';
 import { Text, View, Image } from '@react-pdf/renderer';
-import type { FC } from "react";
-import type { QuoteTranslations } from '../../../../locales/loader';
+import { FC } from 'react';
+import type { QuoteTranslations } from '@/lib/locales/loader';
 import type { PageNumberCollector } from '../../shared/pagination';
+import { QuoteEditableRegion } from '../../components/editable-region';
 import { SECTION_KEYS } from '../../shared/pagination';
 import PageShell from '../../components/PageShell';
 import SectionMarker from '../../components/SectionMarker';
@@ -10,6 +11,7 @@ import { aboutUsStyles as styles } from './styles';
 
 
 interface AboutUsPageProps {
+  data?: unknown;
   lang: QuoteTranslations;
   pageHeader: string;
   logoBase64: string;
@@ -30,6 +32,7 @@ const ValuesRow: FC<{ values: string[] }> = ({ values }) => (
 );
 
 const AboutUsPage: FC<AboutUsPageProps> = ({
+  data,
   lang,
   pageHeader,
   logoBase64,
@@ -43,11 +46,28 @@ const AboutUsPage: FC<AboutUsPageProps> = ({
     <Text style={styles.title}>{lang.aboutUs.title}</Text>
     <Text style={styles.mainDescription}>{lang.aboutUs.mainDescription}</Text>
 
+    <QuoteEditableRegion
+      root={data}
+      section="about-us"
+      anchor="afterIntro"
+      anchorAliases={["after-intro"]}
+      regionIds={["about-us:after-intro"]}
+      style={{ marginBottom: 16 }}
+    />
+
     <Text style={styles.sectionHeading}>{lang.aboutUs.whoAreWe}</Text>
     <Text style={styles.sectionText}>{lang.aboutUs.whoAreWeText}</Text>
 
     <Text style={styles.sectionHeading}>{lang.aboutUs.howDoWeWork}</Text>
     <Text style={styles.sectionText}>{lang.aboutUs.howDoWeWorkText}</Text>
+
+    <QuoteEditableRegion
+      root={data}
+      section="about-us"
+      anchor="body"
+      regionIds={["about-us:body"]}
+      style={{ marginBottom: 16 }}
+    />
 
     <View style={styles.spacer} />
 
@@ -66,6 +86,14 @@ const AboutUsPage: FC<AboutUsPageProps> = ({
       </View>
       <View style={styles.separator} />
     </View>
+
+    <QuoteEditableRegion
+      root={data}
+      section="about-us"
+      anchor="footer"
+      regionIds={["about-us:footer"]}
+      style={{ marginTop: 16 }}
+    />
 
     <SectionMarker collector={pageNumbers} sectionKey={SECTION_KEYS.aboutUs} position="end" />
   </PageShell>

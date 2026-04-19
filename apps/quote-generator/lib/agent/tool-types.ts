@@ -63,10 +63,21 @@ export type PatchQuoteIssue = {
   message: string;
 };
 
+export type PatchQuoteTouchedRegion = {
+  regionId: string;
+  pageTitle: string;
+  pageStart: number;
+  pageEnd: number;
+  matchedPaths: string[];
+  patchPaths: string[];
+};
+
 export type PatchQuoteOutput =
   | {
       ok: true;
       touchedPaths: string[];
+      resolvedPaths: string[];
+      touchedRegions: PatchQuoteTouchedRegion[];
       issues: PatchQuoteIssue[];
     }
   | { ok: false; error: string };

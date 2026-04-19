@@ -2,6 +2,7 @@ import type { UIMessage } from "ai";
 
 import { runQuoteAgent } from "@/lib/agent/run";
 import { getSession } from "@/lib/auth";
+import { normalizeUiMessages } from "@/lib/chat/normalize-ui-message";
 import { db } from "@/lib/db";
 import { chatMessages } from "@/lib/db/schema";
 import { QuoteNotFoundError, requireQuoteOwnership } from "@/lib/util/ownership";
@@ -80,8 +81,10 @@ export async function POST(req: Request) {
               : ([{ type: "text", text: String(m.content) }] as unknown[]),
           }));
 
-        if (toInsert.length > 0) {
-          await db.insert(chatMessages).values(toInsert);
+        const normalizedInsert = normalizeUiMessages(toInsert);
+
+        if (normalizedInsert.length > 0) {
+          await db.insert(chatMessages).values(normalizedInsert);
         }
       } catch (e) {
         console.error("chat: failed to persist assistant messages", e);

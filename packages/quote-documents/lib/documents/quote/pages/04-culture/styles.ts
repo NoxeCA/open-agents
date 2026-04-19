@@ -1,5 +1,5 @@
 import { StyleSheet } from '@react-pdf/renderer';
-import { colors } from '../../../shared/constants';
+import { colors } from '@/lib/documents/shared/constants';
 
 export const cultureStyles = StyleSheet.create({
   title: {

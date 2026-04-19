@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from '@react-pdf/renderer';
-import type { FC } from "react";
-import type { QuoteTranslations, Language } from '../../../../locales/loader';
+import { FC } from 'react';
+import type { QuoteTranslations, Language } from '@/lib/locales/loader';
 import type { LaborItem } from './types';
 import { formatCurrency } from '../../shared/formatters';
 import { serviceSectionStyles as styles } from './styles';

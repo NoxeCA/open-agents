@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, Image } from '@react-pdf/renderer';
-import type { FC } from "react";
-import type { QuoteTranslations } from '../../../../locales/loader';
+import { FC } from 'react';
+import type { QuoteTranslations } from '@/lib/locales/loader';
 import { serviceSectionStyles as styles } from './styles';
 
 interface TaxDisclaimerProps {

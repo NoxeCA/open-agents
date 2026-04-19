@@ -25,6 +25,7 @@ import {
 import { useQuoteFileUpload } from "@/components/chat/use-quote-file-upload";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { normalizeUiMessages } from "@/lib/chat/normalize-ui-message";
 import {
   buildQuoteWorkspaceSuggestions,
 } from "@/lib/quote/workspace-summary";
@@ -55,6 +56,11 @@ type MessageLike = {
   parts?: PartLike[];
 };
 
+type PendingInteraction = {
+  tool: string;
+  assistantMessageCount: number;
+};
+
 function isRefreshableToolPart(part: PartLike): boolean {
   if (!part?.type || part.state !== "output-available") return false;
   const name =
@@ -68,6 +74,64 @@ function isRefreshableToolPart(part: PartLike): boolean {
     "render_pdf",
     "patch_quote",
   ].includes(name ?? "");
+}
+
+function isToolPart(part: PartLike) {
+  if (!part?.type) return false;
+  return part.type === "tool-call" || part.type.startsWith("tool-");
+}
+
+function hasAssistantTextPart(message: MessageLike | undefined) {
+  return (message?.parts ?? []).some((part) => part.type === "text");
+}
+
+function hasAssistantToolPart(message: MessageLike | undefined) {
+  return (message?.parts ?? []).some((part) => isToolPart(part));
+}
+
+function getToolDisplayName(toolName: string | undefined) {
+  switch (toolName) {
+    case "parse_excel":
+      return "analyse Excel";
+    case "propose_quote_skeleton":
+      return "structure du devis";
+    case "patch_quote":
+      return "mise à jour du devis";
+    case "render_pdf":
+      return "génération du PDF";
+    case "ask_user_question":
+      return "questions de clarification";
+    case "list_quote_layouts":
+      return "mise en page du devis";
+    default:
+      return null;
+  }
+}
+
+function summarizeRecentAssistantTools(messages: MessageLike[]) {
+  const assistantMessages = messages.filter((message) => message.role === "assistant");
+  const recentAssistantMessages = assistantMessages.slice(-6);
+  const labels: string[] = [];
+
+  for (const message of recentAssistantMessages) {
+    for (const part of message.parts ?? []) {
+      if (!isToolPart(part)) continue;
+
+      const toolName =
+        part.type === "tool-call"
+          ? part.toolName
+          : part.type?.startsWith("tool-")
+            ? part.type.slice("tool-".length)
+            : part.toolName;
+      const label = getToolDisplayName(toolName);
+
+      if (label && !labels.includes(label)) {
+        labels.push(label);
+      }
+    }
+  }
+
+  return labels.slice(0, 3);
 }
 
 function buildUploadInstruction(files: UploadedQuoteFile[]) {
@@ -136,7 +200,10 @@ export function ChatPane({
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const c = chat as any;
-  const messages: MessageLike[] = useMemo(() => c.messages ?? [], [c.messages]);
+  const messages: MessageLike[] = useMemo(
+    () => normalizeUiMessages(c.messages ?? []),
+    [c.messages],
+  );
   const status: string = c.status ?? "ready";
   const sendMessage: (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -154,13 +221,21 @@ export function ChatPane({
 
   const [input, setInput] = useState("");
   const [isDraggingFiles, setIsDraggingFiles] = useState(false);
+  const [pendingInteraction, setPendingInteraction] =
+    useState<PendingInteraction | null>(null);
+  const [isRefreshingQuote, setIsRefreshingQuote] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const lastRefreshedMessageIdRef = useRef<string | null>(null);
   const dragDepthRef = useRef(0);
+  const pendingInteractionSeenProcessingRef = useRef(false);
 
   const isStreaming = status === "streaming" || status === "submitted";
   const canSubmit = input.trim().length > 0 && !isStreaming;
+  const assistantMessageCount = useMemo(
+    () => messages.filter((message) => message.role === "assistant").length,
+    [messages],
+  );
   const suggestions = useMemo(
     () => buildQuoteWorkspaceSuggestions({ quoteData, pdfFileId }),
     [pdfFileId, quoteData],
@@ -210,9 +285,36 @@ export function ChatPane({
     const parts = last.parts ?? [];
     if (parts.some(isRefreshableToolPart)) {
       lastRefreshedMessageIdRef.current = id;
-      void onQuoteUpdated();
+      window.requestAnimationFrame(() => {
+        setIsRefreshingQuote(true);
+      });
+      void Promise.resolve(onQuoteUpdated()).finally(() => {
+        window.requestAnimationFrame(() => {
+          setIsRefreshingQuote(false);
+        });
+      });
     }
   }, [messages, isStreaming, onQuoteUpdated]);
+
+  useEffect(() => {
+    if (!pendingInteraction) return;
+    if (isStreaming || status === "submitted" || isRefreshingQuote) {
+      pendingInteractionSeenProcessingRef.current = true;
+      return;
+    }
+    if (!pendingInteractionSeenProcessingRef.current) return;
+    if (status !== "ready") return;
+
+    pendingInteractionSeenProcessingRef.current = false;
+    window.requestAnimationFrame(() => {
+      setPendingInteraction(null);
+    });
+  }, [
+    isRefreshingQuote,
+    isStreaming,
+    pendingInteraction,
+    status,
+  ]);
 
   const handleSubmit = useCallback(() => {
     if (!canSubmit) return;
@@ -337,8 +439,81 @@ export function ChatPane({
       toolCallId: string;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       output: any;
-    }) => addToolOutput(args);
-  }, [addToolOutput]);
+    }) => {
+      setPendingInteraction({
+        tool: args.tool ?? "tool",
+        assistantMessageCount,
+      });
+      pendingInteractionSeenProcessingRef.current = false;
+      addToolOutput(args);
+    };
+  }, [addToolOutput, assistantMessageCount]);
+
+  const liveActivity = useMemo(() => {
+    const lastMessage = messages.at(-1);
+    const assistantAdvancedSincePending =
+      pendingInteraction != null &&
+      assistantMessageCount > pendingInteraction.assistantMessageCount;
+
+    if (pendingInteraction && !assistantAdvancedSincePending) {
+      if (isRefreshingQuote) {
+        return {
+          tone: "neutral" as const,
+          title: "Je synchronise le devis",
+          description:
+            "Je rafraîchis l’aperçu avec les dernières modifications avant de continuer.",
+        };
+      }
+
+      return {
+        tone: "accent" as const,
+        title:
+          pendingInteraction.tool === "ask_user_question"
+            ? "Je prends vos réponses en compte"
+            : "Je traite votre demande",
+        description:
+          pendingInteraction.tool === "ask_user_question"
+            ? "Je mets le devis à jour avec vos réponses et je prépare la prochaine étape."
+            : "Je travaille sur votre demande et je mets le devis à jour.",
+      };
+    }
+
+    if (isStreaming || status === "submitted") {
+      const lastAssistantMessage =
+        lastMessage?.role === "assistant"
+          ? lastMessage
+          : [...messages].reverse().find((message) => message.role === "assistant");
+      const assistantHasText = hasAssistantTextPart(lastAssistantMessage);
+      const assistantHasTools = hasAssistantToolPart(lastAssistantMessage);
+      const recentToolLabels = summarizeRecentAssistantTools(messages);
+
+      return {
+        tone: assistantHasTools ? ("accent" as const) : ("neutral" as const),
+        title: assistantHasTools
+          ? "Je travaille encore sur le devis"
+          : "Je prépare la suite",
+        description:
+          assistantHasTools
+            ? assistantHasText
+              ? recentToolLabels.length > 0
+                ? `Terminé: ${recentToolLabels.join(", ")}. Je prépare maintenant la prochaine étape.`
+                : "J’ai déjà terminé une partie de l’analyse. Je continue en arrière-plan et je vous reviens avec la prochaine étape."
+              : recentToolLabels.length > 0
+                ? `Je poursuis le travail après ${recentToolLabels.join(", ")} et je prépare la prochaine réponse.`
+                : "Je poursuis l’analyse et je prépare la prochaine réponse."
+            : "J’analyse la demande, je vérifie le devis et je prépare la prochaine réponse.",
+      };
+    }
+
+    return null;
+  }, [
+    assistantMessageCount,
+    isRefreshingQuote,
+    isStreaming,
+    messages,
+    pendingInteraction,
+    status,
+  ]);
 
   const handleSuggestedPrompt = useCallback((prompt: string) => {
     setInput(prompt);
@@ -398,12 +573,16 @@ export function ChatPane({
             />
           )}
 
-          {isStreaming && (
-            <div className="flex items-center gap-3 rounded-xl border border-border/50 bg-card/80 px-4 py-3 text-sm text-muted-foreground shadow-[var(--shadow-card)]">
-              <Loader2 className="size-4 animate-spin" />
-              <span>
-                L’assistant travaille sur la prochaine étape de ce devis.
-              </span>
+          {liveActivity && (
+            <div className="flex items-center gap-2 px-1 text-xs text-muted-foreground">
+              <Loader2 className="size-3.5 shrink-0 animate-spin" />
+              <p className="min-w-0 truncate">
+                <span className="font-medium text-foreground">
+                  {liveActivity.title}
+                </span>
+                {" · "}
+                <span>{liveActivity.description}</span>
+              </p>
             </div>
           )}
         </div>

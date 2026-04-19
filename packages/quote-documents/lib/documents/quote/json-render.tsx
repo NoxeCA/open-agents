@@ -1,47 +1,182 @@
 import fs from "fs";
 import path from "path";
-import type { ReactNode } from "react";
-import { PDFDocument, rgb } from "pdf-lib";
-import fontkit from "@pdf-lib/fontkit";
+import { Document } from "@react-pdf/renderer";
 import type { Spec } from "@json-render/core";
 import { renderToBuffer } from "@json-render/react-pdf/render";
+import fontkit from "@pdf-lib/fontkit";
+import { PDFDocument, rgb } from "pdf-lib";
+import type { ReactNode } from "react";
 
-import { QuoteDocument } from "./generator";
-import { quoteDataSchema, type QuoteData } from "./schema";
+import { getTranslations, type Language } from "@/lib/locales/loader";
+
+import {
+  resolveQuoteDocumentRenderInput,
+  type QuoteDocumentRenderInput,
+} from "./composition";
+import { quoteDocumentPlanSchema } from "./document-plan";
+import {
+  createLegacyQuoteSectionRenderContext,
+  getEnabledLegacyQuoteSectionKeys,
+  LEGACY_QUOTE_SECTION_ORDER,
+  LEGACY_QUOTE_SECTION_TYPES,
+  type LegacyQuoteSectionKey,
+  type LegacyQuoteSectionRenderContext,
+  type LegacyQuoteSectionRegistryType,
+} from "./legacy-section-adapters";
+import { createLegacyQuotePdfSectionRegistry } from "./legacy-section-registry";
+import type { QuoteData } from "./schema";
+import "./shared/fonts";
 import type { PageNumberCollector } from "./shared/pagination";
 import { spacing } from "./shared/styles";
 
-export type QuoteJsonRenderSpec = Spec;
+export const QUOTE_JSON_RENDER_SECTION_ORDER = LEGACY_QUOTE_SECTION_ORDER;
 
-type RegistryEntry = (args: {
-  element: { props: Record<string, unknown> };
+export type QuoteJsonRenderSectionKey = LegacyQuoteSectionKey;
+
+export type QuoteJsonRenderElementType =
+  | "QuotePdfDocument"
+  | LegacyQuoteSectionRegistryType;
+
+export interface QuoteJsonRenderElement {
+  type: QuoteJsonRenderElementType;
+  props: Record<string, unknown>;
+  children: string[];
+}
+
+export type QuoteJsonRenderSpec = Spec & {
+  root: string;
+  elements: Record<string, QuoteJsonRenderElement>;
+};
+
+type RegistryEntryArgs = {
+  element: {
+    props: {
+      context: QuoteRenderContext;
+    };
+  };
   children?: ReactNode;
-}) => ReactNode;
+};
 
-function createQuoteDocumentPdfRegistry(pageNumbers: PageNumberCollector) {
+type RegistryEntry = (args: RegistryEntryArgs) => ReactNode;
+
+type QuoteAssetBundle = {
+  arrowsBase64: string;
+  darkArrowBase64: string;
+  grayArrowBase64: string;
+  hexPatternBase64: string;
+  hexPatternBottomRightBase64: string;
+  infoIconBase64: string;
+  lightGrayArrowBase64: string;
+  logoBase64: string;
+  noxeXLogoBase64: string;
+};
+
+type QuoteRenderContext = LegacyQuoteSectionRenderContext;
+
+function loadAsset(filename: string): string {
+  try {
+    const filePath = path.join(process.cwd(), "public", filename);
+    if (fs.existsSync(filePath)) {
+      return `data:image/png;base64,${fs.readFileSync(filePath).toString("base64")}`;
+    }
+  } catch {
+    // Keep the PDF render resilient when an asset is unavailable.
+  }
+
+  return "";
+}
+
+const quoteAssets: QuoteAssetBundle = {
+  arrowsBase64: loadAsset("three-arrows-dark.png"),
+  darkArrowBase64: loadAsset("dark-arrow-right.png"),
+  grayArrowBase64: loadAsset("gray-arrow-right.png"),
+  hexPatternBase64: loadAsset("topRight-hexagonal-pattern.png"),
+  hexPatternBottomRightBase64: loadAsset("bottomRight-hexagonal-pattern.png"),
+  infoIconBase64: loadAsset("info.png"),
+  lightGrayArrowBase64: loadAsset("lightGray-arrow-right.png"),
+  logoBase64: loadAsset("noxe-logo-dark.png"),
+  noxeXLogoBase64: loadAsset("noxe-X-logo-dark.png"),
+};
+
+function createQuoteRenderContext(
+  input: QuoteDocumentRenderInput,
+  pageNumbers: PageNumberCollector,
+): QuoteRenderContext {
+  const { data } = resolveQuoteDocumentRenderInput(input);
+  const selectedLang = (data.lang?.toLowerCase().trim() || "fr") as Language;
+
+  return createLegacyQuoteSectionRenderContext({
+    assets: quoteAssets,
+    data,
+    lang: getTranslations("quote", selectedLang),
+    pageNumbers,
+    selectedLang,
+  });
+}
+
+function resolvePlanDrivenSectionKeys(
+  context: QuoteRenderContext,
+  composition: unknown,
+) {
+  const parsedPlan = quoteDocumentPlanSchema.safeParse(composition);
+  if (!parsedPlan.success) {
+    return getEnabledLegacyQuoteSectionKeys(context);
+  }
+
+  const enabledByData = new Set(getEnabledLegacyQuoteSectionKeys(context));
+  const orderedKeys = parsedPlan.data.sections
+    .filter((section) => section.enabled && enabledByData.has(section.key))
+    .map((section) => section.key as LegacyQuoteSectionKey);
+
+  return orderedKeys.length > 0
+    ? orderedKeys
+    : getEnabledLegacyQuoteSectionKeys(context);
+}
+
+function createQuoteDocumentPdfRegistry() {
   return {
     registry: {
-      LegacyQuoteDocument: ({ element }: Parameters<RegistryEntry>[0]) => {
-        const data = quoteDataSchema.parse(element.props.data);
-
-        return <QuoteDocument data={data} pageNumbers={pageNumbers} />;
-      },
-    } satisfies Record<string, RegistryEntry>,
+      QuotePdfDocument: ({ children }: RegistryEntryArgs) => (
+        <Document>{children}</Document>
+      ),
+      ...createLegacyQuotePdfSectionRegistry().registry,
+    } satisfies Record<QuoteJsonRenderElementType, RegistryEntry>,
   };
 }
 
-export function buildQuoteJsonRenderSpec(data: QuoteData): QuoteJsonRenderSpec {
-  return {
-    root: "quote-document-root",
-    elements: {
-      "quote-document-root": {
-        type: "LegacyQuoteDocument",
-        props: {
-          data,
-        },
-        children: [],
+export function buildQuoteJsonRenderSpec(
+  input: QuoteDocumentRenderInput,
+): QuoteJsonRenderSpec {
+  const pageNumbers: PageNumberCollector = {};
+  const context = createQuoteRenderContext(input, pageNumbers);
+  const { composition } = resolveQuoteDocumentRenderInput(input);
+  const rootId = "quote-document-root";
+  const sectionKeys = resolvePlanDrivenSectionKeys(context, composition);
+  const elements: Record<string, QuoteJsonRenderElement> = {
+    [rootId]: {
+      children: [],
+      props: {
+        context,
       },
+      type: "QuotePdfDocument",
     },
+  };
+
+  for (const sectionKey of sectionKeys) {
+    const sectionId = `quote-section-${sectionKey}`;
+    elements[rootId].children.push(sectionId);
+    elements[sectionId] = {
+      children: [],
+      props: {
+        context,
+      },
+      type: LEGACY_QUOTE_SECTION_TYPES[sectionKey],
+    };
+  }
+
+  return {
+    elements,
+    root: rootId,
   };
 }
 
@@ -58,15 +193,15 @@ async function stampPageNumbers(renderedBuffer: Uint8Array | Buffer) {
   for (let pageIndex = 1; pageIndex < totalPages; pageIndex += 1) {
     const page = pdfDoc.getPage(pageIndex);
     const { width } = page.getSize();
-    const pageNum = String(pageIndex + 1).padStart(2, "0");
-    const textWidth = boldFont.widthOfTextAtSize(pageNum, 24);
+    const pageNumber = String(pageIndex + 1).padStart(2, "0");
+    const textWidth = boldFont.widthOfTextAtSize(pageNumber, 24);
 
-    page.drawText(pageNum, {
+    page.drawText(pageNumber, {
+      color: rgb(0.431, 0.435, 0.451),
+      font: boldFont,
+      size: 24,
       x: width - spacing.pagePadding - textWidth,
       y: 25,
-      size: 24,
-      font: boldFont,
-      color: rgb(0.431, 0.435, 0.451),
     });
   }
 
@@ -88,13 +223,16 @@ async function appendAttachedDocuments(
     const mainPdfDoc = await PDFDocument.load(mainPdfBuffer);
     let successfullyAppended = 0;
 
-    for (const attachedDoc of quoteData.attachedDocuments) {
+    for (const attachedDocument of quoteData.attachedDocuments) {
       try {
-        if (!attachedDoc.base64Content) {
+        if (!attachedDocument.base64Content) {
           continue;
         }
 
-        const attachedPdfBuffer = Buffer.from(attachedDoc.base64Content, "base64");
+        const attachedPdfBuffer = Buffer.from(
+          attachedDocument.base64Content,
+          "base64",
+        );
         const attachedPdfDoc = await PDFDocument.load(attachedPdfBuffer);
         const copiedPages = await mainPdfDoc.copyPages(
           attachedPdfDoc,
@@ -122,20 +260,18 @@ async function appendAttachedDocuments(
 }
 
 export async function renderQuotePdfWithJsonRender(
-  input: QuoteData,
+  input: QuoteDocumentRenderInput,
 ): Promise<Uint8Array> {
-  const quoteData = quoteDataSchema.parse(input);
-  const spec = buildQuoteJsonRenderSpec(quoteData);
   const pageNumbers: PageNumberCollector = {};
+  const context = createQuoteRenderContext(input, pageNumbers);
+  const spec = buildQuoteJsonRenderSpec(input);
+  const registry = createQuoteDocumentPdfRegistry();
 
-  await renderToBuffer(spec, createQuoteDocumentPdfRegistry(pageNumbers));
-  const renderedBuffer = await renderToBuffer(
-    spec,
-    createQuoteDocumentPdfRegistry(pageNumbers),
-  );
+  await renderToBuffer(spec, registry);
 
+  const renderedBuffer = await renderToBuffer(spec, registry);
   const stampedBuffer = await stampPageNumbers(renderedBuffer);
-  const finalBuffer = await appendAttachedDocuments(stampedBuffer, quoteData);
+  const finalBuffer = await appendAttachedDocuments(stampedBuffer, context.data);
 
   return new Uint8Array(finalBuffer);
 }

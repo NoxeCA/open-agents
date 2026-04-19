@@ -1,6 +1,6 @@
 import { renderQuotePdfWithJsonRender } from "@open-harness/quote-documents";
 
-import { quoteBusinessDataSchema, type QuoteData } from "./schema";
+import { quoteDataSchema, type QuoteData } from "./schema";
 
 export class PdfGenerationError extends Error {
   constructor(msg: string) {
@@ -10,10 +10,10 @@ export class PdfGenerationError extends Error {
 }
 
 export async function renderQuotePdf(data: QuoteData): Promise<Uint8Array> {
-  const businessData = quoteBusinessDataSchema.parse(data);
+  const quoteData = quoteDataSchema.parse(data);
 
   try {
-    return await renderQuotePdfWithJsonRender(businessData);
+    return await renderQuotePdfWithJsonRender(quoteData);
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Unknown PDF rendering error";

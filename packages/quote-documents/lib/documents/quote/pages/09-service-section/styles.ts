@@ -1,5 +1,5 @@
 import { StyleSheet } from '@react-pdf/renderer';
-import { colors } from '../../../shared/constants';
+import { colors } from '@/lib/documents/shared/constants';
 
 // Shared table border color (matches Figma rgba(0,0,0,0.1))
 const TABLE_BORDER = '#E5E5E5';
@@ -22,6 +22,10 @@ export const serviceSectionStyles = StyleSheet.create({
     textAlign: 'justify',
     color: colors.gray,
     marginBottom: 24,
+  },
+
+  richContentBlock: {
+    marginBottom: 16,
   },
 
   sectionHeaderRow: {
@@ -93,6 +97,10 @@ export const serviceSectionStyles = StyleSheet.create({
     color: colors.gray,
     paddingHorizontal: 24,
     marginBottom: 12,
+  },
+
+  bomIntroBlock: {
+    marginBottom: 16,
   },
 
   // ─── Table ────────────────────────────────────────────────────────────

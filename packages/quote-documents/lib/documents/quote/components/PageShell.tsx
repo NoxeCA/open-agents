@@ -1,6 +1,6 @@
 import React from 'react';
 import { Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer';
-import { colors } from '../../shared/constants';
+import { colors } from '@/lib/documents/shared/constants';
 import { basePageStyle, spacing } from '../shared/styles';
 
 const styles = StyleSheet.create({
