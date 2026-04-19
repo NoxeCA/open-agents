@@ -1,0 +1,1460 @@
+{
+  "lang": "fr",
+  "clientName": "Ecole secondaire Prevost",
+  "subtitle": "Soumission commerciale",
+  "documentType": "PROPOSITION",
+  "documentTitle": "Projet controle d'acces",
+  "quoteID": "SAMPLE-JSON-001",
+  "revision": 1,
+  "quoteDate": "2026-04-19",
+  "validUntil": "2026-05-19",
+  "preparedFor": [
+    {
+      "name": "Jean Client"
+    }
+  ],
+  "preparedBy": [
+    {
+      "name": "Marc-Olivier Gagner"
+    }
+  ],
+  "includeAboutUs": true,
+  "includeCulture": true,
+  "includeCeoMessage": false,
+  "includeTeam": false,
+  "includePartners": true,
+  "proposal": {
+    "date": "2026-04-19",
+    "addressee": {
+      "name": "Jean Client",
+      "company": "Ecole secondaire Prevost",
+      "address": "225 ch. de la Montagne, Prevost, QC"
+    },
+    "object": "Soumission controle d'acces",
+    "paragraphs": [
+      "Merci de votre confiance.",
+      "Cette proposition JSON est rendue directement en PDF sans passer par le chat IA."
+    ]
+  },
+  "projectTitle": "LC Connect - SAMPLE-JSON-001",
+  "projectIntro": "Noxe presente cette proposition pour la fourniture et l'installation du systeme.",
+  "services": [
+    {
+      "sectionNumber": 1,
+      "sectionName": "Controle d'acces - surcharge materiel",
+      "description": "On surcharge volontairement la premiere section avec beaucoup de lignes BOM pour tester la pagination et la lisibilite.",
+      "bomItems": [
+        {
+          "qty": 1,
+          "partNumber": "AC-01",
+          "description": "Composant AC 1",
+          "oem": "Genetec",
+          "unitPrice": 85,
+          "total": 85
+        },
+        {
+          "qty": 2,
+          "partNumber": "AC-02",
+          "description": "Composant AC 2",
+          "oem": "HID",
+          "unitPrice": 102,
+          "total": 204
+        },
+        {
+          "qty": 3,
+          "partNumber": "AC-03",
+          "description": "Composant AC 3",
+          "oem": "Genetec",
+          "unitPrice": 119,
+          "total": 357
+        },
+        {
+          "qty": 1,
+          "partNumber": "AC-04",
+          "description": "Composant AC 4",
+          "oem": "HID",
+          "unitPrice": 136,
+          "total": 136
+        },
+        {
+          "qty": 2,
+          "partNumber": "AC-05",
+          "description": "Composant AC 5",
+          "oem": "Genetec",
+          "unitPrice": 153,
+          "total": 306
+        },
+        {
+          "qty": 3,
+          "partNumber": "AC-06",
+          "description": "Composant AC 6",
+          "oem": "HID",
+          "unitPrice": 170,
+          "total": 510
+        },
+        {
+          "qty": 1,
+          "partNumber": "AC-07",
+          "description": "Composant AC 7",
+          "oem": "Genetec",
+          "unitPrice": 187,
+          "total": 187
+        },
+        {
+          "qty": 2,
+          "partNumber": "AC-08",
+          "description": "Composant AC 8",
+          "oem": "HID",
+          "unitPrice": 204,
+          "total": 408
+        },
+        {
+          "qty": 3,
+          "partNumber": "AC-09",
+          "description": "Composant AC 9",
+          "oem": "Genetec",
+          "unitPrice": 221,
+          "total": 663
+        },
+        {
+          "qty": 1,
+          "partNumber": "AC-10",
+          "description": "Composant AC 10",
+          "oem": "HID",
+          "unitPrice": 238,
+          "total": 238
+        },
+        {
+          "qty": 2,
+          "partNumber": "AC-11",
+          "description": "Composant AC 11",
+          "oem": "Genetec",
+          "unitPrice": 255,
+          "total": 510
+        },
+        {
+          "qty": 3,
+          "partNumber": "AC-12",
+          "description": "Composant AC 12",
+          "oem": "HID",
+          "unitPrice": 272,
+          "total": 816
+        },
+        {
+          "qty": 1,
+          "partNumber": "AC-13",
+          "description": "Composant AC 13",
+          "oem": "Genetec",
+          "unitPrice": 289,
+          "total": 289
+        },
+        {
+          "qty": 2,
+          "partNumber": "AC-14",
+          "description": "Composant AC 14",
+          "oem": "HID",
+          "unitPrice": 306,
+          "total": 612
+        },
+        {
+          "qty": 3,
+          "partNumber": "AC-15",
+          "description": "Composant AC 15",
+          "oem": "Genetec",
+          "unitPrice": 323,
+          "total": 969
+        },
+        {
+          "qty": 1,
+          "partNumber": "AC-16",
+          "description": "Composant AC 16",
+          "oem": "HID",
+          "unitPrice": 340,
+          "total": 340
+        },
+        {
+          "qty": 2,
+          "partNumber": "AC-17",
+          "description": "Composant AC 17",
+          "oem": "Genetec",
+          "unitPrice": 357,
+          "total": 714
+        },
+        {
+          "qty": 3,
+          "partNumber": "AC-18",
+          "description": "Composant AC 18",
+          "oem": "HID",
+          "unitPrice": 374,
+          "total": 1122
+        },
+        {
+          "qty": 1,
+          "partNumber": "AC-19",
+          "description": "Composant AC 19",
+          "oem": "Genetec",
+          "unitPrice": 391,
+          "total": 391
+        },
+        {
+          "qty": 2,
+          "partNumber": "AC-20",
+          "description": "Composant AC 20",
+          "oem": "HID",
+          "unitPrice": 408,
+          "total": 816
+        },
+        {
+          "qty": 3,
+          "partNumber": "AC-21",
+          "description": "Composant AC 21",
+          "oem": "Genetec",
+          "unitPrice": 425,
+          "total": 1275
+        },
+        {
+          "qty": 1,
+          "partNumber": "AC-22",
+          "description": "Composant AC 22",
+          "oem": "HID",
+          "unitPrice": 442,
+          "total": 442
+        }
+      ],
+      "bomSubtotal": 11390,
+      "tableIntroBlocks": [
+        {
+          "type": "paragraph",
+          "text": "Ce cas cherche a casser la page service avec une tres longue table tout en gardant les notes et les totaux coherents.",
+          "tone": "lead"
+        }
+      ],
+      "laborCategories": [
+        {
+          "category": "Installation",
+          "amount": 900
+        },
+        {
+          "category": "Programmation",
+          "amount": 600
+        },
+        {
+          "category": "Mise en service",
+          "amount": 300
+        }
+      ],
+      "laborSubtotal": 1800,
+      "tableOutroBlocks": [
+        {
+          "type": "paragraph",
+          "text": "Si cette section reste propre a l'impression, on sait que la base est deja beaucoup plus robuste.",
+          "tone": "muted"
+        }
+      ],
+      "totalCost": 13190,
+      "layout": "itemized-with-price"
+    }
+  ],
+  "projectSummary": {
+    "description": "Stress test avec une tres grosse premiere section materiel et des zones de texte libres autour des tableaux.",
+    "subtotal": 11390,
+    "totalProjectCost": 13190
+  },
+  "optionalPages": [
+    {
+      "pageTitle": "GENETEC ET CONTROLE D'ACCES",
+      "title": "Contexte technologique"
+    }
+  ],
+  "exclusions": [
+    "La quincaillerie electrifiee fournie par d'autres est exclue.",
+    "Le cablage existant non conforme est exclu."
+  ],
+  "specialConditions": [
+    "Les travaux sont planifies en coordination avec le client."
+  ],
+  "notes": [
+    "Exemple JSON statique pour validation locale du pipeline PDF."
+  ],
+  "paymentTerms": [
+    "35 % a la signature",
+    "15 % a la commande du materiel",
+    "40 % en cours d'installation",
+    "10 % a la fin des travaux"
+  ],
+  "contactInfo": {
+    "name": "Marc-Olivier Gagner",
+    "company": "Noxe",
+    "phone": "438-865-8020",
+    "email": "m.gagner@noxe.ca"
+  },
+  "includeTermsAndConditions": true,
+  "composition": {
+    "version": 1,
+    "locked": true,
+    "archetype": "project-proposal",
+    "preset": "confiance",
+    "detailLevel": "medium",
+    "serviceLayoutPolicy": "itemized-with-price",
+    "commercialPreset": "signature-progress",
+    "sectionSelections": [
+      {
+        "key": "cover",
+        "enabled": true,
+        "variant": "medium"
+      },
+      {
+        "key": "overview",
+        "enabled": true,
+        "variant": "medium"
+      },
+      {
+        "key": "services",
+        "enabled": true,
+        "variant": "medium"
+      },
+      {
+        "key": "about",
+        "enabled": true,
+        "variant": "medium"
+      },
+      {
+        "key": "culture",
+        "enabled": true,
+        "variant": "medium"
+      },
+      {
+        "key": "leadership",
+        "enabled": false,
+        "variant": "medium"
+      },
+      {
+        "key": "team",
+        "enabled": false,
+        "variant": "medium"
+      },
+      {
+        "key": "partners",
+        "enabled": true,
+        "variant": "medium"
+      },
+      {
+        "key": "commercial",
+        "enabled": true,
+        "variant": "medium"
+      },
+      {
+        "key": "terms",
+        "enabled": true,
+        "variant": "medium"
+      }
+    ],
+    "serviceLayout": "itemized-with-price",
+    "enabledSections": [
+      "cover",
+      "overview",
+      "services",
+      "about",
+      "culture",
+      "partners",
+      "commercial",
+      "terms"
+    ],
+    "sections": [
+      {
+        "key": "includeAboutUs",
+        "enabled": true,
+        "variant": "default"
+      },
+      {
+        "key": "includeCulture",
+        "enabled": true,
+        "variant": "default"
+      },
+      {
+        "key": "includeCeoMessage",
+        "enabled": false,
+        "variant": "default"
+      },
+      {
+        "key": "includeTeam",
+        "enabled": false,
+        "variant": "default"
+      },
+      {
+        "key": "includePartners",
+        "enabled": true,
+        "variant": "default"
+      },
+      {
+        "key": "includeTermsAndConditions",
+        "enabled": true,
+        "variant": "default"
+      }
+    ]
+  },
+  "documentContent": {
+    "version": 1,
+    "regions": {
+      "proposal:body": {
+        "target": {
+          "scope": "proposal",
+          "anchor": "body"
+        },
+        "label": "Proposal body",
+        "locationHints": [
+          "proposal body"
+        ],
+        "blocks": [
+          {
+            "type": "heading",
+            "text": "Cadre de travail",
+            "level": "h3"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Compatibilite avec la plateforme cible du client",
+              "Coordination avec les autres corps de metier",
+              "Livraison d'un devis presentable sans retouche manuelle"
+            ],
+            "ordered": false
+          }
+        ]
+      },
+      "service:0:after-table": {
+        "target": {
+          "scope": "service",
+          "index": 0,
+          "anchor": "after-table"
+        },
+        "label": "Service 1 after table",
+        "locationHints": [
+          "below table"
+        ],
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Les prix unitaires demeurent indicatifs jusqu'a la validation finale des conditions de site.",
+            "tone": "muted"
+          }
+        ]
+      },
+      "service:0:after-tax": {
+        "target": {
+          "scope": "service",
+          "index": 0,
+          "anchor": "after-tax"
+        },
+        "label": "Service 1 after tax",
+        "locationHints": [
+          "below tax disclaimer"
+        ],
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Cette proposition est de nature budgetaire. Les couts presentes sont fournis a titre indicatif et peuvent varier jusqu'a 10 % selon les conditions du marche et les ajustements fabricants au moment de la commande.",
+            "tone": "muted"
+          }
+        ]
+      },
+      "optional:0:body": {
+        "target": {
+          "scope": "optional",
+          "index": 0,
+          "anchor": "body"
+        },
+        "label": "Optional page 1 body",
+        "locationHints": [
+          "optional page body"
+        ],
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Cette section illustre comment des pages libres peuvent etre inserees avant ou apres le coeur du devis tout en gardant le style Noxe.",
+            "tone": "lead"
+          },
+          {
+            "type": "table",
+            "title": "Exemple de comparaison",
+            "caption": "Exemple de bloc table base sur le nouveau modele riche.",
+            "columns": [
+              {
+                "label": "Sujet"
+              },
+              {
+                "label": "Etat actuel"
+              },
+              {
+                "label": "Cible",
+                "align": "right"
+              }
+            ],
+            "rows": [
+              [
+                "Controle",
+                "Local",
+                "Centralise"
+              ],
+              [
+                "Lecteurs",
+                "Mixtes",
+                "Standardises"
+              ],
+              [
+                "Suivi",
+                "Manuel",
+                "Temps reel"
+              ]
+            ]
+          },
+          {
+            "type": "stats",
+            "title": "Points clefs",
+            "items": [
+              {
+                "label": "Portes",
+                "value": "2"
+              },
+              {
+                "label": "Controleurs",
+                "value": "1"
+              },
+              {
+                "label": "Lecteurs",
+                "value": "2"
+              }
+            ]
+          }
+        ]
+      },
+      "proposal:after-object": {
+        "target": {
+          "scope": "proposal",
+          "anchor": "after-object"
+        },
+        "label": "proposal after object",
+        "locationHints": [],
+        "blocks": []
+      },
+      "proposal:after-paragraphs": {
+        "target": {
+          "scope": "proposal",
+          "anchor": "after-paragraphs"
+        },
+        "label": "proposal after paragraphs",
+        "locationHints": [],
+        "blocks": []
+      },
+      "proposal:footer": {
+        "target": {
+          "scope": "proposal",
+          "anchor": "footer"
+        },
+        "label": "proposal footer",
+        "locationHints": [],
+        "blocks": []
+      },
+      "service:0:overview": {
+        "target": {
+          "scope": "service",
+          "index": 0,
+          "anchor": "overview"
+        },
+        "label": "service 1 overview",
+        "locationHints": [
+          "before pricing",
+          "overview"
+        ],
+        "blocks": []
+      },
+      "service:0:after-description": {
+        "target": {
+          "scope": "service",
+          "index": 0,
+          "anchor": "after-description"
+        },
+        "label": "service 1 after description",
+        "locationHints": [],
+        "blocks": []
+      },
+      "service:0:before-table": {
+        "target": {
+          "scope": "service",
+          "index": 0,
+          "anchor": "before-table"
+        },
+        "label": "service 1 before table",
+        "locationHints": [
+          "above table"
+        ],
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Ce cas cherche a casser la page service avec une tres longue table tout en gardant les notes et les totaux coherents.",
+            "tone": "lead"
+          }
+        ]
+      },
+      "service:0:after-total": {
+        "target": {
+          "scope": "service",
+          "index": 0,
+          "anchor": "after-total"
+        },
+        "label": "service 1 after total",
+        "locationHints": [],
+        "blocks": []
+      },
+      "optional:0:after-title": {
+        "target": {
+          "scope": "optional",
+          "index": 0,
+          "anchor": "after-title"
+        },
+        "label": "optional 1 after title",
+        "locationHints": [],
+        "blocks": []
+      },
+      "optional:0:footer": {
+        "target": {
+          "scope": "optional",
+          "index": 0,
+          "anchor": "footer"
+        },
+        "label": "optional 1 footer",
+        "locationHints": [],
+        "blocks": []
+      },
+      "summary:before-table": {
+        "target": {
+          "scope": "summary",
+          "anchor": "before-table"
+        },
+        "label": "summary before table",
+        "locationHints": [],
+        "blocks": []
+      },
+      "summary:after-table": {
+        "target": {
+          "scope": "summary",
+          "anchor": "after-table"
+        },
+        "label": "summary after table",
+        "locationHints": [],
+        "blocks": []
+      },
+      "summary:after-total": {
+        "target": {
+          "scope": "summary",
+          "anchor": "after-total"
+        },
+        "label": "summary after total",
+        "locationHints": [],
+        "blocks": []
+      },
+      "summary:after-tax": {
+        "target": {
+          "scope": "summary",
+          "anchor": "after-tax"
+        },
+        "label": "summary after tax",
+        "locationHints": [],
+        "blocks": []
+      },
+      "commercial:after-exclusions": {
+        "target": {
+          "scope": "commercial",
+          "anchor": "after-exclusions"
+        },
+        "label": "commercial after exclusions",
+        "locationHints": [],
+        "blocks": []
+      },
+      "commercial:after-special-conditions": {
+        "target": {
+          "scope": "commercial",
+          "anchor": "after-special-conditions"
+        },
+        "label": "commercial after special conditions",
+        "locationHints": [],
+        "blocks": []
+      },
+      "commercial:after-notes": {
+        "target": {
+          "scope": "commercial",
+          "anchor": "after-notes"
+        },
+        "label": "commercial after notes",
+        "locationHints": [],
+        "blocks": []
+      },
+      "commercial:after-payment-terms": {
+        "target": {
+          "scope": "commercial",
+          "anchor": "after-payment-terms"
+        },
+        "label": "commercial after payment terms",
+        "locationHints": [],
+        "blocks": []
+      },
+      "commercial:after-info": {
+        "target": {
+          "scope": "commercial",
+          "anchor": "after-info"
+        },
+        "label": "commercial after info",
+        "locationHints": [],
+        "blocks": []
+      },
+      "terms:before-sections": {
+        "target": {
+          "scope": "terms",
+          "anchor": "before-sections"
+        },
+        "label": "terms before sections",
+        "locationHints": [],
+        "blocks": []
+      },
+      "terms:after-sections": {
+        "target": {
+          "scope": "terms",
+          "anchor": "after-sections"
+        },
+        "label": "terms after sections",
+        "locationHints": [],
+        "blocks": []
+      },
+      "about-us:after-intro": {
+        "target": {
+          "scope": "about-us",
+          "anchor": "after-intro"
+        },
+        "label": "about-us after intro",
+        "locationHints": [],
+        "blocks": []
+      },
+      "about-us:body": {
+        "target": {
+          "scope": "about-us",
+          "anchor": "body"
+        },
+        "label": "about-us body",
+        "locationHints": [],
+        "blocks": []
+      },
+      "about-us:footer": {
+        "target": {
+          "scope": "about-us",
+          "anchor": "footer"
+        },
+        "label": "about-us footer",
+        "locationHints": [],
+        "blocks": []
+      },
+      "culture:after-intro": {
+        "target": {
+          "scope": "culture",
+          "anchor": "after-intro"
+        },
+        "label": "culture after intro",
+        "locationHints": [],
+        "blocks": []
+      },
+      "culture:body": {
+        "target": {
+          "scope": "culture",
+          "anchor": "body"
+        },
+        "label": "culture body",
+        "locationHints": [],
+        "blocks": []
+      },
+      "culture:footer": {
+        "target": {
+          "scope": "culture",
+          "anchor": "footer"
+        },
+        "label": "culture footer",
+        "locationHints": [],
+        "blocks": []
+      },
+      "team:after-intro": {
+        "target": {
+          "scope": "team",
+          "anchor": "after-intro"
+        },
+        "label": "team after intro",
+        "locationHints": [],
+        "blocks": []
+      },
+      "team:body": {
+        "target": {
+          "scope": "team",
+          "anchor": "body"
+        },
+        "label": "team body",
+        "locationHints": [],
+        "blocks": []
+      },
+      "team:footer": {
+        "target": {
+          "scope": "team",
+          "anchor": "footer"
+        },
+        "label": "team footer",
+        "locationHints": [],
+        "blocks": []
+      },
+      "partners:after-intro": {
+        "target": {
+          "scope": "partners",
+          "anchor": "after-intro"
+        },
+        "label": "partners after intro",
+        "locationHints": [],
+        "blocks": []
+      },
+      "partners:body": {
+        "target": {
+          "scope": "partners",
+          "anchor": "body"
+        },
+        "label": "partners body",
+        "locationHints": [],
+        "blocks": []
+      },
+      "partners:footer": {
+        "target": {
+          "scope": "partners",
+          "anchor": "footer"
+        },
+        "label": "partners footer",
+        "locationHints": [],
+        "blocks": []
+      }
+    }
+  },
+  "document": {
+    "version": 1,
+    "theme": "executive",
+    "density": "balanced",
+    "accent": "sand",
+    "sections": [
+      {
+        "id": "cover",
+        "kind": "cover",
+        "title": "Proposition",
+        "enabled": true,
+        "variant": "default"
+      },
+      {
+        "id": "overview",
+        "kind": "overview",
+        "title": "Vue d'ensemble",
+        "enabled": true,
+        "variant": "default"
+      },
+      {
+        "id": "services",
+        "kind": "services",
+        "title": "Portee et services",
+        "enabled": true,
+        "variant": "default"
+      },
+      {
+        "id": "commercial",
+        "kind": "commercial",
+        "title": "Cadre commercial",
+        "enabled": true,
+        "variant": "default"
+      },
+      {
+        "id": "about",
+        "kind": "about",
+        "title": "Pourquoi Noxe",
+        "enabled": true,
+        "variant": "default"
+      },
+      {
+        "id": "culture",
+        "kind": "culture",
+        "title": "Notre facon de livrer",
+        "enabled": true,
+        "variant": "default"
+      },
+      {
+        "id": "partners",
+        "kind": "partners",
+        "title": "Ecosysteme technique",
+        "enabled": true,
+        "variant": "default"
+      }
+    ],
+    "documentPlan": {
+      "version": 1,
+      "locked": true,
+      "archetype": "project-proposal",
+      "preset": "confiance",
+      "detailLevel": "medium",
+      "serviceLayoutPolicy": "itemized-with-price",
+      "commercialPreset": "signature-progress",
+      "sectionSelections": [
+        {
+          "key": "cover",
+          "enabled": true,
+          "variant": "medium"
+        },
+        {
+          "key": "overview",
+          "enabled": true,
+          "variant": "medium"
+        },
+        {
+          "key": "services",
+          "enabled": true,
+          "variant": "medium"
+        },
+        {
+          "key": "about",
+          "enabled": true,
+          "variant": "medium"
+        },
+        {
+          "key": "culture",
+          "enabled": true,
+          "variant": "medium"
+        },
+        {
+          "key": "leadership",
+          "enabled": false,
+          "variant": "medium"
+        },
+        {
+          "key": "team",
+          "enabled": false,
+          "variant": "medium"
+        },
+        {
+          "key": "partners",
+          "enabled": true,
+          "variant": "medium"
+        },
+        {
+          "key": "commercial",
+          "enabled": true,
+          "variant": "medium"
+        },
+        {
+          "key": "terms",
+          "enabled": true,
+          "variant": "medium"
+        }
+      ]
+    },
+    "spec": {
+      "root": "document-root",
+      "elements": {
+        "document-root": {
+          "type": "ProposalDocument",
+          "props": {
+            "title": "Projet controle d'acces",
+            "quoteId": "SAMPLE-JSON-001",
+            "theme": "executive",
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": [
+            "page-cover-cover",
+            "page-overview-overview",
+            "page-services-services",
+            "page-commercial-commercial",
+            "page-about-about",
+            "page-culture-culture",
+            "page-partners-partners"
+          ]
+        },
+        "page-cover-cover": {
+          "type": "ProposalPage",
+          "props": {
+            "label": "Proposition",
+            "tone": "cover",
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": [
+            "page-cover-cover-hero",
+            "page-cover-cover-stats",
+            "page-cover-cover-contact"
+          ]
+        },
+        "page-cover-cover-hero": {
+          "type": "HeroSection",
+          "props": {
+            "eyebrow": "Proposition client",
+            "title": "Projet controle d'acces",
+            "subtitle": "Soumission commerciale pour Jean Client",
+            "summary": "Merci de votre confiance.",
+            "badge": "SAMPLE-JSON-001 • 18 avr. 2026 • 18 mai 2026",
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": []
+        },
+        "page-cover-cover-stats": {
+          "type": "StatsGrid",
+          "props": {
+            "title": "Lecture rapide",
+            "items": [
+              {
+                "label": "Prepare pour",
+                "value": "Jean Client"
+              },
+              {
+                "label": "Cout projet",
+                "value": "13 190 $"
+              },
+              {
+                "label": "Lots",
+                "value": "1"
+              },
+              {
+                "label": "Valide jusqu'au",
+                "value": "18 mai 2026"
+              }
+            ],
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": []
+        },
+        "page-cover-cover-contact": {
+          "type": "ContactStrip",
+          "props": {
+            "title": "Prochaines etapes",
+            "preparedFor": [
+              "Jean Client"
+            ],
+            "preparedBy": [
+              "Marc-Olivier Gagner"
+            ],
+            "contactLines": [
+              "Marc-Olivier Gagner",
+              "Noxe",
+              "438-865-8020",
+              "m.gagner@noxe.ca"
+            ],
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": []
+        },
+        "page-overview-overview": {
+          "type": "ProposalPage",
+          "props": {
+            "label": "Vue d'ensemble",
+            "tone": "story",
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": [
+            "page-overview-overview-narrative",
+            "page-overview-overview-stats",
+            "page-overview-overview-total"
+          ]
+        },
+        "page-overview-overview-narrative": {
+          "type": "NarrativeSection",
+          "props": {
+            "title": "Vue d'ensemble",
+            "eyebrow": "Vue d'ensemble",
+            "paragraphs": [
+              "Stress test avec une tres grosse premiere section materiel et des zones de texte libres autour des tableaux.",
+              "Noxe presente cette proposition pour la fourniture et l'installation du systeme.",
+              "Merci de votre confiance."
+            ],
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": []
+        },
+        "page-overview-overview-stats": {
+          "type": "StatsGrid",
+          "props": {
+            "title": "Lecture rapide",
+            "items": [
+              {
+                "label": "Prepare pour",
+                "value": "Jean Client"
+              },
+              {
+                "label": "Cout projet",
+                "value": "13 190 $"
+              },
+              {
+                "label": "Lots",
+                "value": "1"
+              },
+              {
+                "label": "Valide jusqu'au",
+                "value": "18 mai 2026"
+              }
+            ],
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": []
+        },
+        "page-overview-overview-total": {
+          "type": "TotalsHighlight",
+          "props": {
+            "title": "Cout projet",
+            "amount": "13 190 $",
+            "caption": "Projection actuelle selon les donnees du devis.",
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": []
+        },
+        "page-services-services": {
+          "type": "ProposalPage",
+          "props": {
+            "label": "Portee et services",
+            "tone": "scope",
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": [
+            "page-services-services-services"
+          ]
+        },
+        "page-services-services-services": {
+          "type": "ServiceCardsSection",
+          "props": {
+            "title": "Portee et services",
+            "eyebrow": "Portee et services",
+            "intro": "Chaque section ci-dessous traduit la portee en blocs lisibles pour la decision commerciale.",
+            "items": [
+              {
+                "eyebrow": "Section 1",
+                "title": "Controle d'acces - surcharge materiel",
+                "description": "On surcharge volontairement la premiere section avec beaucoup de lignes BOM pour tester la pagination et la lisibilite.",
+                "amount": "13 190 $",
+                "meta": [
+                  "22 articles materiel",
+                  "3 categories de main-d'oeuvre",
+                  "Mode itemized-with-price"
+                ]
+              }
+            ],
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": []
+        },
+        "page-commercial-commercial": {
+          "type": "ProposalPage",
+          "props": {
+            "label": "Cadre commercial",
+            "tone": "commercial",
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": [
+            "page-commercial-commercial-commercial-0",
+            "page-commercial-commercial-commercial-1",
+            "page-commercial-commercial-commercial-2",
+            "page-commercial-commercial-commercial-3",
+            "page-commercial-commercial-contact"
+          ]
+        },
+        "page-commercial-commercial-commercial-0": {
+          "type": "BulletListSection",
+          "props": {
+            "title": "Exclusions",
+            "eyebrow": "Conditions commerciales",
+            "items": [
+              "La quincaillerie electrifiee fournie par d'autres est exclue.",
+              "Le cablage existant non conforme est exclu."
+            ],
+            "tone": "warning",
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": []
+        },
+        "page-commercial-commercial-commercial-1": {
+          "type": "BulletListSection",
+          "props": {
+            "title": "Modalites de paiement",
+            "items": [
+              "35 % a la signature",
+              "15 % a la commande du materiel",
+              "40 % en cours d'installation",
+              "10 % a la fin des travaux"
+            ],
+            "tone": "warm",
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": []
+        },
+        "page-commercial-commercial-commercial-2": {
+          "type": "BulletListSection",
+          "props": {
+            "title": "Conditions speciales",
+            "items": [
+              "Les travaux sont planifies en coordination avec le client."
+            ],
+            "tone": "neutral",
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": []
+        },
+        "page-commercial-commercial-commercial-3": {
+          "type": "BulletListSection",
+          "props": {
+            "title": "Notes",
+            "items": [
+              "Exemple JSON statique pour validation locale du pipeline PDF."
+            ],
+            "tone": "neutral",
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": []
+        },
+        "page-commercial-commercial-contact": {
+          "type": "ContactStrip",
+          "props": {
+            "title": "Prochaines etapes",
+            "preparedFor": [
+              "Jean Client"
+            ],
+            "preparedBy": [
+              "Marc-Olivier Gagner"
+            ],
+            "contactLines": [
+              "Marc-Olivier Gagner",
+              "Noxe",
+              "438-865-8020",
+              "m.gagner@noxe.ca"
+            ],
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": []
+        },
+        "page-about-about": {
+          "type": "ProposalPage",
+          "props": {
+            "label": "Pourquoi Noxe",
+            "tone": "story",
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": [
+            "page-about-about-about"
+          ]
+        },
+        "page-about-about-about": {
+          "type": "NarrativeSection",
+          "props": {
+            "title": "Pourquoi Noxe",
+            "eyebrow": "Proposition client",
+            "paragraphs": [
+              "Noxe transforme des besoins techniques complexes en propositions claires, vendables et executables.",
+              "Notre approche privilegie une portee nette, une lecture commerciale simple et une livraison terrain sans ambiguite."
+            ],
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": []
+        },
+        "page-culture-culture": {
+          "type": "ProposalPage",
+          "props": {
+            "label": "Notre facon de livrer",
+            "tone": "story",
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": [
+            "page-culture-culture-culture"
+          ]
+        },
+        "page-culture-culture-culture": {
+          "type": "BulletListSection",
+          "props": {
+            "title": "Notre facon de livrer",
+            "eyebrow": "Vue d'ensemble",
+            "items": [
+              "Coordination transparente entre ventes, conception et execution.",
+              "Portee documentee de facon stricte pour limiter les zones grises.",
+              "Decisions de chantier tracees rapidement pour garder le projet fluide."
+            ],
+            "tone": "warm",
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": []
+        },
+        "page-partners-partners": {
+          "type": "ProposalPage",
+          "props": {
+            "label": "Ecosysteme technique",
+            "tone": "story",
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": [
+            "page-partners-partners-partners"
+          ]
+        },
+        "page-partners-partners-partners": {
+          "type": "LogoCloudSection",
+          "props": {
+            "title": "Ecosysteme technique",
+            "eyebrow": "Portee et services",
+            "intro": "Un apercu des alignements fabricants et partenaires qui soutiennent la solution.",
+            "logos": [
+              "Genetec",
+              "HID"
+            ],
+            "density": "balanced",
+            "accent": "sand",
+            "lang": "fr"
+          },
+          "children": []
+        }
+      }
+    }
+  },
+  "documentPlan": {
+    "version": 1,
+    "locked": true,
+    "archetype": "project-proposal",
+    "preset": "confiance",
+    "detailLevel": "medium",
+    "serviceLayoutPolicy": "itemized-with-price",
+    "commercialPreset": "signature-progress",
+    "sectionSelections": [
+      {
+        "key": "cover",
+        "enabled": true,
+        "variant": "medium"
+      },
+      {
+        "key": "overview",
+        "enabled": true,
+        "variant": "medium"
+      },
+      {
+        "key": "services",
+        "enabled": true,
+        "variant": "medium"
+      },
+      {
+        "key": "about",
+        "enabled": true,
+        "variant": "medium"
+      },
+      {
+        "key": "culture",
+        "enabled": true,
+        "variant": "medium"
+      },
+      {
+        "key": "leadership",
+        "enabled": false,
+        "variant": "medium"
+      },
+      {
+        "key": "team",
+        "enabled": false,
+        "variant": "medium"
+      },
+      {
+        "key": "partners",
+        "enabled": true,
+        "variant": "medium"
+      },
+      {
+        "key": "commercial",
+        "enabled": true,
+        "variant": "medium"
+      },
+      {
+        "key": "terms",
+        "enabled": true,
+        "variant": "medium"
+      }
+    ],
+    "serviceLayout": "itemized-with-price",
+    "enabledSections": [
+      "cover",
+      "overview",
+      "services",
+      "about",
+      "culture",
+      "partners",
+      "commercial",
+      "terms"
+    ],
+    "sections": [
+      {
+        "key": "includeAboutUs",
+        "enabled": true,
+        "variant": "default"
+      },
+      {
+        "key": "includeCulture",
+        "enabled": true,
+        "variant": "default"
+      },
+      {
+        "key": "includeCeoMessage",
+        "enabled": false,
+        "variant": "default"
+      },
+      {
+        "key": "includeTeam",
+        "enabled": false,
+        "variant": "default"
+      },
+      {
+        "key": "includePartners",
+        "enabled": true,
+        "variant": "default"
+      },
+      {
+        "key": "includeTermsAndConditions",
+        "enabled": true,
+        "variant": "default"
+      }
+    ]
+  }
+}

@@ -1,0 +1,712 @@
+{
+  "version": 1,
+  "brand": {
+    "translations": "en"
+  },
+  "variables": {
+    "cover": {
+      "clientName": "Harbor Hub",
+      "documentType": "PROPOSAL",
+      "documentTitle": "Harbor Hub multi-page narrative appendix",
+      "quoteId": "HH-APPX-007",
+      "revision": 4,
+      "quoteDate": "2026-04-19",
+      "validUntil": "2026-06-15",
+      "preparedFor": [
+        {
+          "name": "Priya Collins"
+        }
+      ],
+      "preparedBy": [
+        {
+          "name": "Marc-Olivier Gagner"
+        }
+      ]
+    },
+    "project": {
+      "clientName": "Harbor Hub"
+    },
+    "summary": {
+      "metrics": [
+        {
+          "value": "3",
+          "label": "Appendix pages",
+          "trend": "Free-form"
+        },
+        {
+          "value": "4",
+          "label": "Terms blocks",
+          "trend": "Single column"
+        },
+        {
+          "value": "6",
+          "label": "Bound appendix notes",
+          "trend": "Repeated"
+        },
+        {
+          "value": "2",
+          "label": "Scope sections",
+          "trend": "Still standard"
+        }
+      ],
+      "highlights": [
+        "The appendix is purposefully broader in tone than the main quote.",
+        "Every appendix page is still a raw json-render Page node.",
+        "TOC range handling gets exercised for a multi-page appendix cluster."
+      ],
+      "tags": [
+        "appendix",
+        "multi-page",
+        "freeform",
+        "coverage"
+      ]
+    },
+    "appendix": {
+      "metrics": [
+        {
+          "value": "12",
+          "label": "Stakeholders",
+          "trend": "Across 3 teams"
+        },
+        {
+          "value": "5",
+          "label": "Open questions",
+          "trend": "To close at kickoff"
+        },
+        {
+          "value": "18",
+          "label": "Draft openings",
+          "trend": "Impacted by phasing"
+        }
+      ],
+      "discoveryThreads": [
+        {
+          "name": "Operations",
+          "question": "Which doors need after-hours unlock rules?",
+          "owner": "Client"
+        },
+        {
+          "name": "Facilities",
+          "question": "Which risers are safe to reuse for PoE?",
+          "owner": "Joint"
+        },
+        {
+          "name": "Security",
+          "question": "Where should alarm escalation land after hours?",
+          "owner": "Noxe"
+        }
+      ],
+      "assumptions": [
+        {
+          "label": "Rack space",
+          "value": "One 12U slot remains available in MDF-1"
+        },
+        {
+          "label": "Power",
+          "value": "UPS-backed power exists for controller cabinets"
+        },
+        {
+          "label": "Network",
+          "value": "Security VLAN can absorb 18 new endpoints"
+        },
+        {
+          "label": "Access window",
+          "value": "Night shifts only during live door cutover"
+        }
+      ],
+      "notes": [
+        "Some appendix content is intentionally more sales-authored than engineering-authored.",
+        "The table and notes page should still feel balanced when exported directly to PDF.",
+        "This scenario is where layout regressions around long supporting text tend to show up first.",
+        "No chat path or AI SDK call is needed to produce any of these pages."
+      ],
+      "terms": [
+        {
+          "title": "1. Planned sequencing",
+          "text": "Appendix sequencing remains indicative until kickoff workshops confirm access windows, site supervision, and cable reuse assumptions."
+        },
+        {
+          "title": "2. Narrative content",
+          "text": "Narrative appendix pages may be edited for clarity without changing the structured priced scope, provided totals and service-section data remain consistent."
+        },
+        {
+          "title": "3. Visual support",
+          "text": "Client-facing diagrams, notes, and roadmap tables can be expanded inside the appendix without requiring a separate rendering pipeline."
+        },
+        {
+          "title": "4. Review cycle",
+          "text": "This appendix is intended for review comments, prioritization notes, and client education content before the final commercial issue."
+        }
+      ]
+    },
+    "investment": {
+      "rows": [
+        {
+          "label": "Access control scope",
+          "amount": 11374
+        },
+        {
+          "label": "Video surveillance scope",
+          "amount": 5545
+        },
+        {
+          "label": "Narrative appendix package",
+          "amount": 3250
+        }
+      ],
+      "subtotal": 20169,
+      "total": 20169
+    }
+  },
+  "document": {
+    "type": "Document",
+    "lang": "en",
+    "children": [
+      {
+        "size": "LETTER",
+        "header": false,
+        "footer": "none",
+        "type": "Page",
+        "children": [
+          {
+            "clientName": "Harbor Hub",
+            "subtitle": "Proposal for Harbor Hub",
+            "documentType": "PROPOSAL",
+            "documentTitle": "Harbor Hub multi-page narrative appendix",
+            "quoteID": "HH-APPX-007",
+            "revision": 4,
+            "quoteDate": "2026-04-19",
+            "validUntil": "2026-06-15",
+            "preparedFor": [
+              {
+                "name": "Priya Collins"
+              }
+            ],
+            "preparedBy": [
+              {
+                "name": "Marc-Olivier Gagner"
+              }
+            ],
+            "type": "CoverBlock"
+          }
+        ]
+      },
+      {
+        "size": "LETTER",
+        "header": "PROPOSAL",
+        "footer": "default",
+        "type": "Page",
+        "children": [
+          {
+            "entries": [
+              {
+                "label": "Executive summary",
+                "sectionId": "executive-summary"
+              },
+              {
+                "label": "Investment summary",
+                "sectionId": "investment-summary"
+              }
+            ],
+            "title": "Table of contents",
+            "combine": [
+              {
+                "label": "Detailed scope",
+                "sectionIds": [
+                  "service-access-control",
+                  "service-video"
+                ]
+              },
+              {
+                "label": "Appendix",
+                "sectionIds": [
+                  "appendix-overview",
+                  "appendix-field-notes",
+                  "appendix-commercial"
+                ]
+              }
+            ],
+            "type": "TocEntries"
+          }
+        ]
+      },
+      {
+        "sectionId": "executive-summary",
+        "size": "LETTER",
+        "header": "PROPOSAL",
+        "footer": "default",
+        "type": "Page",
+        "children": [
+          {
+            "gap": 16,
+            "type": "Section",
+            "children": [
+              {
+                "number": 1,
+                "name": "Executive summary",
+                "type": "SectionHeader"
+              },
+              {
+                "text": "Harbor Hub wants a proposal that reads cleanly for leadership but still survives direct PDF rendering through the vendored json-render runtime.",
+                "muted": false,
+                "align": "left",
+                "size": 11,
+                "type": "Paragraph"
+              },
+              {
+                "items": [
+                  {
+                    "value": "3",
+                    "label": "Appendix pages",
+                    "trend": "Free-form"
+                  },
+                  {
+                    "value": "4",
+                    "label": "Terms blocks",
+                    "trend": "Single column"
+                  },
+                  {
+                    "value": "6",
+                    "label": "Bound appendix notes",
+                    "trend": "Repeated"
+                  },
+                  {
+                    "value": "2",
+                    "label": "Scope sections",
+                    "trend": "Still standard"
+                  }
+                ],
+                "columns": 4,
+                "type": "MetricGrid"
+              },
+              {
+                "title": "Renderer intent",
+                "text": "This suite keeps the output close to what Claude would emit: one envelope, light bindings, catalog-safe nodes, and no chat or AI SDK hop.",
+                "variant": "accent",
+                "showIcon": true,
+                "type": "Callout"
+              },
+              {
+                "items": [
+                  "The appendix is purposefully broader in tone than the main quote.",
+                  "Every appendix page is still a raw json-render Page node.",
+                  "TOC range handling gets exercised for a multi-page appendix cluster."
+                ],
+                "variant": "arrow",
+                "type": "BulletList"
+              },
+              {
+                "items": [
+                  "appendix",
+                  "multi-page",
+                  "freeform",
+                  "coverage"
+                ],
+                "columns": 4,
+                "tone": "outline",
+                "type": "ValuePillGrid"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionNumber": 1,
+        "sectionName": "Access control",
+        "description": "Modernize six priority openings with new controllers, readers, and commissioning.",
+        "bomItems": [
+          {
+            "qty": 1,
+            "partNumber": "AC-01",
+            "description": "32-door Mercury controller panel",
+            "oem": "Mercury",
+            "unitPrice": 1680,
+            "total": 1680
+          },
+          {
+            "qty": 6,
+            "partNumber": "AC-02",
+            "description": "Mullion reader with keypad",
+            "oem": "HID",
+            "unitPrice": 420,
+            "total": 2520
+          },
+          {
+            "qty": 6,
+            "partNumber": "AC-03",
+            "description": "Supervised door contact package",
+            "oem": "HID",
+            "unitPrice": 118,
+            "total": 708
+          },
+          {
+            "qty": 6,
+            "partNumber": "AC-04",
+            "description": "Request-to-exit motion sensor",
+            "oem": "Bosch",
+            "unitPrice": 86,
+            "total": 516
+          }
+        ],
+        "bomSubtotal": 5424,
+        "laborCategories": [
+          {
+            "category": "Installation",
+            "amount": 3600
+          },
+          {
+            "category": "Programming",
+            "amount": 1450
+          },
+          {
+            "category": "Commissioning",
+            "amount": 900
+          }
+        ],
+        "laborSubtotal": 5950,
+        "totalCost": 11374,
+        "layout": "itemized-with-price",
+        "projectTitle": "Harbor Hub multi-page narrative appendix",
+        "projectIntro": "This variant keeps the priced scope intact and pushes extra storytelling into a free-form appendix.",
+        "showProjectIntro": true,
+        "sectionId": "service-access-control",
+        "type": "ServiceSection"
+      },
+      {
+        "sectionNumber": 2,
+        "sectionName": "Video surveillance",
+        "description": "Refresh camera coverage in the dock and corridor zones while keeping pricing summarized.",
+        "bomItems": [
+          {
+            "qty": 4,
+            "partNumber": "VS-01",
+            "description": "Indoor dome camera, 5MP",
+            "oem": "Axis",
+            "unitPrice": 590,
+            "total": 2360
+          },
+          {
+            "qty": 1,
+            "partNumber": "VS-02",
+            "description": "Multi-sensor loading dock camera",
+            "oem": "Axis",
+            "unitPrice": 980,
+            "total": 980
+          },
+          {
+            "qty": 2,
+            "partNumber": "VS-03",
+            "description": "8-port PoE switch",
+            "oem": "Cisco",
+            "unitPrice": 415,
+            "total": 830
+          },
+          {
+            "qty": 5,
+            "partNumber": "VS-04",
+            "description": "Video management licenses",
+            "oem": "Genetec",
+            "unitPrice": 275,
+            "total": 1375
+          }
+        ],
+        "bomSubtotal": 5545,
+        "totalCost": 5545,
+        "layout": "itemized-without-price",
+        "projectTitle": "Harbor Hub multi-page narrative appendix",
+        "showProjectIntro": false,
+        "sectionId": "service-video",
+        "type": "ServiceSection"
+      },
+      {
+        "sectionId": "investment-summary",
+        "size": "LETTER",
+        "header": "PROPOSAL",
+        "footer": "default",
+        "type": "Page",
+        "children": [
+          {
+            "gap": 16,
+            "type": "Section",
+            "children": [
+              {
+                "number": 9,
+                "name": "Investment summary",
+                "type": "SectionHeader"
+              },
+              {
+                "text": "The summary page stays intentionally simple so scenario-specific stress content elsewhere is easier to isolate.",
+                "muted": true,
+                "align": "left",
+                "type": "Paragraph"
+              },
+              {
+                "rows": [
+                  {
+                    "label": "Access control scope",
+                    "amount": 11374
+                  },
+                  {
+                    "label": "Video surveillance scope",
+                    "amount": 5545
+                  },
+                  {
+                    "label": "Narrative appendix package",
+                    "amount": 3250
+                  }
+                ],
+                "subtotalLabel": "Subtotal before taxes",
+                "subtotalAmount": 20169,
+                "type": "SummaryTable"
+              },
+              {
+                "type": "KeepTogether",
+                "children": [
+                  {
+                    "amount": 20169,
+                    "label": "Project total",
+                    "type": "TotalCostBox"
+                  },
+                  {
+                    "text": "Taxes, final coordination, and approved change requests stay outside these direct renderer stress fixtures.",
+                    "showIcon": true,
+                    "type": "TaxDisclaimer"
+                  }
+                ]
+              },
+              {
+                "spans": [
+                  {
+                    "text": "Commercial note: "
+                  },
+                  {
+                    "text": "the rendering path is the system under test",
+                    "bold": true,
+                    "color": "#00AEEF"
+                  },
+                  {
+                    "text": ", so this summary intentionally keeps the financial story stable across all scenarios."
+                  }
+                ],
+                "align": "left",
+                "type": "RichText"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionId": "appendix-overview",
+        "size": "LETTER",
+        "header": "APPENDIX",
+        "footer": "default",
+        "type": "Page",
+        "children": [
+          {
+            "gap": 16,
+            "type": "Section",
+            "children": [
+              {
+                "number": 10,
+                "name": "Appendix overview",
+                "type": "SectionHeader"
+              },
+              {
+                "text": "This appendix is intentionally freer than the core quote pages. It mixes metrics, narrative notes, tables, and legal-style content across several pages.",
+                "muted": false,
+                "align": "left",
+                "size": 11,
+                "type": "Paragraph"
+              },
+              {
+                "items": [
+                  {
+                    "value": "12",
+                    "label": "Stakeholders",
+                    "trend": "Across 3 teams"
+                  },
+                  {
+                    "value": "5",
+                    "label": "Open questions",
+                    "trend": "To close at kickoff"
+                  },
+                  {
+                    "value": "18",
+                    "label": "Draft openings",
+                    "trend": "Impacted by phasing"
+                  }
+                ],
+                "columns": 3,
+                "type": "MetricGrid"
+              },
+              {
+                "title": "Why this matters",
+                "text": "Sales-led appendix pages are often where visual regressions hide because they mix many components without a rigid schema-driven template.",
+                "variant": "warning",
+                "showIcon": true,
+                "type": "Callout"
+              },
+              {
+                "columns": [
+                  {
+                    "header": "Thread",
+                    "width": "28%"
+                  },
+                  {
+                    "header": "Question",
+                    "width": "44%"
+                  },
+                  {
+                    "header": "Owner",
+                    "width": "28%"
+                  }
+                ],
+                "rows": [
+                  [
+                    "Operations",
+                    "Which doors need after-hours unlock rules?",
+                    "Client"
+                  ],
+                  [
+                    "Facilities",
+                    "Which risers are safe to reuse for PoE?",
+                    "Joint"
+                  ],
+                  [
+                    "Security",
+                    "Where should alarm escalation land after hours?",
+                    "Noxe"
+                  ]
+                ],
+                "striped": true,
+                "compact": false,
+                "type": "Table"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionId": "appendix-field-notes",
+        "size": "LETTER",
+        "header": "APPENDIX",
+        "footer": "default",
+        "type": "Page",
+        "children": [
+          {
+            "gap": 16,
+            "type": "Section",
+            "children": [
+              {
+                "text": "Field notes and assumptions",
+                "level": 2,
+                "align": "left",
+                "type": "Heading"
+              },
+              {
+                "spans": [
+                  {
+                    "text": "Goal: ",
+                    "bold": true
+                  },
+                  {
+                    "text": "let the appendix feel authored rather than templated, while still staying inside the catalog and preserving deterministic rendering."
+                  }
+                ],
+                "align": "justify",
+                "type": "RichText"
+              },
+              {
+                "rows": [
+                  {
+                    "label": "Rack space",
+                    "value": "One 12U slot remains available in MDF-1"
+                  },
+                  {
+                    "label": "Power",
+                    "value": "UPS-backed power exists for controller cabinets"
+                  },
+                  {
+                    "label": "Network",
+                    "value": "Security VLAN can absorb 18 new endpoints"
+                  },
+                  {
+                    "label": "Access window",
+                    "value": "Night shifts only during live door cutover"
+                  }
+                ],
+                "columns": 2,
+                "labelWidthPercent": 38,
+                "type": "KeyValueTable"
+              },
+              {
+                "items": [
+                  "Some appendix content is intentionally more sales-authored than engineering-authored.",
+                  "The table and notes page should still feel balanced when exported directly to PDF.",
+                  "This scenario is where layout regressions around long supporting text tend to show up first.",
+                  "No chat path or AI SDK call is needed to produce any of these pages."
+                ],
+                "variant": "dash",
+                "type": "BulletList"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionId": "appendix-commercial",
+        "size": "LETTER",
+        "header": "APPENDIX",
+        "footer": "default",
+        "type": "Page",
+        "children": [
+          {
+            "gap": 16,
+            "type": "Section",
+            "children": [
+              {
+                "text": "Commercial notes",
+                "level": 2,
+                "align": "left",
+                "type": "Heading"
+              },
+              {
+                "text": "The last appendix page leans a bit more contractual to verify that denser, longer-form content still feels deliberate.",
+                "muted": true,
+                "align": "left",
+                "type": "Paragraph"
+              },
+              {
+                "sections": [
+                  {
+                    "title": "1. Planned sequencing",
+                    "text": "Appendix sequencing remains indicative until kickoff workshops confirm access windows, site supervision, and cable reuse assumptions."
+                  },
+                  {
+                    "title": "2. Narrative content",
+                    "text": "Narrative appendix pages may be edited for clarity without changing the structured priced scope, provided totals and service-section data remain consistent."
+                  },
+                  {
+                    "title": "3. Visual support",
+                    "text": "Client-facing diagrams, notes, and roadmap tables can be expanded inside the appendix without requiring a separate rendering pipeline."
+                  },
+                  {
+                    "title": "4. Review cycle",
+                    "text": "This appendix is intended for review comments, prioritization notes, and client education content before the final commercial issue."
+                  }
+                ],
+                "columns": 1,
+                "type": "TermsAndConditions"
+              },
+              {
+                "text": "questions@noxe.example",
+                "href": "mailto:questions@noxe.example",
+                "type": "Link"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

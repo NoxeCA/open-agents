@@ -1,0 +1,42 @@
+[
+  {
+    "slug": "01-baseline",
+    "title": "Baseline sample",
+    "input": "/Users/mogagner/Developer/open-agents/apps/quote-generator/.local/stress-suite/01-baseline.json",
+    "normalized": "/Users/mogagner/Developer/open-agents/apps/quote-generator/.local/stress-suite/01-baseline.normalized.json",
+    "pdf": "/Users/mogagner/Developer/open-agents/apps/quote-generator/.local/stress-suite/01-baseline.pdf",
+    "pdfBytes": 169538
+  },
+  {
+    "slug": "02-dual-table-appendix",
+    "title": "Dual table appendix on one page",
+    "input": "/Users/mogagner/Developer/open-agents/apps/quote-generator/.local/stress-suite/02-dual-table-appendix.json",
+    "normalized": "/Users/mogagner/Developer/open-agents/apps/quote-generator/.local/stress-suite/02-dual-table-appendix.normalized.json",
+    "pdf": "/Users/mogagner/Developer/open-agents/apps/quote-generator/.local/stress-suite/02-dual-table-appendix.pdf",
+    "pdfBytes": 174412
+  },
+  {
+    "slug": "03-all-sections-long-narrative",
+    "title": "All sections plus long-form narrative pages",
+    "input": "/Users/mogagner/Developer/open-agents/apps/quote-generator/.local/stress-suite/03-all-sections-long-narrative.json",
+    "normalized": "/Users/mogagner/Developer/open-agents/apps/quote-generator/.local/stress-suite/03-all-sections-long-narrative.normalized.json",
+    "pdf": "/Users/mogagner/Developer/open-agents/apps/quote-generator/.local/stress-suite/03-all-sections-long-narrative.pdf",
+    "pdfBytes": 182521
+  },
+  {
+    "slug": "04-bom-overload",
+    "title": "Heavy BOM pagination stress test",
+    "input": "/Users/mogagner/Developer/open-agents/apps/quote-generator/.local/stress-suite/04-bom-overload.json",
+    "normalized": "/Users/mogagner/Developer/open-agents/apps/quote-generator/.local/stress-suite/04-bom-overload.normalized.json",
+    "pdf": "/Users/mogagner/Developer/open-agents/apps/quote-generator/.local/stress-suite/04-bom-overload.pdf",
+    "pdfBytes": 181444
+  },
+  {
+    "slug": "05-kitchen-sink",
+    "title": "Kitchen sink layout stress test",
+    "input": "/Users/mogagner/Developer/open-agents/apps/quote-generator/.local/stress-suite/05-kitchen-sink.json",
+    "normalized": "/Users/mogagner/Developer/open-agents/apps/quote-generator/.local/stress-suite/05-kitchen-sink.normalized.json",
+    "pdf": "/Users/mogagner/Developer/open-agents/apps/quote-generator/.local/stress-suite/05-kitchen-sink.pdf",
+    "pdfBytes": 199634
+  }
+]

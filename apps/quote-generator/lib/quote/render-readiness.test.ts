@@ -53,6 +53,26 @@ describe("assessQuoteProductionReadiness", () => {
     expect(readiness.blockers).toContain("paymentTerms");
   });
 
+  test("does not block BOM OEM display fallbacks", () => {
+    const readiness = assessQuoteProductionReadiness(
+      buildQuoteFixture({
+        services: [
+          {
+            ...buildQuoteFixture().services[0],
+            bomItems: [
+              {
+                ...buildQuoteFixture().services[0].bomItems![0],
+                oem: "—",
+              },
+            ],
+          },
+        ],
+      }),
+    );
+
+    expect(readiness.blockers).not.toContain("services.0.bomItems.0.oem");
+  });
+
   test("returns ready for a complete production-safe quote", () => {
     const readiness = assessQuoteProductionReadiness(buildQuoteFixture());
 

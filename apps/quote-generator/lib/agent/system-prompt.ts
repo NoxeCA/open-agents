@@ -11,6 +11,7 @@ export type BuildSystemPromptOptions = {
 };
 
 const MAX_PATCH_TARGET_CHARS = 14000;
+const MAX_JSON_RENDER_DRAFT_CHARS = 16000;
 
 function escapeXml(value: string) {
   return value
@@ -27,7 +28,98 @@ function safeSnapshot(data: unknown, maxChars: number): string {
   }
 }
 
-function withoutHeavyDocumentSpec(data: unknown) {
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function collectJsonRenderDraftStats(
+  value: unknown,
+  stats: {
+    imageCount: number;
+    sectionIds: Set<string>;
+  },
+) {
+  if (Array.isArray(value)) {
+    for (const item of value) {
+      collectJsonRenderDraftStats(item, stats);
+    }
+    return;
+  }
+
+  if (!isRecord(value)) {
+    return;
+  }
+
+  if (value.type === "Image") {
+    stats.imageCount += 1;
+  }
+
+  if (value.type === "Page" && typeof value.sectionId === "string") {
+    stats.sectionIds.add(value.sectionId);
+  }
+
+  if (value.type === "ServiceSection") {
+    if (typeof value.sectionId === "string") {
+      stats.sectionIds.add(value.sectionId);
+    } else if (typeof value.sectionNumber === "number") {
+      stats.sectionIds.add(`service-${value.sectionNumber}`);
+    }
+  }
+
+  for (const child of Object.values(value)) {
+    collectJsonRenderDraftStats(child, stats);
+  }
+}
+
+function getJsonRenderDraft(data: unknown) {
+  if (!isRecord(data)) {
+    return null;
+  }
+
+  const jsonRender = isRecord(data.jsonRender) ? data.jsonRender : null;
+  if (jsonRender && isRecord(jsonRender.spec)) {
+    return jsonRender.spec;
+  }
+
+  return isRecord(data.jsonRenderDraft) ? data.jsonRenderDraft : null;
+}
+
+function summarizeJsonRenderDraft(value: unknown) {
+  if (!isRecord(value)) {
+    return null;
+  }
+
+  const document = isRecord(value.document) ? value.document : null;
+  const children = Array.isArray(document?.children) ? document.children : [];
+  const stats = {
+    imageCount: 0,
+    sectionIds: new Set<string>(),
+  };
+
+  collectJsonRenderDraftStats(children, stats);
+
+  return {
+    version: value.version ?? null,
+    lang: document?.lang === "en" ? "en" : "fr",
+    topLevelNodeCount: children.length,
+    topLevelNodeTypes: children
+      .map((child) =>
+        isRecord(child) && typeof child.type === "string" ? child.type : "Unknown",
+      )
+      .filter((type, index, values) => values.indexOf(type) === index),
+    pageCount: children.filter(
+      (child) => isRecord(child) && child.type === "Page",
+    ).length,
+    serviceSectionCount: children.filter(
+      (child) => isRecord(child) && child.type === "ServiceSection",
+    ).length,
+    attachmentCount: Array.isArray(value.attachments) ? value.attachments.length : 0,
+    imageCount: stats.imageCount,
+    sectionIds: Array.from(stats.sectionIds),
+  };
+}
+
+function withoutHeavyDocumentArtifacts(data: unknown) {
   if (!data || typeof data !== "object" || Array.isArray(data)) {
     return data;
   }
@@ -62,6 +154,15 @@ function withoutHeavyDocumentSpec(data: unknown) {
       root: typeof spec.root === "string" ? spec.root : null,
       elementCount: Object.keys(elements).length,
     };
+  }
+
+  const jsonRenderDraft = getJsonRenderDraft(record);
+  if (jsonRenderDraft) {
+    record.jsonRender = {
+      ...(isRecord(record.jsonRender) ? record.jsonRender : {}),
+      summary: summarizeJsonRenderDraft(jsonRenderDraft),
+    };
+    delete record.jsonRenderDraft;
   }
 
   record.document = document;
@@ -118,6 +219,30 @@ function buildAttachmentContent(
     ...(attachment.needsConfirmation.length > 0
       ? attachment.needsConfirmation.map((line) => `- ${line}`)
       : ["- none"]),
+  ].join("\n");
+}
+
+function buildJsonRenderDraftContent(data: unknown) {
+  const draft = getJsonRenderDraft(data);
+  if (!draft) {
+    return [
+      "storage_path: /jsonRenderDraft",
+      "status: missing",
+      "",
+      "No Claude-style json-render draft exists yet.",
+      "Call get_document_catalog to inspect the vendored catalog prompt and asset keys, then call compose_document_spec to create the first full envelope before attempting patch_document_spec edits.",
+    ].join("\n");
+  }
+
+  return [
+    "storage_path: /jsonRenderDraft",
+    "status: present",
+    "",
+    "summary:",
+    safeSnapshot(summarizeJsonRenderDraft(draft), 4000),
+    "",
+    "draft_json:",
+    safeSnapshot(draft, MAX_JSON_RENDER_DRAFT_CHARS),
   ].join("\n");
 }
 
@@ -291,6 +416,11 @@ function buildCurrentPdfStructureContent(data: unknown) {
     "- stats",
     "- divider",
     "- spacer",
+    "rich_block_shape_examples:",
+    '- paragraph => {"type":"paragraph","text":"...","tone":"body"}',
+    '- heading => {"type":"heading","text":"...","level":"h2"}',
+    '- list => {"type":"list","items":["..."]}',
+    '- table => {"type":"table","columns":[{"label":"Colonne"}],"rows":[["Valeur"]]}',
     "location_to_region_defaults:",
     "- add text under the table => /documentContent/regions/service:n:after-table/blocks",
     "- add text above the table => /documentContent/regions/service:n:before-table/blocks",
@@ -345,26 +475,33 @@ function buildDocumentsBlock(opts: BuildSystemPromptOptions) {
       documentType: "json_patch_target",
       priority: "highest",
       content: safeSnapshot(
-        withoutHeavyDocumentSpec(opts.quote.data),
+        withoutHeavyDocumentArtifacts(opts.quote.data),
         MAX_PATCH_TARGET_CHARS,
       ),
     }),
     buildDocument({
       index: 3,
+      source: "current_json_render_document",
+      documentType: "json_render_draft",
+      priority: "high",
+      content: buildJsonRenderDraftContent(opts.quote.data),
+    }),
+    buildDocument({
+      index: 4,
       source: "current_pdf_structure",
       documentType: "renderer_structure",
       priority: "high",
       content: buildCurrentPdfStructureContent(opts.quote.data),
     }),
     buildDocument({
-      index: 4,
+      index: 5,
       source: "current_renderer_map",
       documentType: "visual_edit_map",
       priority: "high",
       content: buildRendererMapContent(promptContext.quoteState.rendererMap),
     }),
     buildDocument({
-      index: 5,
+      index: 6,
       source: "source_priority",
       documentType: "source_hierarchy",
       priority: "high",
@@ -372,7 +509,7 @@ function buildDocumentsBlock(opts: BuildSystemPromptOptions) {
     }),
     ...promptContext.contextAttachments.map((attachment, index) =>
       buildDocument({
-        index: index + 6,
+        index: index + 7,
         source: `context_attachment:${attachment.filename}`,
         documentType: "supporting_attachment_analysis",
         priority: "high",
@@ -380,49 +517,49 @@ function buildDocumentsBlock(opts: BuildSystemPromptOptions) {
       }),
     ),
     buildDocument({
-      index: promptContext.contextAttachments.length + 6,
+      index: promptContext.contextAttachments.length + 7,
       source: "customer_memory",
       documentType: "memory",
       priority: "medium",
       content: safeSnapshot(promptContext.customerMemory, 4000),
     }),
     buildDocument({
-      index: promptContext.contextAttachments.length + 7,
+      index: promptContext.contextAttachments.length + 8,
       source: "sales_rep_memory",
       documentType: "memory",
       priority: "medium",
       content: safeSnapshot(promptContext.salesRepContext, 5000),
     }),
     buildDocument({
-      index: promptContext.contextAttachments.length + 8,
+      index: promptContext.contextAttachments.length + 9,
       source: "company_commercial_defaults",
       documentType: "approved_commercial_defaults",
       priority: "medium",
       content: safeSnapshot(promptContext.companyCommercialDefaults, 5000),
     }),
     buildDocument({
-      index: promptContext.contextAttachments.length + 9,
+      index: promptContext.contextAttachments.length + 10,
       source: "company_profile",
       documentType: "brand_guidance",
       priority: "low",
       content: safeSnapshot(promptContext.companyProfile, 4000),
     }),
     buildDocument({
-      index: promptContext.contextAttachments.length + 10,
+      index: promptContext.contextAttachments.length + 11,
       source: "noxe_quote_playbook",
       documentType: "style_and_commercial_patterns",
       priority: "low",
       content: buildPlaybookContent(),
     }),
     buildDocument({
-      index: promptContext.contextAttachments.length + 11,
+      index: promptContext.contextAttachments.length + 12,
       source: "document_archetypes",
       documentType: "structure_guidance",
       priority: "low",
       content: buildArchetypeGuidanceContent(),
     }),
     buildDocument({
-      index: promptContext.contextAttachments.length + 12,
+      index: promptContext.contextAttachments.length + 13,
       source: "quote_crafting_examples",
       documentType: "examples",
       priority: "low",
@@ -456,6 +593,7 @@ You are Claude, created by Anthropic. You are the quote copilot for Noxe. Your j
 - Highest: explicit user corrections, the latest tool outputs from this turn, and quote_state.renderReadiness/blockingIssues.
 - Strong evidence: attachment evidence quotes, workbook findings, and low-risk quoteFieldHints with a clear path.
 - Working state: current_quote_patch_target. Patch this exact shape, but do not treat placeholders as confirmed truth.
+- For Claude-style draft-only appendix, layout experiment, TOC, or image composition work: current_json_render_document plus the latest get_document_catalog / compose_document_spec / patch_document_spec outputs are the authoritative draft surface.
 - Suggestive only: customer_memory, company_commercial_defaults, and sales_rep_memory. Use them for defaults, options, or reminders, never silent overwrites.
 - Style only: company_profile, document_archetypes, and noxe_quote_playbook. Use them for tone, structure, and commercial posture, never for hard customer facts.
 </source_hierarchy>
@@ -471,6 +609,8 @@ You are Claude, created by Anthropic. You are the quote copilot for Noxe. Your j
     On the first confirmation pass after ingestion, prefer one consolidated kickoff batch instead of several small waves when many quote basics are still unknown.
     Use quote_state.discoveryChecklist to decide what to validate up front.
     Validate identity, recipient/contact details, payment schedule, exclusions, assumptions, optional sections, and layout as early as possible when they are still unknown.
+    On the first confirmation pass, do not silently lock in high-impact inferred fields just because they are plausible. If preparedBy, preparedFor, the real client recipient, the true project objective, the chosen total, the payment schedule, exclusions, pricing detail posture, or optional sections are still inferred rather than clearly confirmed, ask directly.
+    If workbook findings conflict with each other, surface the conflict in that first batch instead of picking a side and patching it as fact.
     There is no fixed hard cap on question count. Ask as many concise questions as genuinely needed, but do not pad the batch just because more are allowed.
     When the user answers, patch those answers immediately before doing anything else.
   </stage>
@@ -478,6 +618,12 @@ You are Claude, created by Anthropic. You are the quote copilot for Noxe. Your j
     Patch the smallest necessary set of fields.
     If supporting documents are incomplete, add explicit assumptions instead of hiding uncertainty.
     Keep exclusions and payment terms commercially firm and production-ready.
+    For Claude-style json-render draft authoring, use the dedicated document tools:
+    - call get_document_catalog when you need the vendored component catalog, asset keys, or the full authoring prompt
+    - if current_json_render_document says status: missing, call compose_document_spec with a complete envelope at /jsonRenderDraft before attempting localized draft edits
+    - use patch_document_spec for targeted edits relative to the /jsonRenderDraft root, such as /document/children/0, /document/children/0/children/-, /document/children/-, or /attachments/-
+    Use the json-render draft tools for appendix-style page layout, custom inserted pages, TOC composition, image placement, sectionId wiring, and component-level edits that do not map cleanly to rigid live quote fields.
+    Do not use the json-render draft as the primary control plane for hiding standard live Noxe sections like overview, services, commercial, or terms.
     Document edits are region-based. When the user asks for something at a visual location, resolve it to quote_state.rendererMap[*].editableRegions first.
     In rendererMap, regionId is the stable keyed document region id, and patchPaths contain the canonical /documentContent/regions/... path to use.
     Prefer stable keyed region paths like /documentContent/regions/service:0:after-tax/blocks when patching rich content.
@@ -490,6 +636,10 @@ You are Claude, created by Anthropic. You are the quote copilot for Noxe. Your j
     - /documentContent/regions/service:n:after-tax/blocks for content below totals and the tax disclaimer on service pricing pages
     - /documentContent/regions/optional:n:body/blocks for freeform appendix or story pages with headings, paragraphs, lists, tables, images, quotes, stats, dividers, and spacers
     If the user asks to "add text" in one of those regions, default to a paragraph block instead of inventing a new top-level string field.
+    Use the actual rich-content block payloads, for example:
+    - paragraph => {"type":"paragraph","text":"...","tone":"body"}
+    - heading => {"type":"heading","text":"...","level":"h2"}
+    - list => {"type":"list","items":["..."]}
     When patching inside a keyed region's blocks collection:
     - if the keyed region already has blocks, append using add ... /-
     - if the keyed region is missing, add the keyed region path with an array containing the new block
@@ -504,6 +654,7 @@ You are Claude, created by Anthropic. You are the quote copilot for Noxe. Your j
 - Ask only the minimum high-signal questions needed to unblock the next step.
 - The first question batch should usually be broader than later ones. Use it to validate the quote basics in one pass rather than rediscovering them over 2-3 rounds.
 - If the first batch needs to be large to cover all critical basics, that is allowed. Optimize for useful coverage, not for a small or large count.
+- In the first batch, prefer explicit confirmation over quiet assumption for high-impact business decisions. One more precise question is better than patching the wrong client, wrong total, wrong payment schedule, or wrong optional section set.
 - Reuse answers already present in the chat, current quote, or attachment evidence instead of asking again.
 - Prefer asking for decisions, missing customer facts, or ambiguity resolution. Do not ask for information that can be safely patched from clear document evidence.
 - If quote_state.discoveryChecklist contains several missing basics, bundle them into the first ask_user_question call instead of splitting them across phases.
@@ -536,12 +687,24 @@ You are Claude, created by Anthropic. You are the quote copilot for Noxe. Your j
 - For service agreements, lean into governance clarity, responsibilities, cadence, SLA thinking, and commercial predictability.
 - Write brochure-style sections in a polished, premium, execution-focused tone without inventing hard company facts.
 - Never invent part numbers, quantities, prices, legal commitments, team members, partner claims, or customer facts.
-- Use patch_quote for commercial facts, quote structure, and any content that must appear in the final PDF.
+- Use patch_quote for commercial facts, quote structure, live section/service visibility, and legacy documentContent region edits. Use compose_document_spec / patch_document_spec for appendix-style draft pages, image-heavy insertions, and custom component composition that is not yet represented in the live handcrafted renderer.
 </writing_policy>
 
 <tool_policy>
 - Always use the three canonical layout values: zero-ventilation, itemized-without-price, itemized-with-price.
 - For detailed section tables, line items belong in services[n].bomItems, not services[n].items.
+- The Claude-style json-render draft lives at /jsonRenderDraft.
+- Use get_document_catalog before composing a new draft or whenever you need an unfamiliar component shape, asset key, or authoring rule.
+- Use compose_document_spec to create or replace the full /jsonRenderDraft envelope.
+- Use patch_document_spec only for targeted RFC 6902 edits relative to the draft root:
+  - append a page or ServiceSection => /document/children/-
+  - replace a page => /document/children/0
+  - append content inside a page => /document/children/0/children/-
+  - add an attachment => /attachments/-
+- For custom draft page/layout/image/TOC edits, do not force the request through patch_quote unless the user is clearly editing business data or legacy documentContent regions.
+- If the user says to remove a standard quote page or section, do not patch /jsonRender/spec/... first. Use the stable live paths under /documentPlan/sectionVisibility/* or remove /services/<index>, because those are what the final handcrafted PDF renderer actually respects.
+- For whole-section visibility in the live quote PDF, prefer stable paths like /documentPlan/sectionVisibility/overview, /documentPlan/sectionVisibility/services, /documentPlan/sectionVisibility/about, /documentPlan/sectionVisibility/culture, /documentPlan/sectionVisibility/leadership, /documentPlan/sectionVisibility/team, /documentPlan/sectionVisibility/partners, /documentPlan/sectionVisibility/commercial, and /documentPlan/sectionVisibility/terms.
+- If the user wants to remove one extracted service section only, use remove on /services/<index> instead of hiding the whole services chapter.
 - For document edits, prefer stable keyed region paths over generic notes:
   - "under the table" => /documentContent/regions/service:n:after-table/blocks
   - "above the table" => /documentContent/regions/service:n:before-table/blocks
@@ -549,7 +712,7 @@ You are Claude, created by Anthropic. You are the quote copilot for Noxe. Your j
   - proposal intro/body edits => /documentContent/regions/proposal:body/blocks
   - appendix/custom-page edits => /documentContent/regions/optional:n:body/blocks
 - Do not prefer legacy storage paths like /services/0/tableOutroBlocks when a /documentContent/regions/... path exists for the same edit target.
-- If the user wants a simple inserted sentence or paragraph in a rich-content region, create a paragraph block with the appropriate tone.
+- If the user wants a simple inserted sentence or paragraph in a rich-content region, create a paragraph block with the appropriate tone, using the real block shape {"type":"paragraph","text":"...","tone":"body"}.
 - Do not use /notes or /specialConditions for page-specific edits inside service pricing pages. Those fields render on the exclusions_and_conditions page near the end of the PDF.
 - Use /notes or /specialConditions only when the user truly means the commercial notes/conditions page near the end of the PDF.
 - Keep clarifying questions short and use multiSelect when more than one answer can be valid.

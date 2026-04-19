@@ -660,6 +660,1522 @@
       }
     }
   },
+  "jsonRender": {
+    "version": 1,
+    "spec": {
+      "version": 1,
+      "variables": {
+        "quote": {
+          "lang": "fr",
+          "clientName": "Ecole secondaire Prevost",
+          "subtitle": "Soumission commerciale",
+          "documentType": "PROPOSITION",
+          "documentTitle": "Projet controle d'acces",
+          "quoteID": "SAMPLE-JSON-001",
+          "revision": 1,
+          "quoteDate": "2026-04-19",
+          "validUntil": "2026-05-19",
+          "preparedFor": [
+            {
+              "name": "Jean Client"
+            }
+          ],
+          "preparedBy": [
+            {
+              "name": "Marc-Olivier Gagner"
+            }
+          ],
+          "includeAboutUs": true,
+          "includeCulture": true,
+          "includeCeoMessage": false,
+          "includeTeam": false,
+          "includePartners": true,
+          "includeTermsAndConditions": true,
+          "proposal": {
+            "date": "2026-04-19",
+            "object": "Soumission controle d'acces",
+            "addressee": {
+              "name": "Jean Client",
+              "address": "225 ch. de la Montagne, Prevost, QC",
+              "company": "Ecole secondaire Prevost"
+            },
+            "paragraphs": [
+              "Merci de votre confiance.",
+              "Cette proposition JSON est rendue directement en PDF sans passer par le chat IA."
+            ]
+          },
+          "projectTitle": "LC Connect - SAMPLE-JSON-001",
+          "projectIntro": "Noxe presente cette proposition pour la fourniture et l'installation du systeme.",
+          "services": [
+            {
+              "sectionNumber": 1,
+              "sectionName": "Controle d'acces",
+              "description": "Fourniture du materiel principal",
+              "bomItems": [
+                {
+                  "qty": 1,
+                  "partNumber": "AQD1",
+                  "description": "Controleur principal",
+                  "oem": "HID",
+                  "unitPrice": 1200,
+                  "total": 1200
+                },
+                {
+                  "qty": 2,
+                  "partNumber": "RDR-20",
+                  "description": "Lecteurs de proximite",
+                  "oem": "HID",
+                  "unitPrice": 280,
+                  "total": 560
+                }
+              ],
+              "bomSubtotal": 1760,
+              "tableIntroBlocks": [
+                {
+                  "type": "paragraph",
+                  "tone": "muted",
+                  "text": "Le tableau ci-dessous presente une base budgetaire pour la phase actuelle. Les quantites finales pourront etre ajustees apres validation chantier."
+                }
+              ],
+              "laborCategories": [
+                {
+                  "category": "Installation",
+                  "amount": 600
+                }
+              ],
+              "laborSubtotal": 600,
+              "totalCost": 2360,
+              "layout": "itemized-with-price"
+            }
+          ],
+          "documentContent": {
+            "version": 1,
+            "regions": {
+              "proposal:body": {
+                "target": {
+                  "scope": "proposal",
+                  "anchor": "body"
+                },
+                "label": "Proposal body",
+                "locationHints": [
+                  "proposal body"
+                ],
+                "blocks": [
+                  {
+                    "type": "heading",
+                    "text": "Cadre de travail",
+                    "level": "h3"
+                  },
+                  {
+                    "type": "list",
+                    "items": [
+                      "Compatibilite avec la plateforme cible du client",
+                      "Coordination avec les autres corps de metier",
+                      "Livraison d'un devis presentable sans retouche manuelle"
+                    ],
+                    "ordered": false
+                  }
+                ]
+              },
+              "service:0:after-table": {
+                "target": {
+                  "scope": "service",
+                  "index": 0,
+                  "anchor": "after-table"
+                },
+                "label": "Service 1 after table",
+                "locationHints": [
+                  "below table"
+                ],
+                "blocks": [
+                  {
+                    "type": "paragraph",
+                    "text": "Les prix unitaires demeurent indicatifs jusqu'a la validation finale des conditions de site.",
+                    "tone": "muted"
+                  }
+                ]
+              },
+              "service:0:after-tax": {
+                "target": {
+                  "scope": "service",
+                  "index": 0,
+                  "anchor": "after-tax"
+                },
+                "label": "Service 1 after tax",
+                "locationHints": [
+                  "below tax disclaimer"
+                ],
+                "blocks": [
+                  {
+                    "type": "paragraph",
+                    "text": "Cette proposition est de nature budgetaire. Les couts presentes sont fournis a titre indicatif et peuvent varier jusqu'a 10 % selon les conditions du marche et les ajustements fabricants au moment de la commande.",
+                    "tone": "muted"
+                  }
+                ]
+              },
+              "optional:0:body": {
+                "target": {
+                  "scope": "optional",
+                  "index": 0,
+                  "anchor": "body"
+                },
+                "label": "Optional page 1 body",
+                "locationHints": [
+                  "optional page body"
+                ],
+                "blocks": [
+                  {
+                    "type": "paragraph",
+                    "text": "Cette section illustre comment des pages libres peuvent etre inserees avant ou apres le coeur du devis tout en gardant le style Noxe.",
+                    "tone": "lead"
+                  },
+                  {
+                    "type": "table",
+                    "title": "Exemple de comparaison",
+                    "caption": "Exemple de bloc table base sur le nouveau modele riche.",
+                    "columns": [
+                      {
+                        "label": "Sujet"
+                      },
+                      {
+                        "label": "Etat actuel"
+                      },
+                      {
+                        "label": "Cible",
+                        "align": "right"
+                      }
+                    ],
+                    "rows": [
+                      [
+                        "Controle",
+                        "Local",
+                        "Centralise"
+                      ],
+                      [
+                        "Lecteurs",
+                        "Mixtes",
+                        "Standardises"
+                      ],
+                      [
+                        "Suivi",
+                        "Manuel",
+                        "Temps reel"
+                      ]
+                    ]
+                  },
+                  {
+                    "type": "stats",
+                    "title": "Points clefs",
+                    "items": [
+                      {
+                        "label": "Portes",
+                        "value": "2"
+                      },
+                      {
+                        "label": "Controleurs",
+                        "value": "1"
+                      },
+                      {
+                        "label": "Lecteurs",
+                        "value": "2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "proposal:after-object": {
+                "target": {
+                  "scope": "proposal",
+                  "anchor": "after-object"
+                },
+                "label": "proposal after object",
+                "locationHints": [],
+                "blocks": []
+              },
+              "proposal:after-paragraphs": {
+                "target": {
+                  "scope": "proposal",
+                  "anchor": "after-paragraphs"
+                },
+                "label": "proposal after paragraphs",
+                "locationHints": [],
+                "blocks": []
+              },
+              "proposal:footer": {
+                "target": {
+                  "scope": "proposal",
+                  "anchor": "footer"
+                },
+                "label": "proposal footer",
+                "locationHints": [],
+                "blocks": []
+              },
+              "service:0:overview": {
+                "target": {
+                  "scope": "service",
+                  "index": 0,
+                  "anchor": "overview"
+                },
+                "label": "service 1 overview",
+                "locationHints": [
+                  "before pricing",
+                  "overview"
+                ],
+                "blocks": []
+              },
+              "service:0:after-description": {
+                "target": {
+                  "scope": "service",
+                  "index": 0,
+                  "anchor": "after-description"
+                },
+                "label": "service 1 after description",
+                "locationHints": [],
+                "blocks": []
+              },
+              "service:0:before-table": {
+                "target": {
+                  "scope": "service",
+                  "index": 0,
+                  "anchor": "before-table"
+                },
+                "label": "service 1 before table",
+                "locationHints": [
+                  "above table"
+                ],
+                "blocks": [
+                  {
+                    "type": "paragraph",
+                    "text": "Le tableau ci-dessous presente une base budgetaire pour la phase actuelle. Les quantites finales pourront etre ajustees apres validation chantier.",
+                    "tone": "muted"
+                  }
+                ]
+              },
+              "service:0:after-total": {
+                "target": {
+                  "scope": "service",
+                  "index": 0,
+                  "anchor": "after-total"
+                },
+                "label": "service 1 after total",
+                "locationHints": [],
+                "blocks": []
+              },
+              "optional:0:after-title": {
+                "target": {
+                  "scope": "optional",
+                  "index": 0,
+                  "anchor": "after-title"
+                },
+                "label": "optional 1 after title",
+                "locationHints": [],
+                "blocks": []
+              },
+              "optional:0:footer": {
+                "target": {
+                  "scope": "optional",
+                  "index": 0,
+                  "anchor": "footer"
+                },
+                "label": "optional 1 footer",
+                "locationHints": [],
+                "blocks": []
+              },
+              "summary:before-table": {
+                "target": {
+                  "scope": "summary",
+                  "anchor": "before-table"
+                },
+                "label": "summary before table",
+                "locationHints": [],
+                "blocks": []
+              },
+              "summary:after-table": {
+                "target": {
+                  "scope": "summary",
+                  "anchor": "after-table"
+                },
+                "label": "summary after table",
+                "locationHints": [],
+                "blocks": []
+              },
+              "summary:after-total": {
+                "target": {
+                  "scope": "summary",
+                  "anchor": "after-total"
+                },
+                "label": "summary after total",
+                "locationHints": [],
+                "blocks": []
+              },
+              "summary:after-tax": {
+                "target": {
+                  "scope": "summary",
+                  "anchor": "after-tax"
+                },
+                "label": "summary after tax",
+                "locationHints": [],
+                "blocks": []
+              },
+              "commercial:after-exclusions": {
+                "target": {
+                  "scope": "commercial",
+                  "anchor": "after-exclusions"
+                },
+                "label": "commercial after exclusions",
+                "locationHints": [],
+                "blocks": []
+              },
+              "commercial:after-special-conditions": {
+                "target": {
+                  "scope": "commercial",
+                  "anchor": "after-special-conditions"
+                },
+                "label": "commercial after special conditions",
+                "locationHints": [],
+                "blocks": []
+              },
+              "commercial:after-notes": {
+                "target": {
+                  "scope": "commercial",
+                  "anchor": "after-notes"
+                },
+                "label": "commercial after notes",
+                "locationHints": [],
+                "blocks": []
+              },
+              "commercial:after-payment-terms": {
+                "target": {
+                  "scope": "commercial",
+                  "anchor": "after-payment-terms"
+                },
+                "label": "commercial after payment terms",
+                "locationHints": [],
+                "blocks": []
+              },
+              "commercial:after-info": {
+                "target": {
+                  "scope": "commercial",
+                  "anchor": "after-info"
+                },
+                "label": "commercial after info",
+                "locationHints": [],
+                "blocks": []
+              },
+              "terms:before-sections": {
+                "target": {
+                  "scope": "terms",
+                  "anchor": "before-sections"
+                },
+                "label": "terms before sections",
+                "locationHints": [],
+                "blocks": []
+              },
+              "terms:after-sections": {
+                "target": {
+                  "scope": "terms",
+                  "anchor": "after-sections"
+                },
+                "label": "terms after sections",
+                "locationHints": [],
+                "blocks": []
+              },
+              "about-us:after-intro": {
+                "target": {
+                  "scope": "about-us",
+                  "anchor": "after-intro"
+                },
+                "label": "about-us after intro",
+                "locationHints": [],
+                "blocks": []
+              },
+              "about-us:body": {
+                "target": {
+                  "scope": "about-us",
+                  "anchor": "body"
+                },
+                "label": "about-us body",
+                "locationHints": [],
+                "blocks": []
+              },
+              "about-us:footer": {
+                "target": {
+                  "scope": "about-us",
+                  "anchor": "footer"
+                },
+                "label": "about-us footer",
+                "locationHints": [],
+                "blocks": []
+              },
+              "culture:after-intro": {
+                "target": {
+                  "scope": "culture",
+                  "anchor": "after-intro"
+                },
+                "label": "culture after intro",
+                "locationHints": [],
+                "blocks": []
+              },
+              "culture:body": {
+                "target": {
+                  "scope": "culture",
+                  "anchor": "body"
+                },
+                "label": "culture body",
+                "locationHints": [],
+                "blocks": []
+              },
+              "culture:footer": {
+                "target": {
+                  "scope": "culture",
+                  "anchor": "footer"
+                },
+                "label": "culture footer",
+                "locationHints": [],
+                "blocks": []
+              },
+              "team:after-intro": {
+                "target": {
+                  "scope": "team",
+                  "anchor": "after-intro"
+                },
+                "label": "team after intro",
+                "locationHints": [],
+                "blocks": []
+              },
+              "team:body": {
+                "target": {
+                  "scope": "team",
+                  "anchor": "body"
+                },
+                "label": "team body",
+                "locationHints": [],
+                "blocks": []
+              },
+              "team:footer": {
+                "target": {
+                  "scope": "team",
+                  "anchor": "footer"
+                },
+                "label": "team footer",
+                "locationHints": [],
+                "blocks": []
+              },
+              "partners:after-intro": {
+                "target": {
+                  "scope": "partners",
+                  "anchor": "after-intro"
+                },
+                "label": "partners after intro",
+                "locationHints": [],
+                "blocks": []
+              },
+              "partners:body": {
+                "target": {
+                  "scope": "partners",
+                  "anchor": "body"
+                },
+                "label": "partners body",
+                "locationHints": [],
+                "blocks": []
+              },
+              "partners:footer": {
+                "target": {
+                  "scope": "partners",
+                  "anchor": "footer"
+                },
+                "label": "partners footer",
+                "locationHints": [],
+                "blocks": []
+              }
+            }
+          },
+          "projectSummary": {
+            "description": "Fourniture, installation et mise en service complete.",
+            "subtotal": 2360,
+            "totalProjectCost": 2360
+          },
+          "exclusions": [
+            "La quincaillerie electrifiee fournie par d'autres est exclue.",
+            "Le cablage existant non conforme est exclu."
+          ],
+          "specialConditions": [
+            "Les travaux sont planifies en coordination avec le client."
+          ],
+          "notes": [
+            "Exemple JSON statique pour validation locale du pipeline PDF."
+          ],
+          "paymentTerms": [
+            "35 % a la signature",
+            "15 % a la commande du materiel",
+            "40 % en cours d'installation",
+            "10 % a la fin des travaux"
+          ],
+          "optionalPages": [
+            {
+              "pageTitle": "GENETEC ET CONTROLE D'ACCES",
+              "title": "Contexte technologique"
+            }
+          ],
+          "contactInfo": {
+            "name": "Marc-Olivier Gagner",
+            "company": "Noxe",
+            "phone": "438-865-8020",
+            "email": "m.gagner@noxe.ca"
+          },
+          "documentPlan": {
+            "version": 1,
+            "locked": true,
+            "archetype": "project-proposal",
+            "preset": "confiance",
+            "detailLevel": "medium",
+            "serviceLayoutPolicy": "itemized-with-price",
+            "serviceLayout": "itemized-with-price",
+            "commercialPreset": "signature-progress",
+            "enabledSections": [
+              "cover",
+              "overview",
+              "services",
+              "about",
+              "culture",
+              "partners",
+              "commercial",
+              "terms"
+            ],
+            "sectionSelections": [
+              {
+                "key": "cover",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "overview",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "services",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "about",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "culture",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "leadership",
+                "enabled": false,
+                "variant": "medium"
+              },
+              {
+                "key": "team",
+                "enabled": false,
+                "variant": "medium"
+              },
+              {
+                "key": "partners",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "commercial",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "terms",
+                "enabled": true,
+                "variant": "medium"
+              }
+            ],
+            "sections": [
+              {
+                "key": "includeAboutUs",
+                "enabled": true,
+                "variant": "default"
+              },
+              {
+                "key": "includeCulture",
+                "enabled": true,
+                "variant": "default"
+              },
+              {
+                "key": "includeCeoMessage",
+                "enabled": false,
+                "variant": "default"
+              },
+              {
+                "key": "includeTeam",
+                "enabled": false,
+                "variant": "default"
+              },
+              {
+                "key": "includePartners",
+                "enabled": true,
+                "variant": "default"
+              },
+              {
+                "key": "includeTermsAndConditions",
+                "enabled": true,
+                "variant": "default"
+              }
+            ]
+          },
+          "composition": {
+            "version": 1,
+            "locked": true,
+            "archetype": "project-proposal",
+            "preset": "confiance",
+            "detailLevel": "medium",
+            "serviceLayoutPolicy": "itemized-with-price",
+            "serviceLayout": "itemized-with-price",
+            "commercialPreset": "signature-progress",
+            "enabledSections": [
+              "cover",
+              "overview",
+              "services",
+              "about",
+              "culture",
+              "partners",
+              "commercial",
+              "terms"
+            ],
+            "sectionSelections": [
+              {
+                "key": "cover",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "overview",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "services",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "about",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "culture",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "leadership",
+                "enabled": false,
+                "variant": "medium"
+              },
+              {
+                "key": "team",
+                "enabled": false,
+                "variant": "medium"
+              },
+              {
+                "key": "partners",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "commercial",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "terms",
+                "enabled": true,
+                "variant": "medium"
+              }
+            ],
+            "sections": [
+              {
+                "key": "includeAboutUs",
+                "enabled": true,
+                "variant": "default"
+              },
+              {
+                "key": "includeCulture",
+                "enabled": true,
+                "variant": "default"
+              },
+              {
+                "key": "includeCeoMessage",
+                "enabled": false,
+                "variant": "default"
+              },
+              {
+                "key": "includeTeam",
+                "enabled": false,
+                "variant": "default"
+              },
+              {
+                "key": "includePartners",
+                "enabled": true,
+                "variant": "default"
+              },
+              {
+                "key": "includeTermsAndConditions",
+                "enabled": true,
+                "variant": "default"
+              }
+            ]
+          }
+        },
+        "documentContent": {
+          "version": 1,
+          "regions": {
+            "proposal:body": {
+              "target": {
+                "scope": "proposal",
+                "anchor": "body"
+              },
+              "label": "Proposal body",
+              "locationHints": [
+                "proposal body"
+              ],
+              "blocks": [
+                {
+                  "type": "heading",
+                  "text": "Cadre de travail",
+                  "level": "h3"
+                },
+                {
+                  "type": "list",
+                  "items": [
+                    "Compatibilite avec la plateforme cible du client",
+                    "Coordination avec les autres corps de metier",
+                    "Livraison d'un devis presentable sans retouche manuelle"
+                  ],
+                  "ordered": false
+                }
+              ]
+            },
+            "service:0:after-table": {
+              "target": {
+                "scope": "service",
+                "index": 0,
+                "anchor": "after-table"
+              },
+              "label": "Service 1 after table",
+              "locationHints": [
+                "below table"
+              ],
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": "Les prix unitaires demeurent indicatifs jusqu'a la validation finale des conditions de site.",
+                  "tone": "muted"
+                }
+              ]
+            },
+            "service:0:after-tax": {
+              "target": {
+                "scope": "service",
+                "index": 0,
+                "anchor": "after-tax"
+              },
+              "label": "Service 1 after tax",
+              "locationHints": [
+                "below tax disclaimer"
+              ],
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": "Cette proposition est de nature budgetaire. Les couts presentes sont fournis a titre indicatif et peuvent varier jusqu'a 10 % selon les conditions du marche et les ajustements fabricants au moment de la commande.",
+                  "tone": "muted"
+                }
+              ]
+            },
+            "optional:0:body": {
+              "target": {
+                "scope": "optional",
+                "index": 0,
+                "anchor": "body"
+              },
+              "label": "Optional page 1 body",
+              "locationHints": [
+                "optional page body"
+              ],
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": "Cette section illustre comment des pages libres peuvent etre inserees avant ou apres le coeur du devis tout en gardant le style Noxe.",
+                  "tone": "lead"
+                },
+                {
+                  "type": "table",
+                  "title": "Exemple de comparaison",
+                  "caption": "Exemple de bloc table base sur le nouveau modele riche.",
+                  "columns": [
+                    {
+                      "label": "Sujet"
+                    },
+                    {
+                      "label": "Etat actuel"
+                    },
+                    {
+                      "label": "Cible",
+                      "align": "right"
+                    }
+                  ],
+                  "rows": [
+                    [
+                      "Controle",
+                      "Local",
+                      "Centralise"
+                    ],
+                    [
+                      "Lecteurs",
+                      "Mixtes",
+                      "Standardises"
+                    ],
+                    [
+                      "Suivi",
+                      "Manuel",
+                      "Temps reel"
+                    ]
+                  ]
+                },
+                {
+                  "type": "stats",
+                  "title": "Points clefs",
+                  "items": [
+                    {
+                      "label": "Portes",
+                      "value": "2"
+                    },
+                    {
+                      "label": "Controleurs",
+                      "value": "1"
+                    },
+                    {
+                      "label": "Lecteurs",
+                      "value": "2"
+                    }
+                  ]
+                }
+              ]
+            },
+            "proposal:after-object": {
+              "target": {
+                "scope": "proposal",
+                "anchor": "after-object"
+              },
+              "label": "proposal after object",
+              "locationHints": [],
+              "blocks": []
+            },
+            "proposal:after-paragraphs": {
+              "target": {
+                "scope": "proposal",
+                "anchor": "after-paragraphs"
+              },
+              "label": "proposal after paragraphs",
+              "locationHints": [],
+              "blocks": []
+            },
+            "proposal:footer": {
+              "target": {
+                "scope": "proposal",
+                "anchor": "footer"
+              },
+              "label": "proposal footer",
+              "locationHints": [],
+              "blocks": []
+            },
+            "service:0:overview": {
+              "target": {
+                "scope": "service",
+                "index": 0,
+                "anchor": "overview"
+              },
+              "label": "service 1 overview",
+              "locationHints": [
+                "before pricing",
+                "overview"
+              ],
+              "blocks": []
+            },
+            "service:0:after-description": {
+              "target": {
+                "scope": "service",
+                "index": 0,
+                "anchor": "after-description"
+              },
+              "label": "service 1 after description",
+              "locationHints": [],
+              "blocks": []
+            },
+            "service:0:before-table": {
+              "target": {
+                "scope": "service",
+                "index": 0,
+                "anchor": "before-table"
+              },
+              "label": "service 1 before table",
+              "locationHints": [
+                "above table"
+              ],
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": "Le tableau ci-dessous presente une base budgetaire pour la phase actuelle. Les quantites finales pourront etre ajustees apres validation chantier.",
+                  "tone": "muted"
+                }
+              ]
+            },
+            "service:0:after-total": {
+              "target": {
+                "scope": "service",
+                "index": 0,
+                "anchor": "after-total"
+              },
+              "label": "service 1 after total",
+              "locationHints": [],
+              "blocks": []
+            },
+            "optional:0:after-title": {
+              "target": {
+                "scope": "optional",
+                "index": 0,
+                "anchor": "after-title"
+              },
+              "label": "optional 1 after title",
+              "locationHints": [],
+              "blocks": []
+            },
+            "optional:0:footer": {
+              "target": {
+                "scope": "optional",
+                "index": 0,
+                "anchor": "footer"
+              },
+              "label": "optional 1 footer",
+              "locationHints": [],
+              "blocks": []
+            },
+            "summary:before-table": {
+              "target": {
+                "scope": "summary",
+                "anchor": "before-table"
+              },
+              "label": "summary before table",
+              "locationHints": [],
+              "blocks": []
+            },
+            "summary:after-table": {
+              "target": {
+                "scope": "summary",
+                "anchor": "after-table"
+              },
+              "label": "summary after table",
+              "locationHints": [],
+              "blocks": []
+            },
+            "summary:after-total": {
+              "target": {
+                "scope": "summary",
+                "anchor": "after-total"
+              },
+              "label": "summary after total",
+              "locationHints": [],
+              "blocks": []
+            },
+            "summary:after-tax": {
+              "target": {
+                "scope": "summary",
+                "anchor": "after-tax"
+              },
+              "label": "summary after tax",
+              "locationHints": [],
+              "blocks": []
+            },
+            "commercial:after-exclusions": {
+              "target": {
+                "scope": "commercial",
+                "anchor": "after-exclusions"
+              },
+              "label": "commercial after exclusions",
+              "locationHints": [],
+              "blocks": []
+            },
+            "commercial:after-special-conditions": {
+              "target": {
+                "scope": "commercial",
+                "anchor": "after-special-conditions"
+              },
+              "label": "commercial after special conditions",
+              "locationHints": [],
+              "blocks": []
+            },
+            "commercial:after-notes": {
+              "target": {
+                "scope": "commercial",
+                "anchor": "after-notes"
+              },
+              "label": "commercial after notes",
+              "locationHints": [],
+              "blocks": []
+            },
+            "commercial:after-payment-terms": {
+              "target": {
+                "scope": "commercial",
+                "anchor": "after-payment-terms"
+              },
+              "label": "commercial after payment terms",
+              "locationHints": [],
+              "blocks": []
+            },
+            "commercial:after-info": {
+              "target": {
+                "scope": "commercial",
+                "anchor": "after-info"
+              },
+              "label": "commercial after info",
+              "locationHints": [],
+              "blocks": []
+            },
+            "terms:before-sections": {
+              "target": {
+                "scope": "terms",
+                "anchor": "before-sections"
+              },
+              "label": "terms before sections",
+              "locationHints": [],
+              "blocks": []
+            },
+            "terms:after-sections": {
+              "target": {
+                "scope": "terms",
+                "anchor": "after-sections"
+              },
+              "label": "terms after sections",
+              "locationHints": [],
+              "blocks": []
+            },
+            "about-us:after-intro": {
+              "target": {
+                "scope": "about-us",
+                "anchor": "after-intro"
+              },
+              "label": "about-us after intro",
+              "locationHints": [],
+              "blocks": []
+            },
+            "about-us:body": {
+              "target": {
+                "scope": "about-us",
+                "anchor": "body"
+              },
+              "label": "about-us body",
+              "locationHints": [],
+              "blocks": []
+            },
+            "about-us:footer": {
+              "target": {
+                "scope": "about-us",
+                "anchor": "footer"
+              },
+              "label": "about-us footer",
+              "locationHints": [],
+              "blocks": []
+            },
+            "culture:after-intro": {
+              "target": {
+                "scope": "culture",
+                "anchor": "after-intro"
+              },
+              "label": "culture after intro",
+              "locationHints": [],
+              "blocks": []
+            },
+            "culture:body": {
+              "target": {
+                "scope": "culture",
+                "anchor": "body"
+              },
+              "label": "culture body",
+              "locationHints": [],
+              "blocks": []
+            },
+            "culture:footer": {
+              "target": {
+                "scope": "culture",
+                "anchor": "footer"
+              },
+              "label": "culture footer",
+              "locationHints": [],
+              "blocks": []
+            },
+            "team:after-intro": {
+              "target": {
+                "scope": "team",
+                "anchor": "after-intro"
+              },
+              "label": "team after intro",
+              "locationHints": [],
+              "blocks": []
+            },
+            "team:body": {
+              "target": {
+                "scope": "team",
+                "anchor": "body"
+              },
+              "label": "team body",
+              "locationHints": [],
+              "blocks": []
+            },
+            "team:footer": {
+              "target": {
+                "scope": "team",
+                "anchor": "footer"
+              },
+              "label": "team footer",
+              "locationHints": [],
+              "blocks": []
+            },
+            "partners:after-intro": {
+              "target": {
+                "scope": "partners",
+                "anchor": "after-intro"
+              },
+              "label": "partners after intro",
+              "locationHints": [],
+              "blocks": []
+            },
+            "partners:body": {
+              "target": {
+                "scope": "partners",
+                "anchor": "body"
+              },
+              "label": "partners body",
+              "locationHints": [],
+              "blocks": []
+            },
+            "partners:footer": {
+              "target": {
+                "scope": "partners",
+                "anchor": "footer"
+              },
+              "label": "partners footer",
+              "locationHints": [],
+              "blocks": []
+            }
+          }
+        },
+        "composition": {
+          "version": 1,
+          "locked": true,
+          "archetype": "project-proposal",
+          "preset": "confiance",
+          "detailLevel": "medium",
+          "serviceLayoutPolicy": "itemized-with-price",
+          "serviceLayout": "itemized-with-price",
+          "commercialPreset": "signature-progress",
+          "enabledSections": [
+            "cover",
+            "overview",
+            "services",
+            "about",
+            "culture",
+            "partners",
+            "commercial",
+            "terms"
+          ],
+          "sectionSelections": [
+            {
+              "key": "cover",
+              "enabled": true,
+              "variant": "medium"
+            },
+            {
+              "key": "overview",
+              "enabled": true,
+              "variant": "medium"
+            },
+            {
+              "key": "services",
+              "enabled": true,
+              "variant": "medium"
+            },
+            {
+              "key": "about",
+              "enabled": true,
+              "variant": "medium"
+            },
+            {
+              "key": "culture",
+              "enabled": true,
+              "variant": "medium"
+            },
+            {
+              "key": "leadership",
+              "enabled": false,
+              "variant": "medium"
+            },
+            {
+              "key": "team",
+              "enabled": false,
+              "variant": "medium"
+            },
+            {
+              "key": "partners",
+              "enabled": true,
+              "variant": "medium"
+            },
+            {
+              "key": "commercial",
+              "enabled": true,
+              "variant": "medium"
+            },
+            {
+              "key": "terms",
+              "enabled": true,
+              "variant": "medium"
+            }
+          ],
+          "sections": [
+            {
+              "key": "includeAboutUs",
+              "enabled": true,
+              "variant": "default"
+            },
+            {
+              "key": "includeCulture",
+              "enabled": true,
+              "variant": "default"
+            },
+            {
+              "key": "includeCeoMessage",
+              "enabled": false,
+              "variant": "default"
+            },
+            {
+              "key": "includeTeam",
+              "enabled": false,
+              "variant": "default"
+            },
+            {
+              "key": "includePartners",
+              "enabled": true,
+              "variant": "default"
+            },
+            {
+              "key": "includeTermsAndConditions",
+              "enabled": true,
+              "variant": "default"
+            }
+          ]
+        },
+        "legacyDocument": {
+          "version": 1,
+          "theme": "executive",
+          "density": "balanced",
+          "accent": "sand",
+          "sections": [
+            {
+              "id": "cover",
+              "kind": "cover",
+              "enabled": true,
+              "variant": "default",
+              "title": "Proposition"
+            },
+            {
+              "id": "overview",
+              "kind": "overview",
+              "enabled": true,
+              "variant": "default",
+              "title": "Vue d'ensemble"
+            },
+            {
+              "id": "services",
+              "kind": "services",
+              "enabled": true,
+              "variant": "default",
+              "title": "Portee et services"
+            },
+            {
+              "id": "commercial",
+              "kind": "commercial",
+              "enabled": true,
+              "variant": "default",
+              "title": "Cadre commercial"
+            },
+            {
+              "id": "about",
+              "kind": "about",
+              "enabled": true,
+              "variant": "default",
+              "title": "Pourquoi Noxe"
+            },
+            {
+              "id": "culture",
+              "kind": "culture",
+              "enabled": true,
+              "variant": "default",
+              "title": "Notre facon de livrer"
+            },
+            {
+              "id": "partners",
+              "kind": "partners",
+              "enabled": true,
+              "variant": "default",
+              "title": "Ecosysteme technique"
+            }
+          ],
+          "documentPlan": {
+            "version": 1,
+            "locked": true,
+            "archetype": "project-proposal",
+            "preset": "confiance",
+            "detailLevel": "medium",
+            "serviceLayoutPolicy": "itemized-with-price",
+            "serviceLayout": "itemized-with-price",
+            "commercialPreset": "signature-progress",
+            "enabledSections": [
+              "cover",
+              "overview",
+              "services",
+              "about",
+              "culture",
+              "partners",
+              "commercial",
+              "terms"
+            ],
+            "sectionSelections": [
+              {
+                "key": "cover",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "overview",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "services",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "about",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "culture",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "leadership",
+                "enabled": false,
+                "variant": "medium"
+              },
+              {
+                "key": "team",
+                "enabled": false,
+                "variant": "medium"
+              },
+              {
+                "key": "partners",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "commercial",
+                "enabled": true,
+                "variant": "medium"
+              },
+              {
+                "key": "terms",
+                "enabled": true,
+                "variant": "medium"
+              }
+            ],
+            "sections": [
+              {
+                "key": "includeAboutUs",
+                "enabled": true,
+                "variant": "default"
+              },
+              {
+                "key": "includeCulture",
+                "enabled": true,
+                "variant": "default"
+              },
+              {
+                "key": "includeCeoMessage",
+                "enabled": false,
+                "variant": "default"
+              },
+              {
+                "key": "includeTeam",
+                "enabled": false,
+                "variant": "default"
+              },
+              {
+                "key": "includePartners",
+                "enabled": true,
+                "variant": "default"
+              },
+              {
+                "key": "includeTermsAndConditions",
+                "enabled": true,
+                "variant": "default"
+              }
+            ]
+          }
+        }
+      },
+      "document": {
+        "type": "Document",
+        "lang": "fr",
+        "children": [
+          {
+            "type": "Page",
+            "header": false,
+            "footer": "none",
+            "children": [
+              {
+                "type": "Label",
+                "text": {
+                  "$state": "quote.documentType"
+                },
+                "uppercase": true
+              },
+              {
+                "type": "Heading",
+                "text": {
+                  "$state": "quote.documentTitle"
+                },
+                "level": 1
+              },
+              {
+                "type": "Paragraph",
+                "text": {
+                  "$state": "quote.projectIntro"
+                },
+                "muted": true
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
   "document": {
     "version": 1,
     "theme": "executive",

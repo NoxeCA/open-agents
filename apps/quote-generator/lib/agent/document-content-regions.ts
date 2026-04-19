@@ -1,4 +1,4 @@
-import { quoteDocumentRegionIdSchema } from "@open-harness/quote-documents";
+import { quoteDocumentRegionIdSchema } from "@/lib/documents/quote/document-content";
 
 import type { QuoteData } from "@/lib/quote/schema";
 
@@ -18,11 +18,17 @@ export type ServiceDocumentContentRegionSlot =
   | "after-table"
   | "after-tax";
 export type CommercialDocumentContentRegionSlot =
+  | "before-exclusions"
   | "after-exclusions"
+  | "before-special-conditions"
   | "after-special-conditions"
+  | "before-notes"
   | "after-notes"
+  | "before-payment-terms"
   | "after-payment-terms"
-  | "after-info";
+  | "before-info"
+  | "after-info"
+  | "after-contact";
 export type CommercialDocumentContentRegionId =
   `commercial:${CommercialDocumentContentRegionSlot}`;
 export type TermsDocumentContentRegionSlot =

@@ -56,7 +56,7 @@ export function renderPdfTool({ quoteId }: { quoteId: string }) {
 
       let pdf: ArrayBuffer | Uint8Array | Buffer;
       try {
-        pdf = await renderQuotePdf(parsedQuote);
+        pdf = await renderQuotePdf(parsedQuote, { quoteId });
       } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
         return { ok: false, error: message || "Unknown PDF error" };

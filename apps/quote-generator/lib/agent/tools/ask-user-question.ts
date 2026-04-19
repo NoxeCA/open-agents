@@ -52,6 +52,7 @@ WHEN TO USE:
 USAGE NOTES:
 - There is no fixed hard cap on question count. Ask as many questions as genuinely needed to unblock the quote, but do not treat a large batch as a goal.
 - In the first batch after ingestion, prioritize identity + recipient + commercial choices: who is preparing the quote, who it is for, the final contact block, payment schedule, exclusions, assumptions, optional sections, or layout.
+- If files disagree, use the first batch to explicitly confirm the conflicts: client/project identity, recipient, chosen total, project objective, quote number/date, and whether optional brochure-style sections should stay in or be removed.
 - Keep option labels to 1-5 words. Use \`description\` for the trade-off.
 - Users can always select "Other" to provide free text.
 - Use \`multiSelect: true\` when more than one answer is valid (e.g. which services to include).

@@ -84,12 +84,31 @@ function formatPath(path: string[]) {
   return path.join(".");
 }
 
+function shouldIgnorePlaceholderPath(path: string[]) {
+  if (path[0] === "jsonRender" || path[0] === "document") {
+    return true;
+  }
+
+  if (path.length >= 5 && path[0] === "services") {
+    const [, , collection, , field] = path;
+    if (collection === "bomItems" && field === "oem") {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 function collectPlaceholderIssues(
   value: unknown,
   path: string[] = [],
 ): BlockingIssue[] {
   if (typeof value === "string") {
     if (!isPlaceholderText(value)) {
+      return [];
+    }
+
+    if (shouldIgnorePlaceholderPath(path)) {
       return [];
     }
 

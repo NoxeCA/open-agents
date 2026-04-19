@@ -1,0 +1,585 @@
+{
+  "version": 1,
+  "brand": {
+    "translations": "en"
+  },
+  "variables": {
+    "cover": {
+      "clientName": "North Annex",
+      "documentType": "PROPOSAL",
+      "documentTitle": "North Annex phased modernization",
+      "quoteId": "NA-PLAN-024",
+      "revision": 1,
+      "quoteDate": "2026-04-19",
+      "validUntil": "2026-06-02",
+      "preparedFor": [
+        {
+          "name": "Dina Foster"
+        }
+      ],
+      "preparedBy": [
+        {
+          "name": "Marc-Olivier Gagner"
+        }
+      ]
+    },
+    "project": {
+      "clientName": "North Annex"
+    },
+    "summary": {
+      "metrics": [
+        {
+          "value": "3",
+          "label": "Plan phases",
+          "trend": "Inserted page"
+        },
+        {
+          "value": "1",
+          "label": "Image block",
+          "trend": "Data URI"
+        },
+        {
+          "value": "3",
+          "label": "Plan options",
+          "trend": "Good / better / best"
+        },
+        {
+          "value": "2",
+          "label": "Scope sections",
+          "trend": "Still downstream"
+        }
+      ],
+      "highlights": [
+        "The image is bound through variables instead of a raw external URL.",
+        "The option cards sit on the same page as the implementation table.",
+        "The service sections still render through the direct catalog path."
+      ],
+      "tags": [
+        "plan-page",
+        "image",
+        "options",
+        "bindings"
+      ]
+    },
+    "plan": {
+      "image": "data:image/png;base64,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",
+      "phases": [
+        {
+          "name": "Phase 1",
+          "focus": "Panel cleanup and riser confirmation",
+          "window": "Week 1",
+          "owner": "Noxe"
+        },
+        {
+          "name": "Phase 2",
+          "focus": "Reader swap and camera additions",
+          "window": "Week 2",
+          "owner": "Joint"
+        },
+        {
+          "name": "Phase 3",
+          "focus": "Commissioning, training, and turnover",
+          "window": "Week 3",
+          "owner": "Client"
+        }
+      ],
+      "options": [
+        {
+          "title": "Core",
+          "price": 16919,
+          "features": [
+            "6 controlled openings",
+            "Targeted camera refresh",
+            "Standard handover"
+          ]
+        },
+        {
+          "title": "Planned",
+          "price": 21719,
+          "features": [
+            "Adds phased coordination page",
+            "Improved stakeholder walkthrough",
+            "Expanded turnover package"
+          ],
+          "highlighted": true
+        },
+        {
+          "title": "Future-ready",
+          "price": 27919,
+          "features": [
+            "Planned document plus spare ports",
+            "Advanced dashboards",
+            "Longer commissioning window"
+          ]
+        }
+      ]
+    },
+    "investment": {
+      "rows": [
+        {
+          "label": "Access control scope",
+          "amount": 11374
+        },
+        {
+          "label": "Video surveillance scope",
+          "amount": 5545
+        },
+        {
+          "label": "Planning and stakeholder walkthrough",
+          "amount": 4800
+        }
+      ],
+      "subtotal": 21719,
+      "total": 21719
+    }
+  },
+  "document": {
+    "type": "Document",
+    "lang": "en",
+    "children": [
+      {
+        "size": "LETTER",
+        "header": false,
+        "footer": "none",
+        "type": "Page",
+        "children": [
+          {
+            "clientName": "North Annex",
+            "subtitle": "Proposal for North Annex",
+            "documentType": "PROPOSAL",
+            "documentTitle": "North Annex phased modernization",
+            "quoteID": "NA-PLAN-024",
+            "revision": 1,
+            "quoteDate": "2026-04-19",
+            "validUntil": "2026-06-02",
+            "preparedFor": [
+              {
+                "name": "Dina Foster"
+              }
+            ],
+            "preparedBy": [
+              {
+                "name": "Marc-Olivier Gagner"
+              }
+            ],
+            "type": "CoverBlock"
+          }
+        ]
+      },
+      {
+        "size": "LETTER",
+        "header": "PROPOSAL",
+        "footer": "default",
+        "type": "Page",
+        "children": [
+          {
+            "entries": [
+              {
+                "label": "Executive summary",
+                "sectionId": "executive-summary"
+              },
+              {
+                "label": "Implementation plan",
+                "sectionId": "implementation-plan"
+              },
+              {
+                "label": "Investment summary",
+                "sectionId": "investment-summary"
+              }
+            ],
+            "title": "Table of contents",
+            "combine": [
+              {
+                "label": "Detailed scope",
+                "sectionIds": [
+                  "service-access-control",
+                  "service-video"
+                ]
+              }
+            ],
+            "type": "TocEntries"
+          }
+        ]
+      },
+      {
+        "sectionId": "executive-summary",
+        "size": "LETTER",
+        "header": "PROPOSAL",
+        "footer": "default",
+        "type": "Page",
+        "children": [
+          {
+            "gap": 16,
+            "type": "Section",
+            "children": [
+              {
+                "number": 1,
+                "name": "Executive summary",
+                "type": "SectionHeader"
+              },
+              {
+                "text": "North Annex wants a proposal that reads cleanly for leadership but still survives direct PDF rendering through the vendored json-render runtime.",
+                "muted": false,
+                "align": "left",
+                "size": 11,
+                "type": "Paragraph"
+              },
+              {
+                "items": [
+                  {
+                    "value": "3",
+                    "label": "Plan phases",
+                    "trend": "Inserted page"
+                  },
+                  {
+                    "value": "1",
+                    "label": "Image block",
+                    "trend": "Data URI"
+                  },
+                  {
+                    "value": "3",
+                    "label": "Plan options",
+                    "trend": "Good / better / best"
+                  },
+                  {
+                    "value": "2",
+                    "label": "Scope sections",
+                    "trend": "Still downstream"
+                  }
+                ],
+                "columns": 4,
+                "type": "MetricGrid"
+              },
+              {
+                "title": "Renderer intent",
+                "text": "This suite keeps the output close to what Claude would emit: one envelope, light bindings, catalog-safe nodes, and no chat or AI SDK hop.",
+                "variant": "accent",
+                "showIcon": true,
+                "type": "Callout"
+              },
+              {
+                "items": [
+                  "The image is bound through variables instead of a raw external URL.",
+                  "The option cards sit on the same page as the implementation table.",
+                  "The service sections still render through the direct catalog path."
+                ],
+                "variant": "arrow",
+                "type": "BulletList"
+              },
+              {
+                "items": [
+                  "plan-page",
+                  "image",
+                  "options",
+                  "bindings"
+                ],
+                "columns": 4,
+                "tone": "outline",
+                "type": "ValuePillGrid"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionId": "implementation-plan",
+        "size": "LETTER",
+        "header": "PROPOSAL",
+        "footer": "default",
+        "type": "Page",
+        "children": [
+          {
+            "gap": 16,
+            "type": "Section",
+            "children": [
+              {
+                "number": 2,
+                "name": "Implementation plan",
+                "type": "SectionHeader"
+              },
+              {
+                "text": "Add a lightweight plan page so North Annex can see the sequence, image reference, and commercial options before the detailed BOM pages start.",
+                "muted": false,
+                "align": "left",
+                "size": 11,
+                "type": "Paragraph"
+              },
+              {
+                "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGsAAABGCAYAAADLjWrkAAAInUlEQVR4AeycTWwTRxTH366BUyLliHuJD016gJIaFQkqFYVjudJrlaSoPVQkmI+q0CKRSEA5QGVMkKpWQKKeyKWVWqVHIBwRsSBwILkkPWAOpEJKLiR4p+9t8pz1ene9np39orb8/GY/5+Pv+e2b8Xp1iPE1MnJqYuT4KZEGGy6cLsTYVGbWsYk1XDg5CBoMmKVI+IcAuHe9eKUYdzFjEatQOJPThHY+7sr7y1+8XteqQ/72DXevWMQyjPVRrFYOLfFvoeljPxeLi0koaORipQl/GsBEEvDHX5RIxUoZ/hbfaNUxbqgk+EjFShP+QGijScEff1EiEytt+CuVrk5yIyXFRyJWG39q5I5ErKpYv43FjTn6wxL4eScQf1zs0MXCWYrjGFX1c4ZJ9ljOiSTij9ssVLEIfzhLQWMqzi/BXiQu+rM3VqhibeKvy55pIpcTjD9ur9DEauOPm1idD0WsNv7UCWQ9UyhiGWL9LmbiG3/3Z+7Brzd/qdnkbxN4eETvFOCPW0K5WCMjp2k2vaUwfXGpfp50bW0NKpUXXMbQfNKjP3vFlYq1gT/RUvQ3vzAPJI69YI/Kj+yrFC8nP/qzV1ipWJv4s+fhuUxi8Q47duzgJCwvL6OIb2rLyhMpwh/X3bdYfICbl8HfyspKHe4O7D8ALBj1tufz827ZBVuvwbUkD37dKqdELBn8UYEqLyvkTOvs6ITeng8g1711uVv6p/5aZu4Y+EMs6lAdDXyaGE6gRCwZ/FFdZ2e3rkvZbJZWoWC9pqePSqVS1/NoXVAzNH2oWCy+DnqeOI4PLJYM/qiiFYz2VlZXKGlab8+GSNnsezUU0oYXKBh5JYb4Gy9euWc9V7lczj18/Hg06UblDCSWLP6osayBBSGQRKL1ZL2IQ/JkT5/NkVNgzvgzMtvv6pp+PtmW6c7n84jvAM0giz/KsmLpMbt27aZVNct1d9fSFGhUsBfWVkgmnPBXnnuGY0KxdZGUPHeohwn8klXXzdsLpHuWLP6oYtSrrAjM5XK0umbUy8h4xdyzp5yU85oYc8KfIYzEBxpCgxPUq6jiUmIFwR9lSmKRJ6NQnaab/pr+E6z2L46zaDsZ9ay1Ndkxl1gsFX9qEIXwR+dOsgkB1z7es+cPLqOUWEHwZx9bbWCOor56e2MRh/aRHXOtacYhriz7tOAvY7yt+5K1LFYQ/FFjWcdWtOzXpMZciD/7HUoPy+X+JvjzW6RQ9zMMbQjxVzfEaEmsbwrffgSaqFO71RJbx1Y0AO4/2A9u1rsZzlMeFQxIXi2/oqRPa8Qfhr9demY73Q/i8xzx7Eb425f/sG6IQSXxLVahUOjaJozf6SBZq2BUZw0selAMLzuw/5O6MdfS0pLvrJ3wB5lMKqI/O/640r7FEkLHikJ92AatvayBBY2tqGd5nYGCD+s+vsdcmmi4P93EH2ix/23Hq760TTeqh+z4o/VkvsTCXtUvFFS0giijTMl4eonSXmZFIQUaFeydXvsDpBd/eC0dQ6FcJ0SbioVCdRkiE5jz1KusCLSK4NX4NN6iHsb7PMffvzjt5NOMv319fZ7xQFOxVOCPGpXE+ero18BGItB6PzbwxWDtOApGXI9xwN+jJ08GDQVUcM1T0QbCX7NTeYo1XDg5qAJ/zQqhZrsj/vAaa15r1WQR0lma4Y+zdRWLZim01Pw7EcAJf1U9g1gRKBhXN4Ee5/6a4Y9L7SpWqv6e44I/TdM8/7M8PT0Nt27ebLCpqSkoz85yG4Xq/eCPC+AoFuEPNPCsKJ+gwUe+Qh5/f7uIVSoWYfjYMfj8yBEgQcOqkl/8cf4NYrXxx00D8BKHGpcuXICpO3e2VqpKtYA/zrJBrDThT2jaCfvcH0V/zfDHlbf6np4e+PLoUdM+PXgQsjuztc2EytWVrV+1axsCJFrBH2dTJ1aa8CcAGp5NgXN/GEzIRX/vW8T68fJlKN0Yh46ODrOdVldXleKwVfyZhcCPmljpwp/zsylURn80w5LfuxebaONNSNxIBfyUwB/nWBMrXfhrfDaFLP64IZw89She39HZyclAXgZ/nKEp1v8Zf9wQdj9zf6YufMc5O/suLS/L4o8z0lOGv8V1h0fzqMAfXu/gIkZ+Z787A0MDA/D92TPcRvDZ4cNgRWJtQyuJAPjjbPQ04Q8c7k9XhT+6JtG468GDGVhYWOD2MX3gXiXE6yD4MwuBH3qpdHWwdO2qlgqzPZsCe4N09Id19/2+dPEiPJiZadjf7woDdM+fPvyex7xm+d05afupwB/XiXrP9fFxIKPQndDHoTvtQ4iUGWsJHGLs69tdpHMEtdSKVX48d1xm8OvWYDuzWfO6lMdwnQbFP5w7ByQa70+RoR2PvM3VI/4y1bfKHn+XSrEIf4YGOKMOob5IOBpvcSaYLyd9eUMR/jizRIhVnps7P/tk7q5f27xB0/d/lrmyMp7uc5Q5TijEH+cfu1jmjSwCRrFy/X4NQGBgwVUIz5tzgjjVxDnQdY3Tnh7DdJX447xiFQuxkpj7+LAs5jiLAgkyGmuRWNxQNLFLWORlL6+DPorCut744nWs17ZYxUrSfXw8zqKxFpk1mKDb5mhi16sht7ZpE/m+3aE8/i42sUz8peBGlvzePNyanABroLEljC2F+NM3/55j26JkMRaxEDm5JNzGTGMp/g3L7il0vz05ieOuG/6EQjnCwh+e2nzHItbGYDaaIMGspcvHYZzzs4vEyyQk/SDpcqjD6vDwx5lFLpaquTyuQCJ8yPjjOkYqFuEPQO6XXC5wEn3Y+OM6RypWUvDHlVfjw8cflzMysdr44yaX95GI1cafvEDWIyMRq40/a5PLp0MXq40/eXHsR4YqVht/9uYOthyqWG38bYqjyIUmVht/ihSynCYUsd5V/G0+m0L5Tx8WPTyToYj1FrblDFGdpJsa3xXThTbo9GwKz9ZVvPE/AAAA//9GIHLbAAAABklEQVQDANM1GYtBSanSAAAAAElFTkSuQmCC",
+                "width": 470,
+                "height": 150,
+                "align": "center",
+                "type": "Image"
+              },
+              {
+                "text": "Image placeholder carried as a data URI to exercise the direct renderer path without relying on external URLs.",
+                "type": "Caption"
+              },
+              {
+                "columns": [
+                  {
+                    "header": "Phase",
+                    "width": "22%"
+                  },
+                  {
+                    "header": "Focus",
+                    "width": "44%"
+                  },
+                  {
+                    "header": "Window",
+                    "width": "17%"
+                  },
+                  {
+                    "header": "Owner",
+                    "width": "17%"
+                  }
+                ],
+                "rows": [
+                  [
+                    "Phase 1",
+                    "Panel cleanup and riser confirmation",
+                    "Week 1",
+                    "Noxe"
+                  ],
+                  [
+                    "Phase 2",
+                    "Reader swap and camera additions",
+                    "Week 2",
+                    "Joint"
+                  ],
+                  [
+                    "Phase 3",
+                    "Commissioning, training, and turnover",
+                    "Week 3",
+                    "Client"
+                  ]
+                ],
+                "striped": true,
+                "compact": true,
+                "type": "Table"
+              },
+              {
+                "options": [
+                  {
+                    "title": "Core",
+                    "price": 16919,
+                    "features": [
+                      "6 controlled openings",
+                      "Targeted camera refresh",
+                      "Standard handover"
+                    ]
+                  },
+                  {
+                    "title": "Planned",
+                    "price": 21719,
+                    "features": [
+                      "Adds phased coordination page",
+                      "Improved stakeholder walkthrough",
+                      "Expanded turnover package"
+                    ],
+                    "highlighted": true
+                  },
+                  {
+                    "title": "Future-ready",
+                    "price": 27919,
+                    "features": [
+                      "Planned document plus spare ports",
+                      "Advanced dashboards",
+                      "Longer commissioning window"
+                    ]
+                  }
+                ],
+                "type": "PriceComparison"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionNumber": 1,
+        "sectionName": "Access control",
+        "description": "Modernize six priority openings with new controllers, readers, and commissioning.",
+        "bomItems": [
+          {
+            "qty": 1,
+            "partNumber": "AC-01",
+            "description": "32-door Mercury controller panel",
+            "oem": "Mercury",
+            "unitPrice": 1680,
+            "total": 1680
+          },
+          {
+            "qty": 6,
+            "partNumber": "AC-02",
+            "description": "Mullion reader with keypad",
+            "oem": "HID",
+            "unitPrice": 420,
+            "total": 2520
+          },
+          {
+            "qty": 6,
+            "partNumber": "AC-03",
+            "description": "Supervised door contact package",
+            "oem": "HID",
+            "unitPrice": 118,
+            "total": 708
+          },
+          {
+            "qty": 6,
+            "partNumber": "AC-04",
+            "description": "Request-to-exit motion sensor",
+            "oem": "Bosch",
+            "unitPrice": 86,
+            "total": 516
+          }
+        ],
+        "bomSubtotal": 5424,
+        "laborCategories": [
+          {
+            "category": "Installation",
+            "amount": 3600
+          },
+          {
+            "category": "Programming",
+            "amount": 1450
+          },
+          {
+            "category": "Commissioning",
+            "amount": 900
+          }
+        ],
+        "laborSubtotal": 5950,
+        "totalCost": 11374,
+        "layout": "itemized-with-price",
+        "projectTitle": "North Annex phased modernization",
+        "projectIntro": "This version adds a plan page in front of the priced sections so the client can orient themselves quickly.",
+        "showProjectIntro": true,
+        "sectionId": "service-access-control",
+        "type": "ServiceSection"
+      },
+      {
+        "sectionNumber": 2,
+        "sectionName": "Video surveillance",
+        "description": "Refresh camera coverage in the dock and corridor zones while keeping pricing summarized.",
+        "bomItems": [
+          {
+            "qty": 4,
+            "partNumber": "VS-01",
+            "description": "Indoor dome camera, 5MP",
+            "oem": "Axis",
+            "unitPrice": 590,
+            "total": 2360
+          },
+          {
+            "qty": 1,
+            "partNumber": "VS-02",
+            "description": "Multi-sensor loading dock camera",
+            "oem": "Axis",
+            "unitPrice": 980,
+            "total": 980
+          },
+          {
+            "qty": 2,
+            "partNumber": "VS-03",
+            "description": "8-port PoE switch",
+            "oem": "Cisco",
+            "unitPrice": 415,
+            "total": 830
+          },
+          {
+            "qty": 5,
+            "partNumber": "VS-04",
+            "description": "Video management licenses",
+            "oem": "Genetec",
+            "unitPrice": 275,
+            "total": 1375
+          }
+        ],
+        "bomSubtotal": 5545,
+        "totalCost": 5545,
+        "layout": "itemized-without-price",
+        "projectTitle": "North Annex phased modernization",
+        "showProjectIntro": false,
+        "sectionId": "service-video",
+        "type": "ServiceSection"
+      },
+      {
+        "sectionId": "investment-summary",
+        "size": "LETTER",
+        "header": "PROPOSAL",
+        "footer": "default",
+        "type": "Page",
+        "children": [
+          {
+            "gap": 16,
+            "type": "Section",
+            "children": [
+              {
+                "number": 9,
+                "name": "Investment summary",
+                "type": "SectionHeader"
+              },
+              {
+                "text": "The summary page stays intentionally simple so scenario-specific stress content elsewhere is easier to isolate.",
+                "muted": true,
+                "align": "left",
+                "type": "Paragraph"
+              },
+              {
+                "rows": [
+                  {
+                    "label": "Access control scope",
+                    "amount": 11374
+                  },
+                  {
+                    "label": "Video surveillance scope",
+                    "amount": 5545
+                  },
+                  {
+                    "label": "Planning and stakeholder walkthrough",
+                    "amount": 4800
+                  }
+                ],
+                "subtotalLabel": "Subtotal before taxes",
+                "subtotalAmount": 21719,
+                "type": "SummaryTable"
+              },
+              {
+                "type": "KeepTogether",
+                "children": [
+                  {
+                    "amount": 21719,
+                    "label": "Project total",
+                    "type": "TotalCostBox"
+                  },
+                  {
+                    "text": "Taxes, final coordination, and approved change requests stay outside these direct renderer stress fixtures.",
+                    "showIcon": true,
+                    "type": "TaxDisclaimer"
+                  }
+                ]
+              },
+              {
+                "spans": [
+                  {
+                    "text": "Commercial note: "
+                  },
+                  {
+                    "text": "the rendering path is the system under test",
+                    "bold": true,
+                    "color": "#00AEEF"
+                  },
+                  {
+                    "text": ", so this summary intentionally keeps the financial story stable across all scenarios."
+                  }
+                ],
+                "align": "left",
+                "type": "RichText"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

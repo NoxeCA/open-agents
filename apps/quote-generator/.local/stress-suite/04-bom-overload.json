@@ -1,0 +1,428 @@
+{
+  "lang": "fr",
+  "clientName": "Ecole secondaire Prevost",
+  "subtitle": "Soumission commerciale",
+  "documentType": "PROPOSITION",
+  "documentTitle": "Projet controle d'acces",
+  "quoteID": "SAMPLE-JSON-001",
+  "revision": 1,
+  "quoteDate": "2026-04-19",
+  "validUntil": "2026-05-19",
+  "preparedFor": [
+    {
+      "name": "Jean Client"
+    }
+  ],
+  "preparedBy": [
+    {
+      "name": "Marc-Olivier Gagner"
+    }
+  ],
+  "includeAboutUs": true,
+  "includeCulture": true,
+  "includeCeoMessage": false,
+  "includeTeam": false,
+  "includePartners": true,
+  "includeTermsAndConditions": true,
+  "proposal": {
+    "date": "2026-04-19",
+    "addressee": {
+      "name": "Jean Client",
+      "company": "Ecole secondaire Prevost",
+      "address": "225 ch. de la Montagne, Prevost, QC"
+    },
+    "object": "Soumission controle d'acces",
+    "paragraphs": [
+      "Merci de votre confiance.",
+      "Cette proposition JSON est rendue directement en PDF sans passer par le chat IA."
+    ]
+  },
+  "projectTitle": "LC Connect - SAMPLE-JSON-001",
+  "projectIntro": "Noxe presente cette proposition pour la fourniture et l'installation du systeme.",
+  "services": [
+    {
+      "sectionNumber": 1,
+      "sectionName": "Controle d'acces - surcharge materiel",
+      "description": "On surcharge volontairement la premiere section avec beaucoup de lignes BOM pour tester la pagination et la lisibilite.",
+      "bomItems": [
+        {
+          "qty": 1,
+          "partNumber": "AC-01",
+          "description": "Composant AC 1",
+          "oem": "Genetec",
+          "unitPrice": 85,
+          "total": 85
+        },
+        {
+          "qty": 2,
+          "partNumber": "AC-02",
+          "description": "Composant AC 2",
+          "oem": "HID",
+          "unitPrice": 102,
+          "total": 204
+        },
+        {
+          "qty": 3,
+          "partNumber": "AC-03",
+          "description": "Composant AC 3",
+          "oem": "Genetec",
+          "unitPrice": 119,
+          "total": 357
+        },
+        {
+          "qty": 1,
+          "partNumber": "AC-04",
+          "description": "Composant AC 4",
+          "oem": "HID",
+          "unitPrice": 136,
+          "total": 136
+        },
+        {
+          "qty": 2,
+          "partNumber": "AC-05",
+          "description": "Composant AC 5",
+          "oem": "Genetec",
+          "unitPrice": 153,
+          "total": 306
+        },
+        {
+          "qty": 3,
+          "partNumber": "AC-06",
+          "description": "Composant AC 6",
+          "oem": "HID",
+          "unitPrice": 170,
+          "total": 510
+        },
+        {
+          "qty": 1,
+          "partNumber": "AC-07",
+          "description": "Composant AC 7",
+          "oem": "Genetec",
+          "unitPrice": 187,
+          "total": 187
+        },
+        {
+          "qty": 2,
+          "partNumber": "AC-08",
+          "description": "Composant AC 8",
+          "oem": "HID",
+          "unitPrice": 204,
+          "total": 408
+        },
+        {
+          "qty": 3,
+          "partNumber": "AC-09",
+          "description": "Composant AC 9",
+          "oem": "Genetec",
+          "unitPrice": 221,
+          "total": 663
+        },
+        {
+          "qty": 1,
+          "partNumber": "AC-10",
+          "description": "Composant AC 10",
+          "oem": "HID",
+          "unitPrice": 238,
+          "total": 238
+        },
+        {
+          "qty": 2,
+          "partNumber": "AC-11",
+          "description": "Composant AC 11",
+          "oem": "Genetec",
+          "unitPrice": 255,
+          "total": 510
+        },
+        {
+          "qty": 3,
+          "partNumber": "AC-12",
+          "description": "Composant AC 12",
+          "oem": "HID",
+          "unitPrice": 272,
+          "total": 816
+        },
+        {
+          "qty": 1,
+          "partNumber": "AC-13",
+          "description": "Composant AC 13",
+          "oem": "Genetec",
+          "unitPrice": 289,
+          "total": 289
+        },
+        {
+          "qty": 2,
+          "partNumber": "AC-14",
+          "description": "Composant AC 14",
+          "oem": "HID",
+          "unitPrice": 306,
+          "total": 612
+        },
+        {
+          "qty": 3,
+          "partNumber": "AC-15",
+          "description": "Composant AC 15",
+          "oem": "Genetec",
+          "unitPrice": 323,
+          "total": 969
+        },
+        {
+          "qty": 1,
+          "partNumber": "AC-16",
+          "description": "Composant AC 16",
+          "oem": "HID",
+          "unitPrice": 340,
+          "total": 340
+        },
+        {
+          "qty": 2,
+          "partNumber": "AC-17",
+          "description": "Composant AC 17",
+          "oem": "Genetec",
+          "unitPrice": 357,
+          "total": 714
+        },
+        {
+          "qty": 3,
+          "partNumber": "AC-18",
+          "description": "Composant AC 18",
+          "oem": "HID",
+          "unitPrice": 374,
+          "total": 1122
+        },
+        {
+          "qty": 1,
+          "partNumber": "AC-19",
+          "description": "Composant AC 19",
+          "oem": "Genetec",
+          "unitPrice": 391,
+          "total": 391
+        },
+        {
+          "qty": 2,
+          "partNumber": "AC-20",
+          "description": "Composant AC 20",
+          "oem": "HID",
+          "unitPrice": 408,
+          "total": 816
+        },
+        {
+          "qty": 3,
+          "partNumber": "AC-21",
+          "description": "Composant AC 21",
+          "oem": "Genetec",
+          "unitPrice": 425,
+          "total": 1275
+        },
+        {
+          "qty": 1,
+          "partNumber": "AC-22",
+          "description": "Composant AC 22",
+          "oem": "HID",
+          "unitPrice": 442,
+          "total": 442
+        }
+      ],
+      "bomSubtotal": 11390,
+      "tableIntroBlocks": [
+        {
+          "type": "paragraph",
+          "tone": "lead",
+          "text": "Ce cas cherche a casser la page service avec une tres longue table tout en gardant les notes et les totaux coherents."
+        }
+      ],
+      "laborCategories": [
+        {
+          "category": "Installation",
+          "amount": 900
+        },
+        {
+          "category": "Programmation",
+          "amount": 600
+        },
+        {
+          "category": "Mise en service",
+          "amount": 300
+        }
+      ],
+      "laborSubtotal": 1800,
+      "totalCost": 13190,
+      "layout": "itemized-with-price",
+      "tableOutroBlocks": [
+        {
+          "type": "paragraph",
+          "tone": "muted",
+          "text": "Si cette section reste propre a l'impression, on sait que la base est deja beaucoup plus robuste."
+        }
+      ]
+    }
+  ],
+  "documentContent": {
+    "version": 1,
+    "regions": {
+      "proposal:body": {
+        "target": {
+          "scope": "proposal",
+          "anchor": "body"
+        },
+        "label": "Proposal body",
+        "locationHints": [
+          "proposal body"
+        ],
+        "blocks": [
+          {
+            "type": "heading",
+            "level": "h3",
+            "text": "Cadre de travail"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Compatibilite avec la plateforme cible du client",
+              "Coordination avec les autres corps de metier",
+              "Livraison d'un devis presentable sans retouche manuelle"
+            ]
+          }
+        ]
+      },
+      "service:0:after-table": {
+        "target": {
+          "scope": "service",
+          "index": 0,
+          "anchor": "after-table"
+        },
+        "label": "Service 1 after table",
+        "locationHints": [
+          "below table"
+        ],
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Les prix unitaires demeurent indicatifs jusqu'a la validation finale des conditions de site.",
+            "tone": "muted"
+          }
+        ]
+      },
+      "service:0:after-tax": {
+        "target": {
+          "scope": "service",
+          "index": 0,
+          "anchor": "after-tax"
+        },
+        "label": "Service 1 after tax",
+        "locationHints": [
+          "below tax disclaimer"
+        ],
+        "blocks": [
+          {
+            "type": "paragraph",
+            "tone": "muted",
+            "text": "Cette proposition est de nature budgetaire. Les couts presentes sont fournis a titre indicatif et peuvent varier jusqu'a 10 % selon les conditions du marche et les ajustements fabricants au moment de la commande."
+          }
+        ]
+      },
+      "optional:0:body": {
+        "target": {
+          "scope": "optional",
+          "index": 0,
+          "anchor": "body"
+        },
+        "label": "Optional page 1 body",
+        "locationHints": [
+          "optional page body"
+        ],
+        "blocks": [
+          {
+            "type": "paragraph",
+            "tone": "lead",
+            "text": "Cette section illustre comment des pages libres peuvent etre inserees avant ou apres le coeur du devis tout en gardant le style Noxe."
+          },
+          {
+            "type": "table",
+            "title": "Exemple de comparaison",
+            "columns": [
+              {
+                "label": "Sujet"
+              },
+              {
+                "label": "Etat actuel"
+              },
+              {
+                "label": "Cible",
+                "align": "right"
+              }
+            ],
+            "rows": [
+              [
+                "Controle",
+                "Local",
+                "Centralise"
+              ],
+              [
+                "Lecteurs",
+                "Mixtes",
+                "Standardises"
+              ],
+              [
+                "Suivi",
+                "Manuel",
+                "Temps reel"
+              ]
+            ],
+            "caption": "Exemple de bloc table base sur le nouveau modele riche."
+          },
+          {
+            "type": "stats",
+            "title": "Points clefs",
+            "items": [
+              {
+                "label": "Portes",
+                "value": "2"
+              },
+              {
+                "label": "Controleurs",
+                "value": "1"
+              },
+              {
+                "label": "Lecteurs",
+                "value": "2"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "projectSummary": {
+    "description": "Stress test avec une tres grosse premiere section materiel et des zones de texte libres autour des tableaux.",
+    "subtotal": 11390,
+    "totalProjectCost": 13190
+  },
+  "exclusions": [
+    "La quincaillerie electrifiee fournie par d'autres est exclue.",
+    "Le cablage existant non conforme est exclu."
+  ],
+  "specialConditions": [
+    "Les travaux sont planifies en coordination avec le client."
+  ],
+  "notes": [
+    "Exemple JSON statique pour validation locale du pipeline PDF."
+  ],
+  "paymentTerms": [
+    "35 % a la signature",
+    "15 % a la commande du materiel",
+    "40 % en cours d'installation",
+    "10 % a la fin des travaux"
+  ],
+  "optionalPages": [
+    {
+      "pageTitle": "GENETEC ET CONTROLE D'ACCES",
+      "title": "Contexte technologique"
+    }
+  ],
+  "contactInfo": {
+    "name": "Marc-Olivier Gagner",
+    "company": "Noxe",
+    "phone": "438-865-8020",
+    "email": "m.gagner@noxe.ca"
+  }
+}

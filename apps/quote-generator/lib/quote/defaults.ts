@@ -1,4 +1,5 @@
-import { buildQuoteDocumentContent } from "@open-harness/quote-documents/lib/documents/quote/document-content";
+import { buildQuoteDocumentContent } from "@/lib/documents/quote/document-content";
+import { buildQuoteJsonRenderState } from "@/lib/json-render/quote-spec-state";
 import { buildQuoteDocumentState } from "./document/builder";
 import {
   buildQuoteDocumentComposition,
@@ -28,6 +29,11 @@ export function emptyQuoteData(): Partial<QuoteData> {
     ...base,
     composition: buildQuoteDocumentComposition(documentPlan),
     documentContent,
+    jsonRender: buildQuoteJsonRenderState({
+      ...base,
+      documentContent,
+      documentPlan,
+    }),
     documentPlan,
     document: buildQuoteDocumentState({
       ...base,

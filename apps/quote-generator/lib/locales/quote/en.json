@@ -1,0 +1,141 @@
+{
+  "common": {
+    "proposal": "PROPOSAL",
+    "quote": "QUOTE",
+    "page": "Page",
+    "quoteNumber": "Quote #",
+    "quoteDate": "Quote date :",
+    "validUntil": "Valid until :",
+    "preparedFor": "Prepared for :",
+    "preparedBy": "Prepared by :",
+    "subtotal": "SUBTOTAL :",
+    "totalCost": "TOTAL COST :",
+    "totalProjectCost": "TOTAL PROJECT COST :",
+    "taxDisclaimer": "Amounts indicated exclude taxes - applicable taxes are additional.",
+    "currency": "$"
+  },
+  "cover": {
+    "masterServiceAgreement": "MASTER SERVICE AGREEMENT"
+  },
+  "toc": {
+    "title": "TABLE OF CONTENT",
+    "aboutUs": "About Us",
+    "ourCulture": "Our Culture",
+    "managementMessage": "Message From Our CEO",
+    "ourTeam": "Our Team of Experts",
+    "ourPartners": "Our Partners",
+    "proposalDescription": "Proposal Description",
+    "serviceOffering": "Extensive Service Offering",
+    "projectSummary": "Project Summary",
+    "optionalPage": "Optional Page",
+    "exclusion": "Exclusion",
+    "specialCondition": "Special Condition",
+    "paymentTerms": "Payment Terms",
+    "termsAndConditions": "T&C"
+  },
+  "aboutUs": {
+    "title": "ABOUT US",
+    "mainDescription": "Noxe stands out from the competition by emphasizing a customer-centric approach and prioritizing the needs of our clients. Our core values revolve around our employees, customers, and performance. Our skilled team of technicians, project managers, and internal experts enable us to execute highly complex projects within tight deadlines. Furthermore, our software development expertise allows us to seamlessly integrate multiple systems, tailoring solutions to the unique needs of each client.",
+    "whoAreWe": "Who are we?",
+    "whoAreWeText": "Noxe is a young, dynamic, and agile company that thrives on challenges and continually strives for improvement. We prioritize our clients and employees, fostering an environment of exceptional transparency. Our goal is to inspire and enable our clients to reach greater heights through our high-performance solutions and unwavering commitment to excellence.",
+    "howDoWeWork": "How do we work?",
+    "howDoWeWorkText": "Our team is dedicated and adaptable, approaching each client with a unique and personalized strategy while upholding our fundamental principles of agility and dynamism. We take pride in being a professional and resilient team, consistently delivering exceptional results regardless of the challenge at hand.",
+    "valuesRow1": ["Performance", "Integrity", "Consistency", "Accountability", "Quality"],
+    "valuesRow2": ["Innovation", "Professionalism", "Resilient", "Transparency", "Enthusiastic"]
+  },
+  "culture": {
+    "title": "OUR CULTURE",
+    "ourCompany": "Our Company",
+    "ourCompanyText": "Noxe is a fast-growing company that successfully tackles multiple challenges—a quality that shapes our identity and strength. Today, we are proud to have surpassed the milestone of 30 employees and to continue our expansion with the opening of two branches: one in Montreal, the vibrant heart of innovation, and the other in Quebec City, rich with entrepreneurial dynamism.",
+    "ourMission": "Our Mission",
+    "ourMissionText": "Noxe's mission is straightforward: to fundamentally help our employees thrive professionally and to enable our clients to achieve high performance. We accomplish this mission simply by securing the sites where our clients operate, or by optimizing their operating expenses (Opex) through innovation and the full utilization of available technologies.",
+    "ourValues": "Our Values",
+    "ourValuesText": "Noxe distinguishes itself through its core values: a profound respect for its employees, a commitment to supporting its clients in optimizing their operations, and the implementation of reliable and high-performance security systems. Our work environment, which is dynamic and agile, and infused with a slight dose of creative chaos, constantly pushes us to surpass ourselves and innovate to remain at the cutting edge of our expertise.",
+    "ourVision": "Our Vision",
+    "ourVisionText": "We aim to become THE industry reference in Physical Security, Business Intelligence, and Building Intelligence, and by extension, to be your trusted technology partner. Our vision is to continuously push the boundaries of innovation by delivering intelligent, scalable, and future-ready solutions that help organizations operate more securely, efficiently, and sustainably."
+  },
+  "ceoMessage": {
+    "title": "MESSAGE FROM OUR CEO",
+    "subtitle": "THE COMPANY CEO",
+    "name": "Jonathan Aubut"
+  },
+  "team": {
+    "title": "OUR TEAM OF EXPERTS",
+    "intro": "Our team is composed of dedicated professionals who bring together expertise, innovation, and a strong commitment to excellence. Combining technical knowledge, project management experience, and a customer-focused mindset, we work collaboratively to deliver reliable and high-performance solutions tailored to each client's needs."
+  },
+  "partners": {
+    "title": "OUR PARTNERS",
+    "intro": "We collaborate with trusted industry partners and technology providers to deliver reliable, innovative, and high-performance solutions to our clients. Through strong partnerships, we combine expertise, advanced technologies, and proven products to ensure every project meets the highest standards of quality and efficiency.",
+    "categories": [
+      { "name": "Access", "partners": ["GENETEC", "KANTECH", "LENEL S2", "HID", "ASSA ABLOY", "ALLEGION", "GENEA", "SOFTWARE HOUSE", "AUTOMATIC SYSTEMS", "AXIS COMUNICATIONS"] },
+      { "name": "Tech", "partners": ["AXIS COMUNICATIONS", "AWS", "GITHUB", "CLOUD AI", "NIVIDIA", "MACHINE LEARNING", "BUSINESS ANALYTICS", "DEV OPS", "SMART BUILDING"] },
+      { "name": "Video", "partners": ["GENETEC", "AXIS COMUNICATIONS", "MILESTONE", "BOSCH", "AXIS"] }
+    ]
+  },
+  "proposalDescription": {
+    "title": "PROPOSAL DESCRIPTION",
+    "object": "Object :"
+  },
+  "service": {
+    "billOfMaterials": "BILL OF MATERIALS",
+    "materialsDescription": "This section shows the materials and equipment included in {section}.",
+    "otherServicesDescription": "This section shows the other services included in {section}.",
+    "zeroVentilationTitle": "BILL OF MATERIALS, LABOR, AND OTHER SERVICES",
+    "zeroVentilationDescription": "Materials, labor, and other services included in {section}.",
+    "subtotal": "SUBTOTAL :",
+    "laborAndServices": "LABOR, and OTHER SERVICES",
+    "materialsLabel": "MATERIALS",
+    "columns": {
+      "qty": "QTY",
+      "partDescription": "PART#/DESCRIPTION",
+      "partNumber": "PART#",
+      "description": "DESCRIPTION",
+      "oem": "OEM",
+      "unitPrice": "UNIT PRICE ($)",
+      "total": "TOTAL ($)"
+    }
+  },
+  "projectSummary": {
+    "title": "PROJECT SUMMARY"
+  },
+  "exclusions": {
+    "exclusionTitle": "Exclusion",
+    "exclusionTitlePlural": "Exclusions",
+    "specialConditionsTitle": "Special Condition",
+    "specialConditionsTitlePlural": "Special Conditions",
+    "noteTitle": "Note",
+    "noteTitlePlural": "Notes",
+    "paymentTermTitle": "Payment Term",
+    "paymentTermTitlePlural": "Payment Terms",
+    "clientSignature": "Client's Signature",
+    "date": "Date",
+    "warrantyLabel": "Warranty :",
+    "warrantyText": "All supplied equipment is covered by the manufacturer's standard warranty unless otherwise specified. Installation and workmanship are warranted for a period of 12 months from the date of project completion.",
+    "infoText": "If you have any questions or need additional information regarding this quote, please do not hesitate to contact me."
+  },
+  "terms": {
+    "title": "Terms and Conditions",
+    "sections": [
+      {
+        "title": "Garanties",
+        "text": "NOXE warrants that its services will be performed in a workmanlike manner. Any service not performed in a workmanlike manner will be re-performed by NOXE provided that the Customer notifies NOXE as soon as possible, but no later than one month from the date of performance of the services. If a part is installed as part of the services rendered by NOXE, NOXE warrants that the installed part will be free from defects in material or workmanship for the remainder of the term or for one (1) year from the date of installation of the part, whichever occurs first. If the part is covered by a manufacturer's warranty of less than one (1) year, NOXE's warranty to Customer with respect to such part shall be limited to the duration of the manufacturer's warranty."
+      },
+      {
+        "title": "Method of Payment",
+        "text": "NOXE obtains and retains a purchase money security interest in all Products and Services sold to Customer under a Contract and the proceeds of their disposition to secure payment of the purchase price of the Products and Services sold, and Customer agrees to cooperate with NOXE in perfecting such security interest. In the case of Products sold in the Province of Quebec, NOXE retains title to the Products (and all accessories, replacements and proceeds thereof) until Customer has made full payment and fulfilled all obligations hereunder."
+      },
+      {
+        "title": "Force Majeure",
+        "text": "NOXE assumes no liability to Customer for any failure or delay in performance of any term of any contract between the parties where such failure or delay is due to force majeure. Similarly, NOXE shall not be deemed to have breached any contract between the parties or to have breached any such contract in such circumstances. For the purposes of any contract between the parties, the term \"force majeure\" shall mean circumstances or acts beyond the reasonable control of NOXE, including, without limitation, acts of nature, floods, fires, earthquakes, explosions, governmental actions, wars, invasions or hostilities (whether war be declared or not), threats or acts of terrorism, riots or other civil disturbances, national emergencies, revolutions, insurrections, epidemics, lockouts strikes or other labour disputes (whether or not involving NOXE's labour) or restrictions or delays affecting Freight Carriers or inability or delay in obtaining sufficient or suitable materials, breakdown of materials or equipment, telecommunications or power failures, provided that Customer shall have the right to give NOXE written notice of termination of the Contract if such event continues for more than 60 consecutive days."
+      },
+      {
+        "title": "Resiliation",
+        "text": "In addition to the remedies provided herein, NOXE may terminate the contract between the parties by giving the Customer 10 days written notice if the Customer (i) fails to accept delivery of a shipment of Product in accordance with the contract; (ii) fails to pay any invoice from NOXE when due; (iii) otherwise defaults in its obligations under the Agreement and fails to cure such default within 10 days after receipt of written notice thereof from NOXE; or (iv) becomes insolvent, files a petition in bankruptcy, or commences or is subject to bankruptcy, receivership, reorganization, or assignment proceedings in favor of its creditors. If the Agreement is terminated for any of the foregoing reasons, Customer shall promptly pay to NOXE the amounts owing to NOXE for services and facilities rendered by NOXE prior to the effective date of termination of the Agreement upon forfeiture of the benefit of the term. Termination of the Agreement shall in no way limit or prejudice NOXE's right to recover damages from Customer or to exercise any other statutory, contractual or equitable right or remedy available to NOXE as a result of such breach."
+      },
+      {
+        "title": "Confidential Information",
+        "text": "Customer will treat as strictly confidential any confidential or proprietary information of NOXE communicated to it by or on behalf of NOXE in connection with a contract between the parties and will not disclose such information to any third party. Customer will disclose such information only to those employees who need to know such information in the performance of their duties under such contract and such employees will use such information only in the performance of such duties."
+      }
+    ]
+  }
+}

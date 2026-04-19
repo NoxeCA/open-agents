@@ -1,0 +1,253 @@
+{
+  "lang": "fr",
+  "clientName": "Ecole secondaire Prevost",
+  "subtitle": "Soumission commerciale",
+  "documentType": "PROPOSITION",
+  "documentTitle": "Projet controle d'acces",
+  "quoteID": "SAMPLE-JSON-001",
+  "revision": 1,
+  "quoteDate": "2026-04-19",
+  "validUntil": "2026-05-19",
+  "preparedFor": [
+    {
+      "name": "Jean Client"
+    }
+  ],
+  "preparedBy": [
+    {
+      "name": "Marc-Olivier Gagner"
+    }
+  ],
+  "includeAboutUs": true,
+  "includeCulture": true,
+  "includeCeoMessage": false,
+  "includeTeam": false,
+  "includePartners": true,
+  "includeTermsAndConditions": true,
+  "proposal": {
+    "date": "2026-04-19",
+    "addressee": {
+      "name": "Jean Client",
+      "company": "Ecole secondaire Prevost",
+      "address": "225 ch. de la Montagne, Prevost, QC"
+    },
+    "object": "Soumission controle d'acces",
+    "paragraphs": [
+      "Merci de votre confiance.",
+      "Cette proposition JSON est rendue directement en PDF sans passer par le chat IA."
+    ]
+  },
+  "projectTitle": "LC Connect - SAMPLE-JSON-001",
+  "projectIntro": "Noxe presente cette proposition pour la fourniture et l'installation du systeme.",
+  "services": [
+    {
+      "sectionNumber": 1,
+      "sectionName": "Controle d'acces",
+      "description": "Fourniture du materiel principal",
+      "bomItems": [
+        {
+          "qty": 1,
+          "partNumber": "AQD1",
+          "description": "Controleur principal",
+          "oem": "HID",
+          "unitPrice": 1200,
+          "total": 1200
+        },
+        {
+          "qty": 2,
+          "partNumber": "RDR-20",
+          "description": "Lecteurs de proximite",
+          "oem": "HID",
+          "unitPrice": 280,
+          "total": 560
+        }
+      ],
+      "bomSubtotal": 1760,
+      "tableIntroBlocks": [
+        {
+          "type": "paragraph",
+          "tone": "muted",
+          "text": "Le tableau ci-dessous presente une base budgetaire pour la phase actuelle. Les quantites finales pourront etre ajustees apres validation chantier."
+        }
+      ],
+      "laborCategories": [
+        {
+          "category": "Installation",
+          "amount": 600
+        }
+      ],
+      "laborSubtotal": 600,
+      "totalCost": 2360,
+      "layout": "itemized-with-price"
+    }
+  ],
+  "documentContent": {
+    "version": 1,
+    "regions": {
+      "proposal:body": {
+        "target": {
+          "scope": "proposal",
+          "anchor": "body"
+        },
+        "label": "Proposal body",
+        "locationHints": [
+          "proposal body"
+        ],
+        "blocks": [
+          {
+            "type": "heading",
+            "level": "h3",
+            "text": "Cadre de travail"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Compatibilite avec la plateforme cible du client",
+              "Coordination avec les autres corps de metier",
+              "Livraison d'un devis presentable sans retouche manuelle"
+            ]
+          }
+        ]
+      },
+      "service:0:after-table": {
+        "target": {
+          "scope": "service",
+          "index": 0,
+          "anchor": "after-table"
+        },
+        "label": "Service 1 after table",
+        "locationHints": [
+          "below table"
+        ],
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Les prix unitaires demeurent indicatifs jusqu'a la validation finale des conditions de site.",
+            "tone": "muted"
+          }
+        ]
+      },
+      "service:0:after-tax": {
+        "target": {
+          "scope": "service",
+          "index": 0,
+          "anchor": "after-tax"
+        },
+        "label": "Service 1 after tax",
+        "locationHints": [
+          "below tax disclaimer"
+        ],
+        "blocks": [
+          {
+            "type": "paragraph",
+            "tone": "muted",
+            "text": "Cette proposition est de nature budgetaire. Les couts presentes sont fournis a titre indicatif et peuvent varier jusqu'a 10 % selon les conditions du marche et les ajustements fabricants au moment de la commande."
+          }
+        ]
+      },
+      "optional:0:body": {
+        "target": {
+          "scope": "optional",
+          "index": 0,
+          "anchor": "body"
+        },
+        "label": "Optional page 1 body",
+        "locationHints": [
+          "optional page body"
+        ],
+        "blocks": [
+          {
+            "type": "paragraph",
+            "tone": "lead",
+            "text": "Cette section illustre comment des pages libres peuvent etre inserees avant ou apres le coeur du devis tout en gardant le style Noxe."
+          },
+          {
+            "type": "table",
+            "title": "Exemple de comparaison",
+            "columns": [
+              {
+                "label": "Sujet"
+              },
+              {
+                "label": "Etat actuel"
+              },
+              {
+                "label": "Cible",
+                "align": "right"
+              }
+            ],
+            "rows": [
+              [
+                "Controle",
+                "Local",
+                "Centralise"
+              ],
+              [
+                "Lecteurs",
+                "Mixtes",
+                "Standardises"
+              ],
+              [
+                "Suivi",
+                "Manuel",
+                "Temps reel"
+              ]
+            ],
+            "caption": "Exemple de bloc table base sur le nouveau modele riche."
+          },
+          {
+            "type": "stats",
+            "title": "Points clefs",
+            "items": [
+              {
+                "label": "Portes",
+                "value": "2"
+              },
+              {
+                "label": "Controleurs",
+                "value": "1"
+              },
+              {
+                "label": "Lecteurs",
+                "value": "2"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "projectSummary": {
+    "description": "Fourniture, installation et mise en service complete.",
+    "subtotal": 2360,
+    "totalProjectCost": 2360
+  },
+  "exclusions": [
+    "La quincaillerie electrifiee fournie par d'autres est exclue.",
+    "Le cablage existant non conforme est exclu."
+  ],
+  "specialConditions": [
+    "Les travaux sont planifies en coordination avec le client."
+  ],
+  "notes": [
+    "Exemple JSON statique pour validation locale du pipeline PDF."
+  ],
+  "paymentTerms": [
+    "35 % a la signature",
+    "15 % a la commande du materiel",
+    "40 % en cours d'installation",
+    "10 % a la fin des travaux"
+  ],
+  "optionalPages": [
+    {
+      "pageTitle": "GENETEC ET CONTROLE D'ACCES",
+      "title": "Contexte technologique"
+    }
+  ],
+  "contactInfo": {
+    "name": "Marc-Olivier Gagner",
+    "company": "Noxe",
+    "phone": "438-865-8020",
+    "email": "m.gagner@noxe.ca"
+  }
+}

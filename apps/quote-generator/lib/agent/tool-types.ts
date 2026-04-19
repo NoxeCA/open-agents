@@ -88,56 +88,82 @@ export type { Operation };
 
 // ---- document tools ----------------------------------------------------
 
-export type DocumentThemeId = "editorial" | "executive" | "technical";
-export type DocumentDensityId = "airy" | "balanced" | "compact";
-export type DocumentAccentId = "sand" | "forest" | "ink";
-export type DocumentSectionKind =
-  | "cover"
-  | "overview"
-  | "services"
-  | "about"
-  | "culture"
-  | "leadership"
-  | "team"
-  | "partners"
-  | "commercial";
+export type JsonRenderCatalogCategory =
+  | "layout"
+  | "typography"
+  | "brand"
+  | "content"
+  | "table"
+  | "composite"
+  | "template";
 
-export type DocumentCatalogOption = {
-  id: string;
-  label: string;
-  description: string;
+export type JsonRenderDraftAttachment = {
+  filename: string;
+  base64Content: string;
 };
 
-export type DocumentCatalogSection = {
-  kind: DocumentSectionKind;
-  label: string;
-  description: string;
-  optional: boolean;
+export type JsonRenderDraft = {
+  version: 1;
+  brand?: Record<string, unknown>;
+  variables?: Record<string, unknown>;
+  attachments?: JsonRenderDraftAttachment[];
+  document: {
+    type: "Document";
+    lang?: "fr" | "en";
+    children: unknown[];
+  };
 };
+
+export type JsonRenderCatalogComponent = {
+  name: string;
+  kind: "leaf" | "container";
+  category: JsonRenderCatalogCategory;
+  description: string;
+  shape: string;
+};
+
+export type JsonRenderIntegrityIssue =
+  | {
+      kind: "toc-dangling";
+      path: string;
+      sectionId: string;
+    }
+  | {
+      kind: "image-unknown-asset";
+      path: string;
+      src: string;
+    }
+  | {
+      kind: "duplicate-section-id";
+      path: string;
+      sectionId: string;
+    };
 
 export type DocumentCatalogOutput = {
-  themes: DocumentCatalogOption[];
-  densities: DocumentCatalogOption[];
-  accents: DocumentCatalogOption[];
-  sections: DocumentCatalogSection[];
-  components: string[];
+  storagePath: "/jsonRenderDraft";
+  assetKeys: string[];
+  catalogPrompt: string;
+  manifest: {
+    version: 1;
+    components: JsonRenderCatalogComponent[];
+  };
+  currentDraftSummary: DocumentSummary | null;
 };
 
 export type DocumentSummary = {
-  theme: DocumentThemeId;
-  density: DocumentDensityId;
-  accent: DocumentAccentId;
+  storagePath: "/jsonRenderDraft";
+  lang: "fr" | "en";
+  topLevelNodeCount: number;
+  topLevelNodeTypes: string[];
   pageCount: number;
-  sections: string[];
+  serviceSectionCount: number;
+  imageCount: number;
+  attachmentCount: number;
+  sectionIds: string[];
 };
 
 export type ComposeDocumentSpecInput = {
-  theme?: DocumentThemeId;
-  density?: DocumentDensityId;
-  accent?: DocumentAccentId;
-  sectionOrder?: DocumentSectionKind[];
-  includeSections?: DocumentSectionKind[];
-  excludeSections?: DocumentSectionKind[];
+  draft: JsonRenderDraft;
 };
 
 export type ComposeDocumentSpecOutput =
@@ -145,6 +171,7 @@ export type ComposeDocumentSpecOutput =
       ok: true;
       summary: DocumentSummary;
       touchedPaths: string[];
+      integrityIssues: JsonRenderIntegrityIssue[];
     }
   | {
       ok: false;
@@ -157,8 +184,8 @@ export type PatchDocumentSpecOutput =
   | {
       ok: true;
       touchedPaths: string[];
-      issues: PatchQuoteIssue[];
       summary: DocumentSummary;
+      integrityIssues: JsonRenderIntegrityIssue[];
     }
   | { ok: false; error: string };
 

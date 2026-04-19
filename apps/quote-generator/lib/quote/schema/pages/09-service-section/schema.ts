@@ -1,4 +1,4 @@
-import { quoteRichContentBlocksSchema } from "@open-harness/quote-documents/lib/documents/quote/rich-content";
+import { quoteRichContentBlocksSchema } from "@/lib/documents/quote/rich-content";
 import { z } from "zod";
 
 export const bomItemSchema = z.object({

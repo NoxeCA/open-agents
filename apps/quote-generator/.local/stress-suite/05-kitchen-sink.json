@@ -1,0 +1,589 @@
+{
+  "lang": "fr",
+  "clientName": "Ecole secondaire Prevost",
+  "subtitle": "Soumission commerciale",
+  "documentType": "PROPOSITION",
+  "documentTitle": "Projet controle d'acces",
+  "quoteID": "SAMPLE-JSON-001",
+  "revision": 1,
+  "quoteDate": "2026-04-19",
+  "validUntil": "2026-05-19",
+  "preparedFor": [
+    {
+      "name": "Jean Client"
+    }
+  ],
+  "preparedBy": [
+    {
+      "name": "Marc-Olivier Gagner"
+    }
+  ],
+  "includeAboutUs": true,
+  "includeCulture": true,
+  "includeCeoMessage": true,
+  "includeTeam": true,
+  "includePartners": true,
+  "includeTermsAndConditions": true,
+  "proposal": {
+    "date": "2026-04-19",
+    "addressee": {
+      "name": "Jean Client",
+      "company": "Ecole secondaire Prevost",
+      "address": "225 ch. de la Montagne, Prevost, QC"
+    },
+    "object": "Soumission controle d'acces",
+    "paragraphs": [
+      "Merci de votre confiance.",
+      "Cette proposition JSON est rendue directement en PDF sans passer par le chat IA."
+    ]
+  },
+  "projectTitle": "LC Connect - All Sections Stress",
+  "projectIntro": "Narratif de projet 1: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Narratif de projet 2: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Narratif de projet 3: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Narratif de projet 4: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Narratif de projet 5: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Narratif de projet 6: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille.",
+  "services": [
+    {
+      "sectionNumber": 1,
+      "sectionName": "Controle d'acces",
+      "description": "Fourniture du materiel principal",
+      "bomItems": [
+        {
+          "qty": 1,
+          "partNumber": "AQD1",
+          "description": "Controleur principal",
+          "oem": "HID",
+          "unitPrice": 1200,
+          "total": 1200
+        },
+        {
+          "qty": 2,
+          "partNumber": "RDR-20",
+          "description": "Lecteurs de proximite",
+          "oem": "HID",
+          "unitPrice": 280,
+          "total": 560
+        }
+      ],
+      "bomSubtotal": 1760,
+      "tableIntroBlocks": [
+        {
+          "type": "paragraph",
+          "tone": "muted",
+          "text": "Le tableau ci-dessous presente une base budgetaire pour la phase actuelle. Les quantites finales pourront etre ajustees apres validation chantier."
+        }
+      ],
+      "laborCategories": [
+        {
+          "category": "Installation",
+          "amount": 600
+        }
+      ],
+      "laborSubtotal": 600,
+      "totalCost": 2360,
+      "layout": "itemized-with-price"
+    },
+    {
+      "sectionNumber": 2,
+      "sectionName": "Intrusion",
+      "description": "Ajout d'une section complete intrusion pour pousser la variete.",
+      "bomItems": [
+        {
+          "qty": 1,
+          "partNumber": "IN-01",
+          "description": "Composant IN 1",
+          "oem": "Genetec",
+          "unitPrice": 85,
+          "total": 85
+        },
+        {
+          "qty": 2,
+          "partNumber": "IN-02",
+          "description": "Composant IN 2",
+          "oem": "HID",
+          "unitPrice": 102,
+          "total": 204
+        },
+        {
+          "qty": 3,
+          "partNumber": "IN-03",
+          "description": "Composant IN 3",
+          "oem": "Genetec",
+          "unitPrice": 119,
+          "total": 357
+        },
+        {
+          "qty": 1,
+          "partNumber": "IN-04",
+          "description": "Composant IN 4",
+          "oem": "HID",
+          "unitPrice": 136,
+          "total": 136
+        },
+        {
+          "qty": 2,
+          "partNumber": "IN-05",
+          "description": "Composant IN 5",
+          "oem": "Genetec",
+          "unitPrice": 153,
+          "total": 306
+        },
+        {
+          "qty": 3,
+          "partNumber": "IN-06",
+          "description": "Composant IN 6",
+          "oem": "HID",
+          "unitPrice": 170,
+          "total": 510
+        },
+        {
+          "qty": 1,
+          "partNumber": "IN-07",
+          "description": "Composant IN 7",
+          "oem": "Genetec",
+          "unitPrice": 187,
+          "total": 187
+        },
+        {
+          "qty": 2,
+          "partNumber": "IN-08",
+          "description": "Composant IN 8",
+          "oem": "HID",
+          "unitPrice": 204,
+          "total": 408
+        }
+      ],
+      "bomSubtotal": 2328,
+      "laborCategories": [
+        {
+          "category": "Installation",
+          "amount": 900
+        },
+        {
+          "category": "Programmation",
+          "amount": 450
+        }
+      ],
+      "laborSubtotal": 1350,
+      "totalCost": 3678,
+      "layout": "itemized-with-price",
+      "overviewBlocks": [
+        {
+          "type": "paragraph",
+          "tone": "lead",
+          "text": "Cette section intrusion a son propre narratif avant le tableau."
+        }
+      ],
+      "tableIntroBlocks": [
+        {
+          "type": "paragraph",
+          "tone": "muted",
+          "text": "On place encore du contenu avant le tableau pour verifier l'empilage des regions."
+        }
+      ],
+      "tableOutroBlocks": [
+        {
+          "type": "table",
+          "title": "Mini tableau sous tableau",
+          "columns": [
+            {
+              "label": "Lot"
+            },
+            {
+              "label": "Statut"
+            }
+          ],
+          "rows": [
+            [
+              "Intrusion",
+              "Inclus"
+            ],
+            [
+              "Coordination",
+              "Incluse"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sectionNumber": 3,
+      "sectionName": "Services professionnels",
+      "description": "Une section sans BOM lourd mais avec cadrage executif.",
+      "bomItems": [],
+      "bomSubtotal": 0,
+      "laborCategories": [
+        {
+          "category": "Gestion de projet",
+          "amount": 1200
+        },
+        {
+          "category": "Formation",
+          "amount": 600
+        }
+      ],
+      "laborSubtotal": 1800,
+      "totalCost": 1800,
+      "layout": "zero-ventilation",
+      "overviewBlocks": [
+        {
+          "type": "heading",
+          "level": "h3",
+          "text": "Volet accompagnement"
+        },
+        {
+          "type": "paragraph",
+          "text": "Cette section simule un bloc plus conseil / gouvernance, sans abandonner la presentation Noxe."
+        }
+      ],
+      "tableIntroBlocks": [
+        {
+          "type": "quote",
+          "text": "Le vendeur doit pouvoir enrichir ce genre de page sans demander un nouveau champ schema a chaque fois.",
+          "attribution": "Besoin produit"
+        }
+      ],
+      "footerBlocks": [
+        {
+          "type": "paragraph",
+          "tone": "muted",
+          "text": "Bloc de fermeture sous la ventilation zero pour verifier les zones libres de fin de section."
+        }
+      ]
+    }
+  ],
+  "documentContent": {
+    "version": 1,
+    "regions": {
+      "proposal:body": {
+        "target": {
+          "scope": "proposal",
+          "anchor": "body"
+        },
+        "label": "Proposal body",
+        "locationHints": [
+          "proposal body"
+        ],
+        "blocks": [
+          {
+            "type": "heading",
+            "level": "h2",
+            "text": "Pourquoi ce devis est volontairement charge"
+          },
+          {
+            "type": "paragraph",
+            "tone": "lead",
+            "text": "Bloc narratif 1: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Bloc narratif 2: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Bloc narratif 3: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Bloc narratif 4: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Bloc narratif 5: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille."
+          },
+          {
+            "type": "list",
+            "title": "Ce qu'on veut verifier",
+            "items": [
+              "Ajout de beaucoup de contenu sans changer le systeme visuel",
+              "Conservation des sauts de page propres",
+              "Compatibilite des regions libres avec les sections brochure"
+            ]
+          }
+        ]
+      },
+      "service:0:after-table": {
+        "target": {
+          "scope": "service",
+          "index": 0,
+          "anchor": "after-table"
+        },
+        "label": "Service 1 after table",
+        "locationHints": [
+          "below table"
+        ],
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": "Les prix unitaires demeurent indicatifs jusqu'a la validation finale des conditions de site.",
+            "tone": "muted"
+          }
+        ]
+      },
+      "service:0:after-tax": {
+        "target": {
+          "scope": "service",
+          "index": 0,
+          "anchor": "after-tax"
+        },
+        "label": "Service 1 after tax",
+        "locationHints": [
+          "below tax disclaimer"
+        ],
+        "blocks": [
+          {
+            "type": "paragraph",
+            "tone": "muted",
+            "text": "Cette proposition est de nature budgetaire. Les couts presentes sont fournis a titre indicatif et peuvent varier jusqu'a 10 % selon les conditions du marche et les ajustements fabricants au moment de la commande."
+          }
+        ]
+      },
+      "optional:0:body": {
+        "target": {
+          "scope": "optional",
+          "index": 0,
+          "anchor": "body"
+        },
+        "label": "Optional page 1 body",
+        "locationHints": [
+          "optional page body"
+        ],
+        "blocks": [
+          {
+            "type": "paragraph",
+            "tone": "lead",
+            "text": "Cette section illustre comment des pages libres peuvent etre inserees avant ou apres le coeur du devis tout en gardant le style Noxe."
+          },
+          {
+            "type": "table",
+            "title": "Exemple de comparaison",
+            "columns": [
+              {
+                "label": "Sujet"
+              },
+              {
+                "label": "Etat actuel"
+              },
+              {
+                "label": "Cible",
+                "align": "right"
+              }
+            ],
+            "rows": [
+              [
+                "Controle",
+                "Local",
+                "Centralise"
+              ],
+              [
+                "Lecteurs",
+                "Mixtes",
+                "Standardises"
+              ],
+              [
+                "Suivi",
+                "Manuel",
+                "Temps reel"
+              ]
+            ],
+            "caption": "Exemple de bloc table base sur le nouveau modele riche."
+          },
+          {
+            "type": "stats",
+            "title": "Points clefs",
+            "items": [
+              {
+                "label": "Portes",
+                "value": "2"
+              },
+              {
+                "label": "Controleurs",
+                "value": "1"
+              },
+              {
+                "label": "Lecteurs",
+                "value": "2"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "projectSummary": {
+    "description": "Scenario maximaliste: toutes les sections brochure, trois services, regions libres, doubles tableaux et longues annexes.",
+    "subtotal": 7842,
+    "totalProjectCost": 11517
+  },
+  "exclusions": [
+    "La quincaillerie electrifiee fournie par d'autres est exclue.",
+    "Le cablage existant non conforme est exclu."
+  ],
+  "specialConditions": [
+    "Les travaux sont planifies en coordination avec le client."
+  ],
+  "notes": [
+    "Exemple JSON statique pour validation locale du pipeline PDF."
+  ],
+  "paymentTerms": [
+    "35 % a la signature",
+    "15 % a la commande du materiel",
+    "40 % en cours d'installation",
+    "10 % a la fin des travaux"
+  ],
+  "optionalPages": [
+    {
+      "pageTitle": "GENETEC ET CONTROLE D'ACCES",
+      "title": "Contexte technologique"
+    },
+    {
+      "pageTitle": "ANNEXE STRATEGIQUE",
+      "title": "Comparatif fonctionnel",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tone": "lead",
+          "text": "On pousse ici un vrai cas funky: deux tableaux consecutifs sur une seule page, avec du contexte commercial avant, entre, et apres."
+        },
+        {
+          "type": "table",
+          "title": "Tableau A - Portes et profils",
+          "columns": [
+            {
+              "label": "Porte"
+            },
+            {
+              "label": "Profil"
+            },
+            {
+              "label": "Mode"
+            }
+          ],
+          "rows": [
+            [
+              "P1",
+              "Administration",
+              "Carte + PIN"
+            ],
+            [
+              "P2",
+              "Personnel",
+              "Carte"
+            ],
+            [
+              "P3",
+              "Visiteurs",
+              "Interphone"
+            ]
+          ]
+        },
+        {
+          "type": "spacer",
+          "height": 18
+        },
+        {
+          "type": "paragraph",
+          "tone": "muted",
+          "text": "Le second tableau reste sur la meme page pour verifier que le systeme supporte bien une mise en page plus dense sans casser la hierarchie visuelle."
+        },
+        {
+          "type": "table",
+          "title": "Tableau B - Infrastructure",
+          "columns": [
+            {
+              "label": "Sujet"
+            },
+            {
+              "label": "Etat actuel"
+            },
+            {
+              "label": "Cible",
+              "align": "right"
+            }
+          ],
+          "rows": [
+            [
+              "Controleurs",
+              "1",
+              "3"
+            ],
+            [
+              "Lecteurs",
+              "2",
+              "16"
+            ],
+            [
+              "Portes gerees",
+              "2",
+              "18"
+            ]
+          ]
+        },
+        {
+          "type": "quote",
+          "text": "Ce scenario simule exactement le type de modification libre qu'un vendeur voudrait inserer au milieu du document sans toucher au style global.",
+          "attribution": "Stress test JSON render"
+        }
+      ]
+    },
+    {
+      "pageTitle": "GENETEC",
+      "title": "Presentation de plateforme",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tone": "lead",
+          "text": "Genetec 1: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Genetec 2: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Genetec 3: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Genetec 4: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Genetec 5: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Genetec 6: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Genetec 7: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille."
+        },
+        {
+          "type": "stats",
+          "title": "Indicateurs",
+          "items": [
+            {
+              "label": "Sites",
+              "value": "3"
+            },
+            {
+              "label": "Lecteurs",
+              "value": "16"
+            },
+            {
+              "label": "Roles",
+              "value": "5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pageTitle": "CONTROLE D'ACCES",
+      "title": "Logique d'exploitation",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tone": "body",
+          "text": "Controle d'acces 1: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Controle d'acces 2: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Controle d'acces 3: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Controle d'acces 4: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Controle d'acces 5: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Controle d'acces 6: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Controle d'acces 7: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille. Controle d'acces 8: cette section documente les hypotheses de coordination, les interfaces techniques, la logique d'exploitation et les points de vigilance chantier pour conserver un devis lisible mais tres detaille."
+        },
+        {
+          "type": "table",
+          "title": "Sequences d'usage",
+          "columns": [
+            {
+              "label": "Moment"
+            },
+            {
+              "label": "Action"
+            },
+            {
+              "label": "But"
+            }
+          ],
+          "rows": [
+            [
+              "Matin",
+              "Ouverture planifiee",
+              "Fluidite"
+            ],
+            [
+              "Jour",
+              "Controle par profil",
+              "Securite"
+            ],
+            [
+              "Soir",
+              "Verrouillage auto",
+              "Reduction du risque"
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "contactInfo": {
+    "name": "Marc-Olivier Gagner",
+    "company": "Noxe",
+    "phone": "438-865-8020",
+    "email": "m.gagner@noxe.ca"
+  }
+}

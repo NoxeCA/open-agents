@@ -22,6 +22,7 @@ import {
   buildSummaryDocumentContentRegionId,
   buildTermsDocumentContentRegionId,
 } from "./document-content-regions";
+import { buildDocumentPlanSectionVisibilityPath } from "./document-section-visibility";
 
 type QuoteRow = typeof quotes.$inferSelect;
 
@@ -429,7 +430,10 @@ export function buildRendererMap(data: Partial<QuoteData>) {
       pageEnd: page,
       title: "About Us",
       kind: "story",
-      editTargets: ["/includeAboutUs"],
+      editTargets: [
+        buildDocumentPlanSectionVisibilityPath("about"),
+        "/includeAboutUs",
+      ],
       editableRegions: [
         {
           regionId: "about-us:after-intro",
@@ -454,7 +458,10 @@ export function buildRendererMap(data: Partial<QuoteData>) {
         },
         {
           regionId: "about_us_visibility",
-          patchPaths: ["/includeAboutUs"],
+          patchPaths: [
+            buildDocumentPlanSectionVisibilityPath("about"),
+            "/includeAboutUs",
+          ],
           locationHints: ["about us page", "company page", "remove this page"],
           supportedBlocks: [],
           notes: [
@@ -472,7 +479,10 @@ export function buildRendererMap(data: Partial<QuoteData>) {
       pageEnd: page,
       title: "Culture",
       kind: "story",
-      editTargets: ["/includeCulture"],
+      editTargets: [
+        buildDocumentPlanSectionVisibilityPath("culture"),
+        "/includeCulture",
+      ],
       editableRegions: [
         {
           regionId: "culture:after-intro",
@@ -497,7 +507,10 @@ export function buildRendererMap(data: Partial<QuoteData>) {
         },
         {
           regionId: "culture_visibility",
-          patchPaths: ["/includeCulture"],
+          patchPaths: [
+            buildDocumentPlanSectionVisibilityPath("culture"),
+            "/includeCulture",
+          ],
           locationHints: ["culture page", "remove this page"],
           supportedBlocks: [],
           notes: [
@@ -515,7 +528,11 @@ export function buildRendererMap(data: Partial<QuoteData>) {
       pageEnd: page,
       title: "Leadership note",
       kind: "story",
-      editTargets: ["/includeCeoMessage", "/ceo"],
+      editTargets: [
+        buildDocumentPlanSectionVisibilityPath("leadership"),
+        "/includeCeoMessage",
+        "/ceo",
+      ],
       editableRegions: [
         {
           regionId: "leadership_content",
@@ -532,7 +549,10 @@ export function buildRendererMap(data: Partial<QuoteData>) {
         },
         {
           regionId: "leadership_visibility",
-          patchPaths: ["/includeCeoMessage"],
+          patchPaths: [
+            buildDocumentPlanSectionVisibilityPath("leadership"),
+            "/includeCeoMessage",
+          ],
           locationHints: ["remove leadership page", "hide ceo note"],
           supportedBlocks: [],
           notes: [
@@ -552,7 +572,11 @@ export function buildRendererMap(data: Partial<QuoteData>) {
       pageEnd: page,
       title: "Team",
       kind: "story",
-      editTargets: ["/includeTeam", "/team"],
+      editTargets: [
+        buildDocumentPlanSectionVisibilityPath("team"),
+        "/includeTeam",
+        "/team",
+      ],
       editableRegions: [
         {
           regionId: "team:after-intro",
@@ -577,7 +601,10 @@ export function buildRendererMap(data: Partial<QuoteData>) {
         },
         {
           regionId: "team_visibility",
-          patchPaths: ["/includeTeam"],
+          patchPaths: [
+            buildDocumentPlanSectionVisibilityPath("team"),
+            "/includeTeam",
+          ],
           locationHints: ["remove team page", "hide team page"],
           supportedBlocks: [],
           notes: [
@@ -595,7 +622,10 @@ export function buildRendererMap(data: Partial<QuoteData>) {
       pageEnd: page,
       title: "Partners",
       kind: "story",
-      editTargets: ["/includePartners"],
+      editTargets: [
+        buildDocumentPlanSectionVisibilityPath("partners"),
+        "/includePartners",
+      ],
       editableRegions: [
         {
           regionId: "partners:after-intro",
@@ -620,7 +650,10 @@ export function buildRendererMap(data: Partial<QuoteData>) {
         },
         {
           regionId: "partners_visibility",
-          patchPaths: ["/includePartners"],
+          patchPaths: [
+            buildDocumentPlanSectionVisibilityPath("partners"),
+            "/includePartners",
+          ],
           locationHints: [
             "remove partners page",
             "hide partners",
@@ -639,10 +672,24 @@ export function buildRendererMap(data: Partial<QuoteData>) {
     title: "Proposal description",
     kind: "proposal",
     editTargets: [
+      buildDocumentPlanSectionVisibilityPath("overview"),
       "/proposal",
       buildDocumentContentBlocksPath(buildProposalDocumentContentRegionId()),
     ],
     editableRegions: [
+      {
+        regionId: "overview_visibility",
+        patchPaths: [buildDocumentPlanSectionVisibilityPath("overview")],
+        locationHints: [
+          "remove proposal page",
+          "hide overview",
+          "remove introduction page",
+        ],
+        supportedBlocks: [],
+        notes: [
+          "Use this visibility toggle only when the user wants to add or remove the whole overview/proposal page.",
+        ],
+      },
       {
         regionId: buildProposalDocumentContentRegionId(),
         patchPaths: [
@@ -685,12 +732,47 @@ export function buildRendererMap(data: Partial<QuoteData>) {
       title: `${sectionLabel} overview`,
       kind: "service-overview",
       editTargets: [
+        ...(index === 0
+          ? [buildDocumentPlanSectionVisibilityPath("services")]
+          : []),
+        `${basePath}`,
         `${basePath}/description`,
         buildDocumentContentBlocksPath(
           buildServiceDocumentContentRegionId(index, "overview"),
         ),
       ],
       editableRegions: [
+        ...(index === 0
+          ? [
+              {
+                regionId: "services_visibility",
+                patchPaths: [buildDocumentPlanSectionVisibilityPath("services")],
+                locationHints: [
+                  "remove services section",
+                  "hide all service pages",
+                  "remove all pricing pages",
+                ],
+                supportedBlocks: [],
+                notes: [
+                  "Use this visibility toggle only when the user wants to add or remove the whole services chapter.",
+                ],
+              },
+            ]
+          : []),
+        {
+          regionId: `service:${index}:visibility`,
+          patchPaths: [`${basePath}`],
+          locationHints: [
+            `remove ${sectionLabel}`,
+            "remove this service",
+            "delete service section",
+            "drop this pricing section",
+          ],
+          supportedBlocks: [],
+          notes: [
+            "Use remove on this service path when the user wants to delete one service section only.",
+          ],
+        },
         {
           regionId: buildServiceDocumentContentRegionId(index, "overview"),
           patchPaths: [
@@ -940,6 +1022,7 @@ export function buildRendererMap(data: Partial<QuoteData>) {
     title: "Project summary",
     kind: "project-summary",
     editTargets: [
+      buildDocumentPlanSectionVisibilityPath("commercial"),
       "/projectSummary",
       buildDocumentContentBlocksPath(
         buildSummaryDocumentContentRegionId("before-table"),
@@ -955,6 +1038,19 @@ export function buildRendererMap(data: Partial<QuoteData>) {
       ),
     ],
     editableRegions: [
+      {
+        regionId: "commercial_visibility",
+        patchPaths: [buildDocumentPlanSectionVisibilityPath("commercial")],
+        locationHints: [
+          "remove commercial section",
+          "hide project summary and commercial pages",
+          "remove pricing summary pages",
+        ],
+        supportedBlocks: [],
+        notes: [
+          "Use this visibility toggle only when the user wants to add or remove the whole commercial chapter.",
+        ],
+      },
       {
         regionId: "project_summary_fields",
         patchPaths: ["/projectSummary"],
@@ -1069,12 +1165,26 @@ export function buildRendererMap(data: Partial<QuoteData>) {
     title: "Exclusions and conditions",
     kind: "commercial",
     editTargets: [
+      buildDocumentPlanSectionVisibilityPath("commercial"),
       "/exclusions",
       "/paymentTerms",
       "/specialConditions",
       "/notes",
     ],
     editableRegions: [
+      {
+        regionId: "commercial_visibility",
+        patchPaths: [buildDocumentPlanSectionVisibilityPath("commercial")],
+        locationHints: [
+          "remove commercial section",
+          "hide exclusions and conditions page",
+          "remove commercial pages",
+        ],
+        supportedBlocks: [],
+        notes: [
+          "Use this visibility toggle only when the user wants to add or remove the whole commercial chapter.",
+        ],
+      },
       {
         regionId: "payment_terms",
         patchPaths: ["/paymentTerms"],
@@ -1086,6 +1196,23 @@ export function buildRendererMap(data: Partial<QuoteData>) {
         supportedBlocks: [],
         notes: [
           "Structured payment term list for the commercial page near the end of the PDF.",
+        ],
+      },
+      {
+        regionId: buildCommercialDocumentContentRegionId("before-payment-terms"),
+        patchPaths: [
+          buildDocumentContentBlocksPath(
+            buildCommercialDocumentContentRegionId("before-payment-terms"),
+          ),
+        ],
+        locationHints: [
+          "before payment terms",
+          "above payment terms",
+          "before payment schedule",
+        ],
+        supportedBlocks: [...quoteRichBlockTypes],
+        notes: [
+          "Use this stable keyed region for tables, dividers, images, or narrative content immediately before the payment terms list.",
         ],
       },
       {
@@ -1111,6 +1238,19 @@ export function buildRendererMap(data: Partial<QuoteData>) {
         ],
       },
       {
+        regionId: buildCommercialDocumentContentRegionId("before-exclusions"),
+        patchPaths: [
+          buildDocumentContentBlocksPath(
+            buildCommercialDocumentContentRegionId("before-exclusions"),
+          ),
+        ],
+        locationHints: ["before exclusions", "above exclusions", "before out of scope"],
+        supportedBlocks: [...quoteRichBlockTypes],
+        notes: [
+          "Use this stable keyed region for tables, dividers, images, or narrative content immediately before the exclusions list.",
+        ],
+      },
+      {
         regionId: buildCommercialDocumentContentRegionId("after-exclusions"),
         patchPaths: [
           buildDocumentContentBlocksPath(
@@ -1130,6 +1270,24 @@ export function buildRendererMap(data: Partial<QuoteData>) {
         supportedBlocks: [],
         notes: [
           "Use only for meaningful commercial conditions that belong on the exclusions/conditions page.",
+        ],
+      },
+      {
+        regionId: buildCommercialDocumentContentRegionId("before-special-conditions"),
+        patchPaths: [
+          buildDocumentContentBlocksPath(
+            buildCommercialDocumentContentRegionId(
+              "before-special-conditions",
+            ),
+          ),
+        ],
+        locationHints: [
+          "before special conditions",
+          "above special conditions",
+        ],
+        supportedBlocks: [...quoteRichBlockTypes],
+        notes: [
+          "Use this stable keyed region for rich content immediately before the special conditions list.",
         ],
       },
       {
@@ -1160,6 +1318,19 @@ export function buildRendererMap(data: Partial<QuoteData>) {
         ],
       },
       {
+        regionId: buildCommercialDocumentContentRegionId("before-notes"),
+        patchPaths: [
+          buildDocumentContentBlocksPath(
+            buildCommercialDocumentContentRegionId("before-notes"),
+          ),
+        ],
+        locationHints: ["before notes", "above notes", "before commercial notes"],
+        supportedBlocks: [...quoteRichBlockTypes],
+        notes: [
+          "Use this stable keyed region for rich content immediately before the notes list.",
+        ],
+      },
+      {
         regionId: buildCommercialDocumentContentRegionId("after-notes"),
         patchPaths: [
           buildDocumentContentBlocksPath(
@@ -1173,6 +1344,23 @@ export function buildRendererMap(data: Partial<QuoteData>) {
         ],
       },
       {
+        regionId: buildCommercialDocumentContentRegionId("before-info"),
+        patchPaths: [
+          buildDocumentContentBlocksPath(
+            buildCommercialDocumentContentRegionId("before-info"),
+          ),
+        ],
+        locationHints: [
+          "before info line",
+          "above warranty block",
+          "before warranty",
+        ],
+        supportedBlocks: [...quoteRichBlockTypes],
+        notes: [
+          "Use this stable keyed region for rich content immediately before the warranty and info strip.",
+        ],
+      },
+      {
         regionId: buildCommercialDocumentContentRegionId("after-info"),
         patchPaths: [
           buildDocumentContentBlocksPath(
@@ -1183,6 +1371,23 @@ export function buildRendererMap(data: Partial<QuoteData>) {
         supportedBlocks: [...quoteRichBlockTypes],
         notes: [
           "Use this stable keyed region for content between the warranty/info area and the signature block.",
+        ],
+      },
+      {
+        regionId: buildCommercialDocumentContentRegionId("after-contact"),
+        patchPaths: [
+          buildDocumentContentBlocksPath(
+            buildCommercialDocumentContentRegionId("after-contact"),
+          ),
+        ],
+        locationHints: [
+          "after contact block",
+          "below signature",
+          "at the very end of commercial page",
+        ],
+        supportedBlocks: [...quoteRichBlockTypes],
+        notes: [
+          "Use this stable keyed region for footer-style content after the contact and signature block.",
         ],
       },
     ],
@@ -1200,6 +1405,7 @@ export function buildRendererMap(data: Partial<QuoteData>) {
       title: "Terms and conditions",
       kind: "terms",
       editTargets: [
+        buildDocumentPlanSectionVisibilityPath("terms"),
         "/includeTermsAndConditions",
         buildDocumentContentBlocksPath(
           buildTermsDocumentContentRegionId("before-sections"),
@@ -1211,7 +1417,10 @@ export function buildRendererMap(data: Partial<QuoteData>) {
       editableRegions: [
         {
           regionId: "terms_visibility",
-          patchPaths: ["/includeTermsAndConditions"],
+          patchPaths: [
+            buildDocumentPlanSectionVisibilityPath("terms"),
+            "/includeTermsAndConditions",
+          ],
           locationHints: ["terms page", "remove terms page", "hide legal page"],
           supportedBlocks: [],
           notes: [

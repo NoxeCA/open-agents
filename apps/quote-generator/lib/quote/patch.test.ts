@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 
 import { normalizeQuoteData } from "./normalize";
-import { applyPatch } from "./patch";
+import { applyPatch, validatePartial } from "./patch";
 import type { QuoteData } from "./schema";
 
 describe("quote patch compatibility", () => {
@@ -68,5 +68,110 @@ describe("quote patch compatibility", () => {
     expect(normalized.documentType).toBe("PROPOSITION");
     expect(normalized.proposal?.addressee?.name).toBe("");
     expect(normalized.proposal?.addressee?.company).toBe("");
+  });
+
+  test("validation does not throw on normalized quotes with refinements", () => {
+    const normalized = normalizeQuoteData({
+      lang: "fr",
+      services: [],
+      exclusions: [],
+      paymentTerms: [],
+      specialConditions: [],
+    } as Partial<QuoteData>);
+
+    expect(() => validatePartial(normalized)).not.toThrow();
+  });
+
+  test("commercial document regions support rich blocks before payment terms", () => {
+    const current = normalizeQuoteData({
+      lang: "fr",
+      services: [],
+      exclusions: [],
+      paymentTerms: [],
+      specialConditions: [],
+      notes: [],
+    } as Partial<QuoteData>);
+
+    const next = applyPatch(current, [
+      {
+        op: "add",
+        path: "/documentContent/regions/commercial:before-payment-terms/blocks/-",
+        value: {
+          type: "divider",
+        },
+      },
+      {
+        op: "add",
+        path: "/documentContent/regions/commercial:before-payment-terms/blocks/-",
+        value: {
+          type: "table",
+          title: "Calendrier",
+          columns: [{ label: "Etape" }, { label: "Pourcentage" }],
+          rows: [
+            ["Signature", "35 %"],
+            ["Livraison", "65 %"],
+          ],
+        },
+      },
+    ]);
+
+    expect(
+      next.documentContent?.regions["commercial:before-payment-terms"]?.blocks,
+    ).toEqual([
+      { type: "divider" },
+      {
+        type: "table",
+        title: "Calendrier",
+        columns: [{ label: "Etape" }, { label: "Pourcentage" }],
+        rows: [
+          ["Signature", "35 %"],
+          ["Livraison", "65 %"],
+        ],
+      },
+    ]);
+  });
+
+  test("removing one service section via /services/<index> works cleanly", () => {
+    const current = normalizeQuoteData({
+      lang: "fr",
+      services: [
+        {
+          sectionNumber: 1,
+          sectionName: "Acces",
+          description: "Controle d'acces",
+          bomItems: [],
+          bomSubtotal: 0,
+          laborCategories: [],
+          laborSubtotal: 0,
+          totalCost: 1000,
+          layout: "itemized-with-price",
+        },
+        {
+          sectionNumber: 2,
+          sectionName: "Intrusion",
+          description: "Detection intrusion",
+          bomItems: [],
+          bomSubtotal: 0,
+          laborCategories: [],
+          laborSubtotal: 0,
+          totalCost: 500,
+          layout: "itemized-with-price",
+        },
+      ],
+      exclusions: [],
+      paymentTerms: [],
+      specialConditions: [],
+      notes: [],
+    } as Partial<QuoteData>);
+
+    const next = applyPatch(current, [
+      {
+        op: "remove",
+        path: "/services/0",
+      },
+    ]);
+
+    expect(next.services).toHaveLength(1);
+    expect(next.services?.[0]?.sectionName).toBe("Intrusion");
   });
 });

@@ -103,7 +103,7 @@ function syncLegacyFlagAcrossPlans(
   flag: keyof QuoteData,
   enabled: boolean,
 ) {
-  next[flag] = enabled;
+  (next as Record<string, unknown>)[String(flag)] = enabled;
 
   const legacyKey =
     typeof flag === "string"
@@ -156,20 +156,18 @@ function syncDocumentPlanCompatibility(
   operation: Operation,
 ) {
   const path = operation.path;
+  const opValue = "value" in operation ? operation.value : undefined;
 
   if (!path.startsWith("/")) {
     return;
   }
 
   const topLevelFlag = path.slice(1);
-  if (
-    /^include[A-Z]/.test(topLevelFlag) &&
-    typeof operation.value === "boolean"
-  ) {
+  if (/^include[A-Z]/.test(topLevelFlag) && typeof opValue === "boolean") {
     syncLegacyFlagAcrossPlans(
       next,
       topLevelFlag as keyof QuoteData,
-      operation.value,
+      opValue,
     );
     return;
   }
@@ -179,9 +177,9 @@ function syncDocumentPlanCompatibility(
       path === "/composition/serviceLayoutPolicy" ||
       path === "/documentPlan/serviceLayout" ||
       path === "/documentPlan/serviceLayoutPolicy") &&
-    operation.value !== undefined
+    opValue !== undefined
   ) {
-    syncServiceLayoutAcrossPlans(next, operation.value);
+    syncServiceLayoutAcrossPlans(next, opValue);
     return;
   }
 
@@ -190,7 +188,7 @@ function syncDocumentPlanCompatibility(
   );
   if (sectionMatch) {
     const [, planKey, rawIndex] = sectionMatch;
-    const plan = readRecord(next[planKey]);
+    const plan = readRecord((next as Record<string, unknown>)[planKey]);
     const section = Array.isArray(plan?.sections)
       ? readRecord(plan.sections[Number(rawIndex)])
       : null;
@@ -210,12 +208,16 @@ function syncDocumentPlanCompatibility(
   );
   if (selectionMatch) {
     const [, planKey, rawIndex] = selectionMatch;
-    const plan = readRecord(next[planKey]);
+    const plan = readRecord((next as Record<string, unknown>)[planKey]);
     const selection = Array.isArray(plan?.sectionSelections)
       ? readRecord(plan.sectionSelections[Number(rawIndex)])
       : null;
     const key = typeof selection?.key === "string" ? selection.key : null;
-    const legacyFlag = key ? getLegacyFlagForDocumentPlanSection(key) : undefined;
+    const legacyFlag = key
+      ? getLegacyFlagForDocumentPlanSection(
+          key as Parameters<typeof getLegacyFlagForDocumentPlanSection>[0],
+        )
+      : undefined;
     if (legacyFlag && typeof selection?.enabled === "boolean") {
       syncLegacyFlagAcrossPlans(next, legacyFlag as keyof QuoteData, selection.enabled);
     }
@@ -241,7 +243,10 @@ export function applyPatch(data: Partial<QuoteData>, ops: Operation[]): Partial<
 }
 
 export function validatePartial(data: unknown): { issues: { path: string; message: string }[] } {
-  const parsed = quoteDataSchema.partial().safeParse(data);
+  // normalizeQuoteData() seeds a full quote shape before this validator runs,
+  // and quoteDataSchema now includes refinements that make `.partial()`
+  // unsupported in Zod 4. Validate the normalized full document directly.
+  const parsed = quoteDataSchema.safeParse(data);
   if (parsed.success) return { issues: [] };
   return {
     issues: parsed.error.issues.map((i) => ({

@@ -19,6 +19,7 @@ import { exclusionsConditionsPageSchema } from "./pages/12-exclusions-conditions
 import { termsAndConditionsPageSchema } from "./pages/13-terms-and-conditions/schema";
 import { quoteDocumentStateSchema } from "../document/catalog";
 import { quoteCompositionSchema } from "./composition";
+import { quoteJsonRenderStateSchema } from "../../json-render/quote-spec-state";
 
 const metaSchema = z.object({
   lang: z.enum(["fr", "en"]).default("fr"),
@@ -98,6 +99,7 @@ const quoteBusinessDataSchemaBase = metaSchema
   .extend({
     composition: quoteCompositionSchema.optional(),
     documentContent: quoteDocumentContentSchema.optional(),
+    jsonRender: quoteJsonRenderStateSchema.optional(),
   });
 
 export const quoteBusinessDataSchema = quoteBusinessDataSchemaBase.superRefine(
@@ -119,6 +121,8 @@ export type QuoteData = z.infer<typeof quoteDataSchema>;
 
 export type QuoteComposition = z.infer<typeof quoteCompositionSchema>;
 export type QuoteDocumentContent = z.infer<typeof quoteDocumentContentSchema>;
+export type QuoteJsonRenderState = z.infer<typeof quoteJsonRenderStateSchema>;
 
 export { quoteCompositionSchema };
 export { quoteDocumentContentSchema };
+export { quoteJsonRenderStateSchema };

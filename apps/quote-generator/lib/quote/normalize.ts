@@ -1,4 +1,5 @@
-import { buildQuoteDocumentContent } from "@open-harness/quote-documents/lib/documents/quote/document-content";
+import { buildQuoteDocumentContent } from "@/lib/documents/quote/document-content";
+import { normalizeQuoteJsonRenderState } from "@/lib/json-render/quote-spec-state";
 import {
   buildQuoteDocumentComposition,
   syncLegacySectionFlagsFromDocumentPlan,
@@ -342,8 +343,7 @@ export function normalizeQuoteData(
   next.includeCeoMessage = Boolean(data.includeCeoMessage);
   next.includeTeam = Boolean(data.includeTeam);
   next.includePartners = Boolean(data.includePartners);
-  next.includeTermsAndConditions =
-    data.includeTermsAndConditions !== false;
+  next.includeTermsAndConditions = data.includeTermsAndConditions !== false;
 
   next.documentContent = syncQuoteDocumentContent(
     next as Partial<QuoteData> & Record<string, unknown>,
@@ -357,6 +357,18 @@ export function normalizeQuoteData(
   const document = syncQuoteDocumentState({
     ...(next as Partial<QuoteData>),
     document: data.document,
+  });
+
+  const legacyJsonRenderDraft = readRecord(data as Record<string, unknown>);
+  const jsonRenderInput =
+    data.jsonRender ??
+    legacyJsonRenderDraft?.jsonRenderDraft ??
+    legacyJsonRenderDraft?.jsonRenderSpec ??
+    legacyJsonRenderDraft?.jsonRenderDocument;
+
+  next.jsonRender = normalizeQuoteJsonRenderState(jsonRenderInput, {
+    ...(next as Record<string, unknown>),
+    document,
   });
 
   return {

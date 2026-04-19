@@ -1,0 +1,528 @@
+{
+  "version": 1,
+  "brand": {
+    "translations": "en"
+  },
+  "variables": {
+    "cover": {
+      "clientName": "West Atrium",
+      "documentType": "QUOTE",
+      "documentTitle": "West Atrium equipment rationalization",
+      "quoteId": "WA-SPLIT-011",
+      "revision": 2,
+      "quoteDate": "2026-04-19",
+      "validUntil": "2026-05-28",
+      "preparedFor": [
+        {
+          "name": "Noah Romero"
+        }
+      ],
+      "preparedBy": [
+        {
+          "name": "Marc-Olivier Gagner"
+        }
+      ]
+    },
+    "project": {
+      "clientName": "West Atrium"
+    },
+    "summary": {
+      "metrics": [
+        {
+          "value": "2",
+          "label": "Standalone BOM cards",
+          "trend": "Same page"
+        },
+        {
+          "value": "0",
+          "label": "Repeated BOM headers",
+          "trend": "Disabled"
+        },
+        {
+          "value": "6",
+          "label": "Stress rows",
+          "trend": "Across both cards"
+        },
+        {
+          "value": "1",
+          "label": "Inspection page",
+          "trend": "Dense layout"
+        }
+      ],
+      "highlights": [
+        "The BOM cards use the catalog component directly instead of the higher-level quote path.",
+        "The spacing between tables is intentionally tight but still readable.",
+        "The footer reserve stays on so dense pages have breathing room."
+      ],
+      "tags": [
+        "bom",
+        "tables",
+        "dense",
+        "react-pdf"
+      ]
+    },
+    "investment": {
+      "rows": [
+        {
+          "label": "Detailed scope sections",
+          "amount": 16919
+        },
+        {
+          "label": "Dense BOM inspection page",
+          "amount": 4425
+        }
+      ],
+      "subtotal": 21344,
+      "total": 21344
+    }
+  },
+  "document": {
+    "type": "Document",
+    "lang": "en",
+    "children": [
+      {
+        "size": "LETTER",
+        "header": false,
+        "footer": "none",
+        "type": "Page",
+        "children": [
+          {
+            "clientName": "West Atrium",
+            "subtitle": "Proposal for West Atrium",
+            "documentType": "QUOTE",
+            "documentTitle": "West Atrium equipment rationalization",
+            "quoteID": "WA-SPLIT-011",
+            "revision": 2,
+            "quoteDate": "2026-04-19",
+            "validUntil": "2026-05-28",
+            "preparedFor": [
+              {
+                "name": "Noah Romero"
+              }
+            ],
+            "preparedBy": [
+              {
+                "name": "Marc-Olivier Gagner"
+              }
+            ],
+            "type": "CoverBlock"
+          }
+        ]
+      },
+      {
+        "size": "LETTER",
+        "header": "PROPOSAL",
+        "footer": "default",
+        "type": "Page",
+        "children": [
+          {
+            "entries": [
+              {
+                "label": "Executive summary",
+                "sectionId": "executive-summary"
+              },
+              {
+                "label": "Equipment split",
+                "sectionId": "equipment-split"
+              },
+              {
+                "label": "Investment summary",
+                "sectionId": "investment-summary"
+              }
+            ],
+            "title": "Table of contents",
+            "combine": [
+              {
+                "label": "Detailed scope",
+                "sectionIds": [
+                  "service-access-control",
+                  "service-video"
+                ]
+              }
+            ],
+            "type": "TocEntries"
+          }
+        ]
+      },
+      {
+        "sectionId": "executive-summary",
+        "size": "LETTER",
+        "header": "PROPOSAL",
+        "footer": "default",
+        "type": "Page",
+        "children": [
+          {
+            "gap": 16,
+            "type": "Section",
+            "children": [
+              {
+                "number": 1,
+                "name": "Executive summary",
+                "type": "SectionHeader"
+              },
+              {
+                "text": "West Atrium wants a proposal that reads cleanly for leadership but still survives direct PDF rendering through the vendored json-render runtime.",
+                "muted": false,
+                "align": "left",
+                "size": 11,
+                "type": "Paragraph"
+              },
+              {
+                "items": [
+                  {
+                    "value": "2",
+                    "label": "Standalone BOM cards",
+                    "trend": "Same page"
+                  },
+                  {
+                    "value": "0",
+                    "label": "Repeated BOM headers",
+                    "trend": "Disabled"
+                  },
+                  {
+                    "value": "6",
+                    "label": "Stress rows",
+                    "trend": "Across both cards"
+                  },
+                  {
+                    "value": "1",
+                    "label": "Inspection page",
+                    "trend": "Dense layout"
+                  }
+                ],
+                "columns": 4,
+                "type": "MetricGrid"
+              },
+              {
+                "title": "Renderer intent",
+                "text": "This suite keeps the output close to what Claude would emit: one envelope, light bindings, catalog-safe nodes, and no chat or AI SDK hop.",
+                "variant": "accent",
+                "showIcon": true,
+                "type": "Callout"
+              },
+              {
+                "items": [
+                  "The BOM cards use the catalog component directly instead of the higher-level quote path.",
+                  "The spacing between tables is intentionally tight but still readable.",
+                  "The footer reserve stays on so dense pages have breathing room."
+                ],
+                "variant": "arrow",
+                "type": "BulletList"
+              },
+              {
+                "items": [
+                  "bom",
+                  "tables",
+                  "dense",
+                  "react-pdf"
+                ],
+                "columns": 4,
+                "tone": "outline",
+                "type": "ValuePillGrid"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionId": "equipment-split",
+        "size": "LETTER",
+        "header": "PROPOSAL",
+        "footer": "default",
+        "padding": 24,
+        "bottomReserve": 28,
+        "type": "Page",
+        "children": [
+          {
+            "number": 2,
+            "name": "Equipment split",
+            "type": "SectionHeader"
+          },
+          {
+            "text": "Place two BOM tables on the same page, keep them visually close, and disable repeated fixed headers so the cards do not collide when rendered by react-pdf.",
+            "muted": false,
+            "align": "left",
+            "size": 11,
+            "type": "Paragraph"
+          },
+          {
+            "layout": "itemized-with-price",
+            "sectionName": "Core access package",
+            "items": [
+              {
+                "qty": 1,
+                "partNumber": "SPLIT-AC-01",
+                "description": "Controller enclosure",
+                "oem": "Mercury",
+                "unitPrice": 1220,
+                "total": 1220
+              },
+              {
+                "qty": 3,
+                "partNumber": "SPLIT-AC-02",
+                "description": "Reader/keypad combo",
+                "oem": "HID",
+                "unitPrice": 398,
+                "total": 1194
+              },
+              {
+                "qty": 3,
+                "partNumber": "SPLIT-AC-03",
+                "description": "Door contact set",
+                "oem": "HID",
+                "unitPrice": 94,
+                "total": 282
+              }
+            ],
+            "subtotal": 2696,
+            "repeatHeader": false,
+            "type": "BomTable"
+          },
+          {
+            "height": 12,
+            "type": "Spacer"
+          },
+          {
+            "spans": [
+              {
+                "text": "Placement note: "
+              },
+              {
+                "text": "these BOM cards are intentionally adjacent",
+                "bold": true,
+                "color": "#00AEEF"
+              },
+              {
+                "text": " so we can spot spacing regressions, repeated fixed-header collisions, and footer pressure quickly."
+              }
+            ],
+            "align": "left",
+            "type": "RichText"
+          },
+          {
+            "height": 10,
+            "type": "Spacer"
+          },
+          {
+            "layout": "itemized-with-price",
+            "sectionName": "Perimeter video package",
+            "items": [
+              {
+                "qty": 2,
+                "partNumber": "SPLIT-CAM-01",
+                "description": "Exterior bullet camera",
+                "oem": "Axis",
+                "unitPrice": 685,
+                "total": 1370
+              },
+              {
+                "qty": 2,
+                "partNumber": "SPLIT-CAM-02",
+                "description": "Junction box kit",
+                "oem": "Axis",
+                "unitPrice": 88,
+                "total": 176
+              },
+              {
+                "qty": 2,
+                "partNumber": "SPLIT-CAM-03",
+                "description": "Dedicated PoE injector",
+                "oem": "Cisco",
+                "unitPrice": 76,
+                "total": 152
+              }
+            ],
+            "subtotal": 1698,
+            "repeatHeader": false,
+            "type": "BomTable"
+          },
+          {
+            "text": "This page exists purely as a renderer stress case and does not represent the final commercial grouping shown to the client.",
+            "type": "Caption"
+          }
+        ]
+      },
+      {
+        "sectionNumber": 1,
+        "sectionName": "Access control",
+        "description": "Modernize six priority openings with new controllers, readers, and commissioning.",
+        "bomItems": [
+          {
+            "qty": 1,
+            "partNumber": "AC-01",
+            "description": "32-door Mercury controller panel",
+            "oem": "Mercury",
+            "unitPrice": 1680,
+            "total": 1680
+          },
+          {
+            "qty": 6,
+            "partNumber": "AC-02",
+            "description": "Mullion reader with keypad",
+            "oem": "HID",
+            "unitPrice": 420,
+            "total": 2520
+          },
+          {
+            "qty": 6,
+            "partNumber": "AC-03",
+            "description": "Supervised door contact package",
+            "oem": "HID",
+            "unitPrice": 118,
+            "total": 708
+          },
+          {
+            "qty": 6,
+            "partNumber": "AC-04",
+            "description": "Request-to-exit motion sensor",
+            "oem": "Bosch",
+            "unitPrice": 86,
+            "total": 516
+          }
+        ],
+        "bomSubtotal": 5424,
+        "laborCategories": [
+          {
+            "category": "Installation",
+            "amount": 3600
+          },
+          {
+            "category": "Programming",
+            "amount": 1450
+          },
+          {
+            "category": "Commissioning",
+            "amount": 900
+          }
+        ],
+        "laborSubtotal": 5950,
+        "totalCost": 11374,
+        "layout": "itemized-with-price",
+        "projectTitle": "West Atrium equipment rationalization",
+        "projectIntro": "This scenario intentionally places two BOM cards back-to-back on a standard page.",
+        "showProjectIntro": true,
+        "sectionId": "service-access-control",
+        "type": "ServiceSection"
+      },
+      {
+        "sectionNumber": 2,
+        "sectionName": "Video surveillance",
+        "description": "Refresh camera coverage in the dock and corridor zones while keeping pricing summarized.",
+        "bomItems": [
+          {
+            "qty": 4,
+            "partNumber": "VS-01",
+            "description": "Indoor dome camera, 5MP",
+            "oem": "Axis",
+            "unitPrice": 590,
+            "total": 2360
+          },
+          {
+            "qty": 1,
+            "partNumber": "VS-02",
+            "description": "Multi-sensor loading dock camera",
+            "oem": "Axis",
+            "unitPrice": 980,
+            "total": 980
+          },
+          {
+            "qty": 2,
+            "partNumber": "VS-03",
+            "description": "8-port PoE switch",
+            "oem": "Cisco",
+            "unitPrice": 415,
+            "total": 830
+          },
+          {
+            "qty": 5,
+            "partNumber": "VS-04",
+            "description": "Video management licenses",
+            "oem": "Genetec",
+            "unitPrice": 275,
+            "total": 1375
+          }
+        ],
+        "bomSubtotal": 5545,
+        "totalCost": 5545,
+        "layout": "itemized-without-price",
+        "projectTitle": "West Atrium equipment rationalization",
+        "showProjectIntro": false,
+        "sectionId": "service-video",
+        "type": "ServiceSection"
+      },
+      {
+        "sectionId": "investment-summary",
+        "size": "LETTER",
+        "header": "PROPOSAL",
+        "footer": "default",
+        "type": "Page",
+        "children": [
+          {
+            "gap": 16,
+            "type": "Section",
+            "children": [
+              {
+                "number": 9,
+                "name": "Investment summary",
+                "type": "SectionHeader"
+              },
+              {
+                "text": "The summary page stays intentionally simple so scenario-specific stress content elsewhere is easier to isolate.",
+                "muted": true,
+                "align": "left",
+                "type": "Paragraph"
+              },
+              {
+                "rows": [
+                  {
+                    "label": "Detailed scope sections",
+                    "amount": 16919
+                  },
+                  {
+                    "label": "Dense BOM inspection page",
+                    "amount": 4425
+                  }
+                ],
+                "subtotalLabel": "Subtotal before taxes",
+                "subtotalAmount": 21344,
+                "type": "SummaryTable"
+              },
+              {
+                "type": "KeepTogether",
+                "children": [
+                  {
+                    "amount": 21344,
+                    "label": "Project total",
+                    "type": "TotalCostBox"
+                  },
+                  {
+                    "text": "Taxes, final coordination, and approved change requests stay outside these direct renderer stress fixtures.",
+                    "showIcon": true,
+                    "type": "TaxDisclaimer"
+                  }
+                ]
+              },
+              {
+                "spans": [
+                  {
+                    "text": "Commercial note: "
+                  },
+                  {
+                    "text": "the rendering path is the system under test",
+                    "bold": true,
+                    "color": "#00AEEF"
+                  },
+                  {
+                    "text": ", so this summary intentionally keeps the financial story stable across all scenarios."
+                  }
+                ],
+                "align": "left",
+                "type": "RichText"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

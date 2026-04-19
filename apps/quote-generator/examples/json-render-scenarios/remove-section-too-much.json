@@ -1,0 +1,426 @@
+{
+  "version": 1,
+  "brand": {
+    "translations": "en"
+  },
+  "variables": {
+    "cover": {
+      "clientName": "Riverview Campus",
+      "documentType": "QUOTE",
+      "documentTitle": "Riverview Campus security refresh",
+      "quoteId": "RV-ACVS-018",
+      "revision": 3,
+      "quoteDate": "2026-04-19",
+      "validUntil": "2026-05-31",
+      "preparedFor": [
+        {
+          "name": "Alicia Scott"
+        }
+      ],
+      "preparedBy": [
+        {
+          "name": "Marc-Olivier Gagner"
+        }
+      ]
+    },
+    "project": {
+      "clientName": "Riverview Campus"
+    },
+    "summary": {
+      "metrics": [
+        {
+          "value": "6",
+          "label": "Controlled openings",
+          "trend": "Phase 1"
+        },
+        {
+          "value": "5",
+          "label": "Camera upgrades",
+          "trend": "Targeted refresh"
+        },
+        {
+          "value": "2",
+          "label": "Detailed services",
+          "trend": "Still included"
+        },
+        {
+          "value": "1",
+          "label": "Removed section",
+          "trend": "Less brochure, more signal"
+        }
+      ],
+      "highlights": [
+        "The narrative is slimmer, but the scope pages stay untouched.",
+        "TOC links still resolve across the two service sections.",
+        "Investment summary remains stable after the document is trimmed."
+      ],
+      "tags": [
+        "trimmed",
+        "scope-first",
+        "toc-safe",
+        "rendered-direct"
+      ]
+    },
+    "investment": {
+      "rows": [
+        {
+          "label": "Access control scope",
+          "amount": 11374
+        },
+        {
+          "label": "Video surveillance scope",
+          "amount": 5545
+        }
+      ],
+      "subtotal": 16919,
+      "total": 16919
+    }
+  },
+  "document": {
+    "type": "Document",
+    "lang": "en",
+    "children": [
+      {
+        "type": "Page",
+        "header": false,
+        "footer": "none",
+        "children": [
+          {
+            "type": "CoverBlock",
+            "clientName": {
+              "$state": "cover.clientName"
+            },
+            "subtitle": {
+              "$template": "Proposal for {{cover.clientName}}"
+            },
+            "documentType": {
+              "$state": "cover.documentType"
+            },
+            "documentTitle": {
+              "$state": "cover.documentTitle"
+            },
+            "quoteID": {
+              "$state": "cover.quoteId"
+            },
+            "revision": {
+              "$state": "cover.revision"
+            },
+            "quoteDate": {
+              "$state": "cover.quoteDate"
+            },
+            "validUntil": {
+              "$state": "cover.validUntil"
+            },
+            "preparedFor": {
+              "$state": "cover.preparedFor"
+            },
+            "preparedBy": {
+              "$state": "cover.preparedBy"
+            }
+          }
+        ]
+      },
+      {
+        "type": "Page",
+        "header": "PROPOSAL",
+        "children": [
+          {
+            "type": "TocEntries",
+            "title": "Table of contents",
+            "entries": [
+              {
+                "label": "Executive summary",
+                "sectionId": "executive-summary"
+              },
+              {
+                "label": "Investment summary",
+                "sectionId": "investment-summary"
+              }
+            ],
+            "combine": [
+              {
+                "label": "Detailed scope",
+                "sectionIds": [
+                  "service-access-control",
+                  "service-video"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Page",
+        "sectionId": "executive-summary",
+        "header": "PROPOSAL",
+        "children": [
+          {
+            "type": "Section",
+            "children": [
+              {
+                "type": "SectionHeader",
+                "number": 1,
+                "name": "Executive summary"
+              },
+              {
+                "type": "Paragraph",
+                "size": 11,
+                "text": {
+                  "$template": "{{project.clientName}} wants a proposal that reads cleanly for leadership but still survives direct PDF rendering through the vendored json-render runtime."
+                }
+              },
+              {
+                "type": "MetricGrid",
+                "columns": 4,
+                "items": [
+                  {
+                    "$repeat": {
+                      "over": "summary.metrics",
+                      "as": "metric",
+                      "template": {
+                        "value": {
+                          "$state": "metric.value"
+                        },
+                        "label": {
+                          "$state": "metric.label"
+                        },
+                        "trend": {
+                          "$state": "metric.trend"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "Callout",
+                "variant": "accent",
+                "title": "Renderer intent",
+                "text": {
+                  "$template": "This suite keeps the output close to what Claude would emit: one envelope, light bindings, catalog-safe nodes, and no chat or AI SDK hop."
+                }
+              },
+              {
+                "type": "BulletList",
+                "variant": "arrow",
+                "items": [
+                  {
+                    "$repeat": {
+                      "over": "summary.highlights",
+                      "as": "highlight",
+                      "template": {
+                        "$state": "highlight"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "ValuePillGrid",
+                "tone": "outline",
+                "columns": 4,
+                "items": [
+                  {
+                    "$repeat": {
+                      "over": "summary.tags",
+                      "as": "tag",
+                      "template": {
+                        "$state": "tag"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ServiceSection",
+        "sectionId": "service-access-control",
+        "sectionNumber": 1,
+        "sectionName": "Access control",
+        "description": "Modernize six priority openings with new controllers, readers, and commissioning.",
+        "projectTitle": "Riverview Campus security refresh",
+        "projectIntro": "This proposal reorganizes the core security scope into a cleaner first-pass narrative.",
+        "showProjectIntro": true,
+        "layout": "itemized-with-price",
+        "bomItems": [
+          {
+            "qty": 1,
+            "partNumber": "AC-01",
+            "description": "32-door Mercury controller panel",
+            "oem": "Mercury",
+            "unitPrice": 1680,
+            "total": 1680
+          },
+          {
+            "qty": 6,
+            "partNumber": "AC-02",
+            "description": "Mullion reader with keypad",
+            "oem": "HID",
+            "unitPrice": 420,
+            "total": 2520
+          },
+          {
+            "qty": 6,
+            "partNumber": "AC-03",
+            "description": "Supervised door contact package",
+            "oem": "HID",
+            "unitPrice": 118,
+            "total": 708
+          },
+          {
+            "qty": 6,
+            "partNumber": "AC-04",
+            "description": "Request-to-exit motion sensor",
+            "oem": "Bosch",
+            "unitPrice": 86,
+            "total": 516
+          }
+        ],
+        "bomSubtotal": 5424,
+        "laborCategories": [
+          {
+            "category": "Installation",
+            "amount": 3600
+          },
+          {
+            "category": "Programming",
+            "amount": 1450
+          },
+          {
+            "category": "Commissioning",
+            "amount": 900
+          }
+        ],
+        "laborSubtotal": 5950,
+        "totalCost": 11374
+      },
+      {
+        "type": "ServiceSection",
+        "sectionId": "service-video",
+        "sectionNumber": 2,
+        "sectionName": "Video surveillance",
+        "description": "Refresh camera coverage in the dock and corridor zones while keeping pricing summarized.",
+        "projectTitle": "Riverview Campus security refresh",
+        "showProjectIntro": false,
+        "layout": "itemized-without-price",
+        "bomItems": [
+          {
+            "qty": 4,
+            "partNumber": "VS-01",
+            "description": "Indoor dome camera, 5MP",
+            "oem": "Axis",
+            "unitPrice": 590,
+            "total": 2360
+          },
+          {
+            "qty": 1,
+            "partNumber": "VS-02",
+            "description": "Multi-sensor loading dock camera",
+            "oem": "Axis",
+            "unitPrice": 980,
+            "total": 980
+          },
+          {
+            "qty": 2,
+            "partNumber": "VS-03",
+            "description": "8-port PoE switch",
+            "oem": "Cisco",
+            "unitPrice": 415,
+            "total": 830
+          },
+          {
+            "qty": 5,
+            "partNumber": "VS-04",
+            "description": "Video management licenses",
+            "oem": "Genetec",
+            "unitPrice": 275,
+            "total": 1375
+          }
+        ],
+        "bomSubtotal": 5545,
+        "totalCost": 5545
+      },
+      {
+        "type": "Page",
+        "sectionId": "investment-summary",
+        "header": "PROPOSAL",
+        "children": [
+          {
+            "type": "Section",
+            "children": [
+              {
+                "type": "SectionHeader",
+                "number": 9,
+                "name": "Investment summary"
+              },
+              {
+                "type": "Paragraph",
+                "muted": true,
+                "text": "The summary page stays intentionally simple so scenario-specific stress content elsewhere is easier to isolate."
+              },
+              {
+                "type": "SummaryTable",
+                "rows": [
+                  {
+                    "$repeat": {
+                      "over": "investment.rows",
+                      "as": "row",
+                      "template": {
+                        "label": {
+                          "$state": "row.label"
+                        },
+                        "amount": {
+                          "$state": "row.amount"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "subtotalLabel": "Subtotal before taxes",
+                "subtotalAmount": {
+                  "$state": "investment.subtotal"
+                }
+              },
+              {
+                "type": "KeepTogether",
+                "children": [
+                  {
+                    "type": "TotalCostBox",
+                    "label": "Project total",
+                    "amount": {
+                      "$state": "investment.total"
+                    }
+                  },
+                  {
+                    "type": "TaxDisclaimer",
+                    "showIcon": true,
+                    "text": "Taxes, final coordination, and approved change requests stay outside these direct renderer stress fixtures."
+                  }
+                ]
+              },
+              {
+                "type": "RichText",
+                "spans": [
+                  {
+                    "text": "Commercial note: "
+                  },
+                  {
+                    "text": "the rendering path is the system under test",
+                    "bold": true,
+                    "color": "#00AEEF"
+                  },
+                  {
+                    "text": ", so this summary intentionally keeps the financial story stable across all scenarios."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

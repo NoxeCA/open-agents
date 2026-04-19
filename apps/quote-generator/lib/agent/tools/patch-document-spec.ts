@@ -6,59 +6,55 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { quotes } from "@/lib/db/schema";
 import { persistQuoteData } from "@/lib/memory/persist-quote-data";
-import {
-  buildQuoteDocumentState,
-  summarizeQuoteDocumentState,
-} from "@/lib/quote/document/builder";
-import { quoteDocumentStateSchema } from "@/lib/quote/document/catalog";
-import { normalizeQuoteData } from "@/lib/quote/normalize";
 import type { QuoteData } from "@/lib/quote/schema";
+
+import {
+  JSON_RENDER_DRAFT_KEY,
+  JSON_RENDER_DRAFT_STORAGE_PATH,
+  readJsonRenderDraft,
+  summarizeJsonRenderDraft,
+  validateJsonRenderDraft,
+} from "./document-spec-draft";
 
 import type {
   Operation,
   PatchDocumentSpecOutput,
-  PatchQuoteIssue,
 } from "../tool-types";
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
 
 const opSchema = z.object({
   op: z.enum(["add", "replace", "remove", "move", "copy", "test"]),
   path: z
     .string()
     .describe(
-      "JSON pointer path into the quote document state, e.g. `/theme` or `/sections/1/title`. Do not patch `/spec` directly.",
+      "JSON pointer path inside the stored `/jsonRenderDraft` envelope, for example `/document/children/0`, `/document/children/0/children/-`, `/document/children/-`, or `/attachments/-`.",
     ),
   value: z.unknown().optional(),
   from: z.string().optional(),
 });
 
-function validateDocumentPatch(value: unknown): PatchQuoteIssue[] {
-  const parsed = quoteDocumentStateSchema.safeParse(value);
-  if (parsed.success) {
-    return [];
-  }
-
-  return parsed.error.issues.map((issue) => ({
-    path: issue.path.join("."),
-    message: issue.message,
-  }));
+function formatTouchedPath(path: string) {
+  return path.length > 0 && path !== "/"
+    ? `${JSON_RENDER_DRAFT_STORAGE_PATH}${path}`
+    : JSON_RENDER_DRAFT_STORAGE_PATH;
 }
 
 export function patchDocumentSpecTool({ quoteId }: { quoteId: string }) {
   return tool({
     description:
-      "Patch the persisted document composition settings for this quote. Use this for theme, density, accent, section order, or section titling changes. Do not patch `/spec` directly; it is regenerated automatically from the document state.",
+      "Apply RFC 6902 JSON-Patch operations to the Claude-style json-render draft stored at `/jsonRenderDraft`. Use this for targeted appendix, image, and draft-layout exploration after the draft already exists. Do not use this as the primary way to hide standard live quote sections like overview, services, commercial, or terms; those must go through `patch_quote` on the stable `/documentPlan/sectionVisibility/*` paths or `/services/<index>`.",
     inputSchema: z.object({
-      ops: z.array(opSchema).min(1),
+      ops: z
+        .array(opSchema)
+        .min(1)
+        .describe(
+          "Patch operations relative to the `/jsonRenderDraft` root. Use `compose_document_spec` first if no draft exists yet.",
+        ),
     }),
     execute: async ({ ops }): Promise<PatchDocumentSpecOutput> => {
-      if (ops.some((op) => op.path === "/spec" || op.path.startsWith("/spec/"))) {
-        return {
-          ok: false,
-          error:
-            "Patch `/spec` is not allowed. Patch document settings or section definitions instead.",
-        };
-      }
-
       const [row] = await db
         .select()
         .from(quotes)
@@ -69,32 +65,51 @@ export function patchDocumentSpecTool({ quoteId }: { quoteId: string }) {
         return { ok: false, error: "Quote not found" };
       }
 
-      const normalized = normalizeQuoteData(row.data as Partial<QuoteData>);
-      const currentDocument = normalized.document;
-      if (!currentDocument) {
-        return { ok: false, error: "Document state is missing" };
+      const currentData = row.data as Partial<QuoteData> & Record<string, unknown>;
+      const currentDraft = readJsonRenderDraft(currentData);
+      if (!currentDraft) {
+        return {
+          ok: false,
+          error:
+            "No `/jsonRenderDraft` exists yet. Call `compose_document_spec` with a full envelope before patching.",
+        };
       }
 
-      let patchedDocument = currentDocument;
+      let patchedDraft: unknown;
       try {
-        const result = applyJsonPatch(
-          structuredClone(currentDocument) as object,
+        patchedDraft = applyJsonPatch(
+          structuredClone(currentDraft) as object,
           ops as Operation[],
           true,
           false,
-        );
-        patchedDocument = result.newDocument as typeof currentDocument;
+        ).newDocument;
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
         return { ok: false, error: `Patch failed: ${message}` };
       }
 
-      const nextDocument = buildQuoteDocumentState(normalized, patchedDocument);
-      const issues = validateDocumentPatch(nextDocument);
-      const next = {
-        ...normalized,
-        document: nextDocument,
+      const validation = validateJsonRenderDraft(patchedDraft);
+      if (!validation.ok) {
+        return { ok: false, error: `Draft validation failed: ${validation.error}` };
+      }
+
+      const summary = summarizeJsonRenderDraft(validation.draft);
+      if (!summary) {
+        return {
+          ok: false,
+          error: "Draft validation failed: unable to summarize `/jsonRenderDraft`.",
+        };
+      }
+
+      const nextData = {
+        ...currentData,
+        jsonRender: {
+          ...(isRecord(currentData.jsonRender) ? currentData.jsonRender : {}),
+          version: 1 as const,
+          spec: validation.draft,
+        },
       };
+      delete (nextData as Record<string, unknown>)[JSON_RENDER_DRAFT_KEY];
 
       await persistQuoteData({
         quote: {
@@ -102,14 +117,14 @@ export function patchDocumentSpecTool({ quoteId }: { quoteId: string }) {
           title: row.title,
           lang: row.lang,
         },
-        data: next,
+        data: nextData as Partial<QuoteData>,
       });
 
       return {
         ok: true,
-        touchedPaths: ops.map((op) => `/document${op.path}`),
-        issues,
-        summary: summarizeQuoteDocumentState(nextDocument),
+        touchedPaths: ops.map((op) => formatTouchedPath(op.path)),
+        summary,
+        integrityIssues: validation.integrityIssues,
       };
     },
   });

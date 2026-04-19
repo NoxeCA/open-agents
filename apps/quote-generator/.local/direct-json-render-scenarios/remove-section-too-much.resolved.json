@@ -1,0 +1,406 @@
+{
+  "version": 1,
+  "brand": {
+    "translations": "en"
+  },
+  "variables": {
+    "cover": {
+      "clientName": "Riverview Campus",
+      "documentType": "QUOTE",
+      "documentTitle": "Riverview Campus security refresh",
+      "quoteId": "RV-ACVS-018",
+      "revision": 3,
+      "quoteDate": "2026-04-19",
+      "validUntil": "2026-05-31",
+      "preparedFor": [
+        {
+          "name": "Alicia Scott"
+        }
+      ],
+      "preparedBy": [
+        {
+          "name": "Marc-Olivier Gagner"
+        }
+      ]
+    },
+    "project": {
+      "clientName": "Riverview Campus"
+    },
+    "summary": {
+      "metrics": [
+        {
+          "value": "6",
+          "label": "Controlled openings",
+          "trend": "Phase 1"
+        },
+        {
+          "value": "5",
+          "label": "Camera upgrades",
+          "trend": "Targeted refresh"
+        },
+        {
+          "value": "2",
+          "label": "Detailed services",
+          "trend": "Still included"
+        },
+        {
+          "value": "1",
+          "label": "Removed section",
+          "trend": "Less brochure, more signal"
+        }
+      ],
+      "highlights": [
+        "The narrative is slimmer, but the scope pages stay untouched.",
+        "TOC links still resolve across the two service sections.",
+        "Investment summary remains stable after the document is trimmed."
+      ],
+      "tags": [
+        "trimmed",
+        "scope-first",
+        "toc-safe",
+        "rendered-direct"
+      ]
+    },
+    "investment": {
+      "rows": [
+        {
+          "label": "Access control scope",
+          "amount": 11374
+        },
+        {
+          "label": "Video surveillance scope",
+          "amount": 5545
+        }
+      ],
+      "subtotal": 16919,
+      "total": 16919
+    }
+  },
+  "document": {
+    "type": "Document",
+    "lang": "en",
+    "children": [
+      {
+        "size": "LETTER",
+        "header": false,
+        "footer": "none",
+        "type": "Page",
+        "children": [
+          {
+            "clientName": "Riverview Campus",
+            "subtitle": "Proposal for Riverview Campus",
+            "documentType": "QUOTE",
+            "documentTitle": "Riverview Campus security refresh",
+            "quoteID": "RV-ACVS-018",
+            "revision": 3,
+            "quoteDate": "2026-04-19",
+            "validUntil": "2026-05-31",
+            "preparedFor": [
+              {
+                "name": "Alicia Scott"
+              }
+            ],
+            "preparedBy": [
+              {
+                "name": "Marc-Olivier Gagner"
+              }
+            ],
+            "type": "CoverBlock"
+          }
+        ]
+      },
+      {
+        "size": "LETTER",
+        "header": "PROPOSAL",
+        "footer": "default",
+        "type": "Page",
+        "children": [
+          {
+            "entries": [
+              {
+                "label": "Executive summary",
+                "sectionId": "executive-summary"
+              },
+              {
+                "label": "Investment summary",
+                "sectionId": "investment-summary"
+              }
+            ],
+            "title": "Table of contents",
+            "combine": [
+              {
+                "label": "Detailed scope",
+                "sectionIds": [
+                  "service-access-control",
+                  "service-video"
+                ]
+              }
+            ],
+            "type": "TocEntries"
+          }
+        ]
+      },
+      {
+        "sectionId": "executive-summary",
+        "size": "LETTER",
+        "header": "PROPOSAL",
+        "footer": "default",
+        "type": "Page",
+        "children": [
+          {
+            "gap": 16,
+            "type": "Section",
+            "children": [
+              {
+                "number": 1,
+                "name": "Executive summary",
+                "type": "SectionHeader"
+              },
+              {
+                "text": "Riverview Campus wants a proposal that reads cleanly for leadership but still survives direct PDF rendering through the vendored json-render runtime.",
+                "muted": false,
+                "align": "left",
+                "size": 11,
+                "type": "Paragraph"
+              },
+              {
+                "items": [
+                  {
+                    "value": "6",
+                    "label": "Controlled openings",
+                    "trend": "Phase 1"
+                  },
+                  {
+                    "value": "5",
+                    "label": "Camera upgrades",
+                    "trend": "Targeted refresh"
+                  },
+                  {
+                    "value": "2",
+                    "label": "Detailed services",
+                    "trend": "Still included"
+                  },
+                  {
+                    "value": "1",
+                    "label": "Removed section",
+                    "trend": "Less brochure, more signal"
+                  }
+                ],
+                "columns": 4,
+                "type": "MetricGrid"
+              },
+              {
+                "title": "Renderer intent",
+                "text": "This suite keeps the output close to what Claude would emit: one envelope, light bindings, catalog-safe nodes, and no chat or AI SDK hop.",
+                "variant": "accent",
+                "showIcon": true,
+                "type": "Callout"
+              },
+              {
+                "items": [
+                  "The narrative is slimmer, but the scope pages stay untouched.",
+                  "TOC links still resolve across the two service sections.",
+                  "Investment summary remains stable after the document is trimmed."
+                ],
+                "variant": "arrow",
+                "type": "BulletList"
+              },
+              {
+                "items": [
+                  "trimmed",
+                  "scope-first",
+                  "toc-safe",
+                  "rendered-direct"
+                ],
+                "columns": 4,
+                "tone": "outline",
+                "type": "ValuePillGrid"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sectionNumber": 1,
+        "sectionName": "Access control",
+        "description": "Modernize six priority openings with new controllers, readers, and commissioning.",
+        "bomItems": [
+          {
+            "qty": 1,
+            "partNumber": "AC-01",
+            "description": "32-door Mercury controller panel",
+            "oem": "Mercury",
+            "unitPrice": 1680,
+            "total": 1680
+          },
+          {
+            "qty": 6,
+            "partNumber": "AC-02",
+            "description": "Mullion reader with keypad",
+            "oem": "HID",
+            "unitPrice": 420,
+            "total": 2520
+          },
+          {
+            "qty": 6,
+            "partNumber": "AC-03",
+            "description": "Supervised door contact package",
+            "oem": "HID",
+            "unitPrice": 118,
+            "total": 708
+          },
+          {
+            "qty": 6,
+            "partNumber": "AC-04",
+            "description": "Request-to-exit motion sensor",
+            "oem": "Bosch",
+            "unitPrice": 86,
+            "total": 516
+          }
+        ],
+        "bomSubtotal": 5424,
+        "laborCategories": [
+          {
+            "category": "Installation",
+            "amount": 3600
+          },
+          {
+            "category": "Programming",
+            "amount": 1450
+          },
+          {
+            "category": "Commissioning",
+            "amount": 900
+          }
+        ],
+        "laborSubtotal": 5950,
+        "totalCost": 11374,
+        "layout": "itemized-with-price",
+        "projectTitle": "Riverview Campus security refresh",
+        "projectIntro": "This proposal reorganizes the core security scope into a cleaner first-pass narrative.",
+        "showProjectIntro": true,
+        "sectionId": "service-access-control",
+        "type": "ServiceSection"
+      },
+      {
+        "sectionNumber": 2,
+        "sectionName": "Video surveillance",
+        "description": "Refresh camera coverage in the dock and corridor zones while keeping pricing summarized.",
+        "bomItems": [
+          {
+            "qty": 4,
+            "partNumber": "VS-01",
+            "description": "Indoor dome camera, 5MP",
+            "oem": "Axis",
+            "unitPrice": 590,
+            "total": 2360
+          },
+          {
+            "qty": 1,
+            "partNumber": "VS-02",
+            "description": "Multi-sensor loading dock camera",
+            "oem": "Axis",
+            "unitPrice": 980,
+            "total": 980
+          },
+          {
+            "qty": 2,
+            "partNumber": "VS-03",
+            "description": "8-port PoE switch",
+            "oem": "Cisco",
+            "unitPrice": 415,
+            "total": 830
+          },
+          {
+            "qty": 5,
+            "partNumber": "VS-04",
+            "description": "Video management licenses",
+            "oem": "Genetec",
+            "unitPrice": 275,
+            "total": 1375
+          }
+        ],
+        "bomSubtotal": 5545,
+        "totalCost": 5545,
+        "layout": "itemized-without-price",
+        "projectTitle": "Riverview Campus security refresh",
+        "showProjectIntro": false,
+        "sectionId": "service-video",
+        "type": "ServiceSection"
+      },
+      {
+        "sectionId": "investment-summary",
+        "size": "LETTER",
+        "header": "PROPOSAL",
+        "footer": "default",
+        "type": "Page",
+        "children": [
+          {
+            "gap": 16,
+            "type": "Section",
+            "children": [
+              {
+                "number": 9,
+                "name": "Investment summary",
+                "type": "SectionHeader"
+              },
+              {
+                "text": "The summary page stays intentionally simple so scenario-specific stress content elsewhere is easier to isolate.",
+                "muted": true,
+                "align": "left",
+                "type": "Paragraph"
+              },
+              {
+                "rows": [
+                  {
+                    "label": "Access control scope",
+                    "amount": 11374
+                  },
+                  {
+                    "label": "Video surveillance scope",
+                    "amount": 5545
+                  }
+                ],
+                "subtotalLabel": "Subtotal before taxes",
+                "subtotalAmount": 16919,
+                "type": "SummaryTable"
+              },
+              {
+                "type": "KeepTogether",
+                "children": [
+                  {
+                    "amount": 16919,
+                    "label": "Project total",
+                    "type": "TotalCostBox"
+                  },
+                  {
+                    "text": "Taxes, final coordination, and approved change requests stay outside these direct renderer stress fixtures.",
+                    "showIcon": true,
+                    "type": "TaxDisclaimer"
+                  }
+                ]
+              },
+              {
+                "spans": [
+                  {
+                    "text": "Commercial note: "
+                  },
+                  {
+                    "text": "the rendering path is the system under test",
+                    "bold": true,
+                    "color": "#00AEEF"
+                  },
+                  {
+                    "text": ", so this summary intentionally keeps the financial story stable across all scenarios."
+                  }
+                ],
+                "align": "left",
+                "type": "RichText"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

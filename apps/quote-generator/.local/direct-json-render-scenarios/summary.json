@@ -1,0 +1,41 @@
+{
+  "appRoot": "/Users/mogagner/Developer/open-agents/apps/quote-generator",
+  "outDir": "/Users/mogagner/Developer/open-agents/apps/quote-generator/.local/direct-json-render-scenarios",
+  "rendered": true,
+  "scenarios": [
+    {
+      "slug": "add-plan-image",
+      "title": "Add a plan and image page",
+      "request": "Add a quick plan page with an image and commercial options before the detailed scope so the client can orient themselves faster.",
+      "description": "Exercises image data URIs, generic tables, and plan/option content inserted ahead of the service sections.",
+      "componentTypes": [
+        "BulletList",
+        "Callout",
+        "Caption",
+        "CoverBlock",
+        "Document",
+        "Image",
+        "KeepTogether",
+        "MetricGrid",
+        "Page",
+        "Paragraph",
+        "PriceComparison",
+        "RichText",
+        "Section",
+        "SectionHeader",
+        "ServiceSection",
+        "SummaryTable",
+        "Table",
+        "TaxDisclaimer",
+        "TocEntries",
+        "TotalCostBox",
+        "ValuePillGrid"
+      ],
+      "rawSpecPath": "/Users/mogagner/Developer/open-agents/apps/quote-generator/.local/direct-json-render-scenarios/add-plan-image.json",
+      "resolvedSpecPath": "/Users/mogagner/Developer/open-agents/apps/quote-generator/.local/direct-json-render-scenarios/add-plan-image.resolved.json",
+      "integrityIssues": [],
+      "pdfPath": "/Users/mogagner/Developer/open-agents/apps/quote-generator/.local/direct-json-render-scenarios/add-plan-image.pdf",
+      "pdfBytes": 173413
+    }
+  ]
+}

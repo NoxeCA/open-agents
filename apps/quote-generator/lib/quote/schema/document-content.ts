@@ -5,6 +5,7 @@ export {
   buildQuoteDocumentRegionId,
   createEmptyQuoteDocumentContent,
   createQuoteDocumentRegion,
+  normalizeQuoteDocumentContent,
   parseQuoteDocumentRegionId,
   quoteDocumentContentRegionSchema,
   quoteDocumentContentSchema,
@@ -20,4 +21,4 @@ export {
   type QuoteDocumentRegionId,
   type QuoteDocumentRegionTarget,
   type QuoteDocumentRegions,
-} from "@open-harness/quote-documents/lib/documents/quote/document-content";
+} from "@/lib/documents/quote/document-content";

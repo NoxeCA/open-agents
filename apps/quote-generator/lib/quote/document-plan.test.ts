@@ -99,6 +99,52 @@ describe("quote document plan normalization", () => {
     expect(normalized.includeTermsAndConditions).toBe(true);
   });
 
+  test("preserves explicit core-section visibility toggles from a seeded plan", () => {
+    const seed = buildQuoteDocumentPlan(
+      buildLegacyQuote({
+        documentPlan: {
+          sectionSelections: [
+            { key: "cover", enabled: true, variant: "medium" },
+            { key: "overview", enabled: false, variant: "medium" },
+            { key: "services", enabled: true, variant: "medium" },
+            { key: "about", enabled: false, variant: "medium" },
+            { key: "culture", enabled: false, variant: "medium" },
+            { key: "leadership", enabled: false, variant: "medium" },
+            { key: "team", enabled: false, variant: "medium" },
+            { key: "partners", enabled: false, variant: "medium" },
+            { key: "commercial", enabled: false, variant: "medium" },
+            { key: "terms", enabled: false, variant: "medium" },
+          ],
+        },
+      }),
+    );
+
+    const normalized = normalizeQuoteData(
+      buildLegacyQuote({
+        composition: seed,
+        documentPlan: seed,
+        includeTermsAndConditions: true,
+      }),
+    );
+
+    expect(
+      normalized.documentPlan?.sectionSelections.find(
+        (section) => section.key === "overview",
+      )?.enabled,
+    ).toBe(false);
+    expect(
+      normalized.documentPlan?.sectionSelections.find(
+        (section) => section.key === "commercial",
+      )?.enabled,
+    ).toBe(false);
+    expect(
+      normalized.documentPlan?.sectionSelections.find(
+        (section) => section.key === "terms",
+      )?.enabled,
+    ).toBe(false);
+    expect(normalized.includeTermsAndConditions).toBe(false);
+  });
+
   test("accepts partial documentPlan payloads", () => {
     const parsed = quoteCompositionSchema.safeParse({
       detailLevel: "small",

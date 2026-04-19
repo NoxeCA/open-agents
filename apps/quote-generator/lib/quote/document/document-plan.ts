@@ -42,13 +42,6 @@ type QuoteDocumentPlanState = QuoteDocumentPlan & {
   sections: QuoteDocumentPlanRecipeSection[];
 };
 
-const CORE_SECTION_KEYS: QuoteDocumentPlanSectionKey[] = [
-  "cover",
-  "overview",
-  "services",
-  "commercial",
-];
-
 const OPTIONAL_SECTION_FIELDS: Record<
   Exclude<QuoteDocumentPlanSectionKey, "cover" | "overview" | "services" | "commercial" | "terms">,
   keyof QuoteData
@@ -517,7 +510,7 @@ function resolveSectionSelections(
       : undefined;
 
     let enabled = seeded?.enabled ?? recipeSeed?.enabled ?? true;
-    if (CORE_SECTION_KEYS.includes(key)) {
+    if (key === "cover") {
       enabled = true;
     } else if (key === "terms") {
       enabled =
@@ -530,11 +523,15 @@ function resolveSectionSelections(
         OPTIONAL_SECTION_FIELDS[
           key as keyof typeof OPTIONAL_SECTION_FIELDS
         ];
-      enabled =
-        seeded?.enabled ??
-        (hasRecipeSectionSeed
-          ? recipeSeed?.enabled ?? false
-          : legacySection?.enabled ?? Boolean(data[field]));
+      if (field) {
+        enabled =
+          seeded?.enabled ??
+          (hasRecipeSectionSeed
+            ? recipeSeed?.enabled ?? false
+            : legacySection?.enabled ?? Boolean(data[field]));
+      } else {
+        enabled = seeded?.enabled ?? legacySection?.enabled ?? true;
+      }
     }
 
     const variant =
@@ -546,12 +543,7 @@ function resolveSectionSelections(
 
     return {
       key,
-      enabled:
-        key === "terms"
-          ? Boolean(data.includeTermsAndConditions ?? true)
-          : CORE_SECTION_KEYS.includes(key)
-            ? true
-            : enabled,
+      enabled,
       variant,
     } satisfies QuoteDocumentPlanSectionSelection;
   });

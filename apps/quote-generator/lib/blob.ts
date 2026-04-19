@@ -3,6 +3,8 @@ import path from "node:path";
 
 import { put } from "@vercel/blob";
 
+import { resolveQuoteGeneratorPath } from "@/lib/documents/quote/shared/asset-paths";
+
 export type UploadBlobOpts = {
   pathname: string;
   body: ArrayBuffer | Buffer | Uint8Array;
@@ -16,7 +18,7 @@ export type UploadBlobResult = {
 };
 
 const LOCAL_BLOB_SCHEME = "localblob://";
-const LOCAL_BLOB_ROOT = path.join(process.cwd(), ".local", "blob-storage");
+const LOCAL_BLOB_ROOT = resolveQuoteGeneratorPath(".local", "blob-storage");
 
 export function isLocalBlobStorageEnabled() {
   return (
