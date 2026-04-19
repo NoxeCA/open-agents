@@ -19,7 +19,7 @@ export type UploadQuoteFilesResult = {
 };
 
 function normalizeErrorMessage(error: unknown) {
-  return error instanceof Error ? error.message : "Upload failed";
+  return error instanceof Error ? error.message : "Le téléversement a échoué";
 }
 
 export async function uploadQuoteFiles({
@@ -59,7 +59,7 @@ export async function uploadQuoteFiles({
 
       const fileId = data.fileId ?? data.id;
       if (!fileId) {
-        throw new Error("Upload response missing fileId");
+        throw new Error("La réponse du serveur ne contient pas de fileId");
       }
 
       uploaded.push({
@@ -88,7 +88,7 @@ export function formatUploadFailures(failures: UploadQuoteFileFailure[]) {
   }
 
   return [
-    "Some files failed to upload:",
+    "Certains fichiers n'ont pas pu être téléversés :",
     ...failures.map((failure) => `${failure.filename}: ${failure.message}`),
   ].join(" ");
 }

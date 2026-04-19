@@ -23,7 +23,7 @@ type RouteContext = {
 export async function POST(req: Request, ctx: RouteContext) {
   const session = await getSession();
   if (!session?.user?.id) {
-    return new Response("Unauthorized", { status: 401 });
+    return new Response("Non autorisé", { status: 401 });
   }
 
   const { quoteId } = await ctx.params;
@@ -32,7 +32,7 @@ export async function POST(req: Request, ctx: RouteContext) {
     await requireQuoteOwnership(quoteId, session.user.id);
   } catch (e) {
     if (e instanceof QuoteNotFoundError) {
-      return new Response("Not Found", { status: 404 });
+      return new Response("Introuvable", { status: 404 });
     }
     throw e;
   }
@@ -41,12 +41,12 @@ export async function POST(req: Request, ctx: RouteContext) {
   try {
     form = await req.formData();
   } catch {
-    return new Response("Invalid form data", { status: 400 });
+    return new Response("Formulaire invalide", { status: 400 });
   }
 
   const raw = form.get("file");
   if (!(raw instanceof File)) {
-    return new Response("Missing 'file' field", { status: 400 });
+    return new Response("Champ 'file' manquant", { status: 400 });
   }
 
   const file = raw;
@@ -55,19 +55,23 @@ export async function POST(req: Request, ctx: RouteContext) {
 
   if (!fileInfo) {
     return new Response(
-      "Unsupported file type. Supported: .xlsx, .pdf, .png, .jpg, .jpeg, .webp, .txt, .eml",
+      "Type de fichier non pris en charge. Formats acceptés : .xlsx, .pdf, .png, .jpg, .jpeg, .webp, .txt, .eml",
       { status: 415 },
     );
   }
 
   if (file.size > MAX_SIZE_BYTES) {
-    return new Response("File too large (max 20MB)", { status: 413 });
+    return new Response("Fichier trop volumineux (maximum 20 Mo)", {
+      status: 413,
+    });
   }
 
   const buf = await file.arrayBuffer();
   // Also guard against size lies via Content-Length.
   if (buf.byteLength > MAX_SIZE_BYTES) {
-    return new Response("File too large (max 20MB)", { status: 413 });
+    return new Response("Fichier trop volumineux (maximum 20 Mo)", {
+      status: 413,
+    });
   }
 
   const bytes = new Uint8Array(buf);

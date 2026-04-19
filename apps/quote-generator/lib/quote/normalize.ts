@@ -1,3 +1,4 @@
+import { syncQuoteDocumentState } from "./document/builder";
 import type { QuoteData } from "./schema";
 
 type LegacyServiceLike = {
@@ -160,6 +161,7 @@ export function normalizeQuoteData(
   }
 
   const next: Partial<QuoteData> = { ...data };
+  delete next.document;
 
   if (Array.isArray(data.services)) {
     next.services = data.services
@@ -183,5 +185,11 @@ export function normalizeQuoteData(
     next.notes = normalizeStringArray(data.notes) ?? [];
   }
 
-  return next;
+  return {
+    ...next,
+    document: syncQuoteDocumentState({
+      ...next,
+      document: data.document,
+    }),
+  };
 }

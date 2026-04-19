@@ -3,13 +3,18 @@
 import { useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { MarkdownMessage } from "./markdown-message";
 
 const MAX_LINES = 12;
-const MAX_CHARS = 1200;
+const MAX_CHARS = 2400;
 
 type Props = {
   text: string;
 };
+
+function looksLikeMarkdownTable(text: string) {
+  return /\|.+\|/.test(text) && /\|?[:\-\s|]{3,}\|?/.test(text);
+}
 
 function getPreview(text: string) {
   const lines = text.split("\n");
@@ -22,9 +27,10 @@ function getPreview(text: string) {
   return {
     preview: clipped,
     isLong:
-      lines.length > MAX_LINES ||
-      text.length > MAX_CHARS ||
-      text.includes("\t"),
+      !looksLikeMarkdownTable(text) &&
+      (lines.length > MAX_LINES ||
+        text.length > MAX_CHARS ||
+        text.includes("\t")),
   };
 }
 
@@ -33,20 +39,24 @@ export function CollapsibleMessageText({ text }: Props) {
   const { preview, isLong } = useMemo(() => getPreview(text), [text]);
 
   if (!isLong) {
-    return <div className="whitespace-pre-wrap break-words">{text}</div>;
+    return <MarkdownMessage text={text} />;
   }
 
   return (
     <div className="space-y-2">
-      <div className="max-h-[22rem] overflow-auto whitespace-pre-wrap break-words">
-        {expanded ? text : preview}
+      <div className="max-h-[22rem] overflow-auto">
+        {expanded ? (
+          <MarkdownMessage text={text} />
+        ) : (
+          <div className="whitespace-pre-wrap break-words">{preview}</div>
+        )}
       </div>
       <Button
         size="sm"
         variant="secondary"
         onClick={() => setExpanded((current) => !current)}
       >
-        {expanded ? "Collapse paste" : "Expand paste"}
+        {expanded ? "Réduire le contenu" : "Afficher tout"}
       </Button>
     </div>
   );

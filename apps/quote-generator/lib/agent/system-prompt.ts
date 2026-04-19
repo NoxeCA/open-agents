@@ -27,6 +27,41 @@ function safeSnapshot(data: unknown, maxChars: number): string {
   }
 }
 
+function withoutHeavyDocumentSpec(data: unknown) {
+  if (!data || typeof data !== "object" || Array.isArray(data)) {
+    return data;
+  }
+
+  const record = { ...(data as Record<string, unknown>) };
+  const document =
+    record.document && typeof record.document === "object" && !Array.isArray(record.document)
+      ? { ...(record.document as Record<string, unknown>) }
+      : null;
+
+  if (!document) {
+    return record;
+  }
+
+  const spec =
+    document.spec && typeof document.spec === "object" && !Array.isArray(document.spec)
+      ? (document.spec as Record<string, unknown>)
+      : null;
+
+  if (spec) {
+    const elements =
+      spec.elements && typeof spec.elements === "object" && !Array.isArray(spec.elements)
+        ? (spec.elements as Record<string, unknown>)
+        : {};
+    document.spec = {
+      root: typeof spec.root === "string" ? spec.root : null,
+      elementCount: Object.keys(elements).length,
+    };
+  }
+
+  record.document = document;
+  return record;
+}
+
 function buildDocument(options: {
   index: number;
   source: string;
@@ -155,6 +190,41 @@ function buildCurrentTaskContent(opts: BuildSystemPromptOptions) {
   ].join("\n");
 }
 
+function buildCurrentPdfStructureContent(data: unknown) {
+  if (!data || typeof data !== "object" || Array.isArray(data)) {
+    return "No valid quote data is available yet.";
+  }
+
+  const record = data as Record<string, unknown>;
+  const hasNonEmptyArray = (value: unknown) =>
+    Array.isArray(value) && value.length > 0;
+
+  const sections = [
+    "cover",
+    "table_of_contents",
+    record.includeAboutUs !== false ? "about_us" : null,
+    record.includeCulture !== false ? "culture" : null,
+    record.includeCeoMessage !== false && record.ceo ? "ceo_message" : null,
+    record.includeTeam !== false && record.team ? "team" : null,
+    record.includePartners !== false ? "partners" : null,
+    "proposal_description",
+    hasNonEmptyArray(record.services) ? "service_sections" : null,
+    "project_summary",
+    hasNonEmptyArray(record.optionalPages) ? "optional_pages" : null,
+    "exclusions_and_conditions",
+    record.includeTermsAndConditions !== false ? "terms_and_conditions" : null,
+  ].filter((value): value is string => Boolean(value));
+
+  return [
+    `lang: ${typeof record.lang === "string" ? record.lang : "fr"}`,
+    `service_count: ${hasNonEmptyArray(record.services) ? (record.services as unknown[]).length : 0}`,
+    `optional_page_count: ${hasNonEmptyArray(record.optionalPages) ? (record.optionalPages as unknown[]).length : 0}`,
+    `attached_document_count: ${hasNonEmptyArray(record.attachedDocuments) ? (record.attachedDocuments as unknown[]).length : 0}`,
+    "renderer_sections:",
+    ...sections.map((section) => `- ${section}`),
+  ].join("\n");
+}
+
 function buildDocumentsBlock(opts: BuildSystemPromptOptions) {
   const { promptContext } = opts;
   const documents = [
@@ -170,10 +240,20 @@ function buildDocumentsBlock(opts: BuildSystemPromptOptions) {
       source: "current_quote_patch_target",
       documentType: "json_patch_target",
       priority: "highest",
-      content: safeSnapshot(opts.quote.data, MAX_PATCH_TARGET_CHARS),
+      content: safeSnapshot(
+        withoutHeavyDocumentSpec(opts.quote.data),
+        MAX_PATCH_TARGET_CHARS,
+      ),
     }),
     buildDocument({
       index: 3,
+      source: "current_pdf_structure",
+      documentType: "renderer_structure",
+      priority: "high",
+      content: buildCurrentPdfStructureContent(opts.quote.data),
+    }),
+    buildDocument({
+      index: 4,
       source: "source_priority",
       documentType: "source_hierarchy",
       priority: "high",
@@ -181,7 +261,7 @@ function buildDocumentsBlock(opts: BuildSystemPromptOptions) {
     }),
     ...promptContext.contextAttachments.map((attachment, index) =>
       buildDocument({
-        index: index + 4,
+        index: index + 5,
         source: `context_attachment:${attachment.filename}`,
         documentType: "supporting_attachment_analysis",
         priority: "high",
@@ -189,49 +269,49 @@ function buildDocumentsBlock(opts: BuildSystemPromptOptions) {
       }),
     ),
     buildDocument({
-      index: promptContext.contextAttachments.length + 4,
+      index: promptContext.contextAttachments.length + 5,
       source: "customer_memory",
       documentType: "memory",
       priority: "medium",
       content: safeSnapshot(promptContext.customerMemory, 4000),
     }),
     buildDocument({
-      index: promptContext.contextAttachments.length + 5,
+      index: promptContext.contextAttachments.length + 6,
       source: "sales_rep_memory",
       documentType: "memory",
       priority: "medium",
       content: safeSnapshot(promptContext.salesRepContext, 5000),
     }),
     buildDocument({
-      index: promptContext.contextAttachments.length + 6,
+      index: promptContext.contextAttachments.length + 7,
       source: "company_commercial_defaults",
       documentType: "approved_commercial_defaults",
       priority: "medium",
       content: safeSnapshot(promptContext.companyCommercialDefaults, 5000),
     }),
     buildDocument({
-      index: promptContext.contextAttachments.length + 7,
+      index: promptContext.contextAttachments.length + 8,
       source: "company_profile",
       documentType: "brand_guidance",
       priority: "low",
       content: safeSnapshot(promptContext.companyProfile, 4000),
     }),
     buildDocument({
-      index: promptContext.contextAttachments.length + 8,
+      index: promptContext.contextAttachments.length + 9,
       source: "noxe_quote_playbook",
       documentType: "style_and_commercial_patterns",
       priority: "low",
       content: buildPlaybookContent(),
     }),
     buildDocument({
-      index: promptContext.contextAttachments.length + 9,
+      index: promptContext.contextAttachments.length + 10,
       source: "document_archetypes",
       documentType: "structure_guidance",
       priority: "low",
       content: buildArchetypeGuidanceContent(),
     }),
     buildDocument({
-      index: promptContext.contextAttachments.length + 10,
+      index: promptContext.contextAttachments.length + 11,
       source: "quote_crafting_examples",
       documentType: "examples",
       priority: "low",
@@ -327,6 +407,7 @@ You are Claude, created by Anthropic. You are the quote copilot for Noxe. Your j
 - For service agreements, lean into governance clarity, responsibilities, cadence, SLA thinking, and commercial predictability.
 - Write brochure-style sections in a polished, premium, execution-focused tone without inventing hard company facts.
 - Never invent part numbers, quantities, prices, legal commitments, team members, partner claims, or customer facts.
+- Use patch_quote for commercial facts, quote structure, and any content that must appear in the final PDF.
 </writing_policy>
 
 <tool_policy>

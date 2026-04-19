@@ -1,0 +1,141 @@
+{
+  "common": {
+    "proposal": "PROPOSITION",
+    "quote": "SOUMISSION",
+    "page": "Page",
+    "quoteNumber": "Soumission #",
+    "quoteDate": "Date de soumission :",
+    "validUntil": "Valide jusqu'au :",
+    "preparedFor": "Préparé pour :",
+    "preparedBy": "Préparé par :",
+    "subtotal": "SOUS-TOTAL :",
+    "totalCost": "COÛT TOTAL :",
+    "totalProjectCost": "COÛT TOTAL DU PROJET :",
+    "taxDisclaimer": "Les montants indiqués excluent les taxes - les taxes applicables sont en sus.",
+    "currency": "$"
+  },
+  "cover": {
+    "masterServiceAgreement": "ENTENTE DE SERVICE CADRE"
+  },
+  "toc": {
+    "title": "TABLE DES MATIÈRES",
+    "aboutUs": "À propos de nous",
+    "ourCulture": "Notre culture",
+    "managementMessage": "Message de notre PDG",
+    "ourTeam": "Notre équipe d'experts",
+    "ourPartners": "Nos partenaires",
+    "proposalDescription": "Description de la proposition",
+    "serviceOffering": "Offre de services complète",
+    "projectSummary": "Sommaire du projet",
+    "optionalPage": "Page optionnelle",
+    "exclusion": "Exclusion",
+    "specialCondition": "Condition spéciale",
+    "paymentTerms": "Conditions de paiement",
+    "termsAndConditions": "T&C"
+  },
+  "aboutUs": {
+    "title": "À PROPOS DE NOUS",
+    "mainDescription": "Noxe se distingue de la concurrence en mettant l'accent sur une approche centrée sur le client et en priorisant les besoins de nos clients. Nos valeurs fondamentales tournent autour de nos employés, clients et performance. Notre équipe qualifiée de techniciens, gestionnaires de projets et experts internes nous permet d'exécuter des projets hautement complexes dans des délais serrés. De plus, notre expertise en développement logiciel nous permet d'intégrer parfaitement plusieurs systèmes, en adaptant les solutions aux besoins uniques de chaque client.",
+    "whoAreWe": "Qui sommes-nous?",
+    "whoAreWeText": "Noxe est une jeune entreprise dynamique et agile qui se nourrit de défis et s'efforce continuellement de s'améliorer. Nous priorisons nos clients et employés, favorisant un environnement de transparence exceptionnelle. Notre objectif est d'inspirer et de permettre à nos clients d'atteindre de nouveaux sommets grâce à nos solutions haute performance et notre engagement indéfectible envers l'excellence.",
+    "howDoWeWork": "Comment travaillons-nous?",
+    "howDoWeWorkText": "Notre équipe est dévouée et adaptable, abordant chaque client avec une stratégie unique et personnalisée tout en respectant nos principes fondamentaux d'agilité et de dynamisme. Nous sommes fiers d'être une équipe professionnelle et résiliente, livrant constamment des résultats exceptionnels peu importe le défi à relever.",
+    "valuesRow1": ["Performance", "Intégrité", "Constance", "Responsabilité", "Qualité"],
+    "valuesRow2": ["Innovation", "Professionnalisme", "Résilience", "Transparence", "Enthousiasme"]
+  },
+  "culture": {
+    "title": "NOTRE CULTURE",
+    "ourCompany": "Notre entreprise",
+    "ourCompanyText": "Noxe est une entreprise en pleine croissance qui relève avec succès de multiples défis — une qualité qui forge notre identité et notre force. Aujourd'hui, nous sommes fiers d'avoir dépassé le cap des 30 employés et de poursuivre notre expansion avec l'ouverture de deux succursales : l'une à Montréal, le cœur vibrant de l'innovation, et l'autre à Québec, riche en dynamisme entrepreneurial.",
+    "ourMission": "Notre mission",
+    "ourMissionText": "La mission de Noxe est simple : aider fondamentalement nos employés à s'épanouir professionnellement et permettre à nos clients d'atteindre une haute performance. Nous accomplissons cette mission en sécurisant les sites où nos clients opèrent, ou en optimisant leurs dépenses d'exploitation (Opex) grâce à l'innovation et à l'utilisation complète des technologies disponibles.",
+    "ourValues": "Nos valeurs",
+    "ourValuesText": "Noxe se distingue par ses valeurs fondamentales : un profond respect pour ses employés, un engagement à soutenir ses clients dans l'optimisation de leurs opérations, et la mise en œuvre de systèmes de sécurité fiables et hautement performants. Notre environnement de travail, dynamique et agile, infusé d'une légère dose de chaos créatif, nous pousse constamment à nous surpasser et à innover pour rester à la fine pointe de notre expertise.",
+    "ourVision": "Notre vision",
+    "ourVisionText": "Nous visons à devenir LA référence de l'industrie en sécurité physique, intelligence d'affaires et intelligence du bâtiment, et par extension, à être votre partenaire technologique de confiance. Notre vision est de repousser continuellement les limites de l'innovation en offrant des solutions intelligentes, évolutives et tournées vers l'avenir qui aident les organisations à opérer de manière plus sécuritaire, efficace et durable."
+  },
+  "ceoMessage": {
+    "title": "MESSAGE DE NOTRE PDG",
+    "subtitle": "LE PDG DE L'ENTREPRISE",
+    "name": "Jonathan Aubut"
+  },
+  "team": {
+    "title": "NOTRE ÉQUIPE D'EXPERTS",
+    "intro": "Notre équipe est composée de professionnels dévoués qui allient expertise, innovation et un engagement fort envers l'excellence. En combinant connaissances techniques, expérience en gestion de projets et une approche centrée sur le client, nous travaillons en collaboration pour offrir des solutions fiables et de haute performance adaptées aux besoins de chaque client."
+  },
+  "partners": {
+    "title": "NOS PARTENAIRES",
+    "intro": "Nous collaborons avec des partenaires industriels et des fournisseurs de technologies de confiance pour offrir des solutions fiables, innovantes et de haute performance à nos clients. Grâce à des partenariats solides, nous combinons expertise, technologies avancées et produits éprouvés pour nous assurer que chaque projet répond aux plus hauts standards de qualité et d'efficacité.",
+    "categories": [
+      { "name": "Accès", "partners": ["GENETEC", "KANTECH", "LENEL S2", "HID", "ASSA ABLOY", "ALLEGION", "GENEA", "SOFTWARE HOUSE", "AUTOMATIC SYSTEMS", "AXIS COMUNICATIONS"] },
+      { "name": "Tech", "partners": ["AXIS COMUNICATIONS", "AWS", "GITHUB", "CLOUD AI", "NIVIDIA", "MACHINE LEARNING", "BUSINESS ANALYTICS", "DEV OPS", "SMART BUILDING"] },
+      { "name": "Vidéo", "partners": ["GENETEC", "AXIS COMUNICATIONS", "MILESTONE", "BOSCH", "AXIS"] }
+    ]
+  },
+  "proposalDescription": {
+    "title": "DESCRIPTION DE LA PROPOSITION",
+    "object": "Objet :"
+  },
+  "service": {
+    "billOfMaterials": "LISTE DES MATÉRIAUX",
+    "materialsDescription": "Cette section présente les matériaux et équipements inclus dans {section}.",
+    "otherServicesDescription": "Cette section présente les autres services inclus dans {section}.",
+    "zeroVentilationTitle": "LISTE DES MATÉRIAUX, MAIN-D'ŒUVRE ET AUTRES SERVICES",
+    "zeroVentilationDescription": "Matériaux, main-d'œuvre et autres services inclus dans {section}.",
+    "subtotal": "SOUS-TOTAL :",
+    "laborAndServices": "MAIN-D'ŒUVRE et AUTRES SERVICES",
+    "materialsLabel": "MATÉRIAUX",
+    "columns": {
+      "qty": "QTÉ",
+      "partDescription": "#PIÈCE/DESCRIPTION",
+      "partNumber": "#PIÈCE",
+      "description": "DESCRIPTION",
+      "oem": "OEM",
+      "unitPrice": "PRIX UNIT. ($)",
+      "total": "TOTAL ($)"
+    }
+  },
+  "projectSummary": {
+    "title": "SOMMAIRE DU PROJET"
+  },
+  "exclusions": {
+    "exclusionTitle": "Exclusion",
+    "exclusionTitlePlural": "Exclusions",
+    "specialConditionsTitle": "Condition spéciale",
+    "specialConditionsTitlePlural": "Conditions spéciales",
+    "noteTitle": "Note",
+    "noteTitlePlural": "Notes",
+    "paymentTermTitle": "Condition de paiement",
+    "paymentTermTitlePlural": "Conditions de paiement",
+    "clientSignature": "Signature du client",
+    "date": "Date",
+    "warrantyLabel": "Garantie :",
+    "warrantyText": "Tout équipement fourni est couvert par la garantie standard du fabricant, sauf indication contraire. L'installation et la main-d'œuvre sont garanties pour une période de 12 mois à compter de la date d'achèvement du projet.",
+    "infoText": "Si vous avez des questions ou besoin d'informations supplémentaires concernant cette soumission, n'hésitez pas à me contacter."
+  },
+  "terms": {
+    "title": "Termes et conditions",
+    "sections": [
+      {
+        "title": "Garanties",
+        "text": "NOXE garantit que ses services seront exécutés de manière professionnelle. Tout service non exécuté de manière professionnelle sera repris par NOXE à condition que le client en avise NOXE dès que possible, mais au plus tard un mois après la date d'exécution des services. Si une pièce est installée dans le cadre des services rendus par NOXE, NOXE garantit que la pièce installée sera exempte de défauts de matériaux ou de fabrication pour le reste du terme ou pour une période d'un (1) an à compter de la date d'installation de la pièce, selon la première éventualité. Si la pièce est couverte par une garantie du fabricant de moins d'un (1) an, la garantie de NOXE envers le client à l'égard de cette pièce sera limitée à la durée de la garantie du fabricant."
+      },
+      {
+        "title": "Mode de paiement",
+        "text": "NOXE obtient et conserve une sûreté en garantie du prix d'achat sur tous les produits et services vendus au client en vertu d'un contrat ainsi que sur le produit de leur disposition pour garantir le paiement du prix d'achat des produits et services vendus, et le client accepte de coopérer avec NOXE pour parfaire cette sûreté. Dans le cas des produits vendus dans la province de Québec, NOXE conserve le titre de propriété des produits (et de tous les accessoires, remplacements et produits de ceux-ci) jusqu'à ce que le client ait effectué le paiement intégral et rempli toutes ses obligations en vertu des présentes."
+      },
+      {
+        "title": "Force majeure",
+        "text": "NOXE n'assume aucune responsabilité envers le client pour tout manquement ou retard dans l'exécution de toute condition de tout contrat entre les parties lorsque ce manquement ou ce retard est dû à un cas de force majeure. De même, NOXE ne sera pas réputée avoir enfreint tout contrat entre les parties ou avoir violé un tel contrat dans de telles circonstances. Aux fins de tout contrat entre les parties, le terme « force majeure » désigne des circonstances ou des actes échappant au contrôle raisonnable de NOXE, y compris, sans limitation, les catastrophes naturelles, les inondations, les incendies, les tremblements de terre, les explosions, les actions gouvernementales, les guerres, les invasions ou les hostilités (que la guerre soit déclarée ou non), les menaces ou actes de terrorisme, les émeutes ou autres troubles civils, les urgences nationales, les révolutions, les insurrections, les épidémies, les lock-out, les grèves ou autres conflits de travail (qu'ils impliquent ou non la main-d'œuvre de NOXE) ou les restrictions ou retards affectant les transporteurs de fret ou l'impossibilité ou le retard dans l'obtention de matériaux suffisants ou appropriés, la panne de matériaux ou d'équipements, les pannes de télécommunications ou d'alimentation électrique, à condition que le client ait le droit de donner à NOXE un avis écrit de résiliation du contrat si un tel événement se poursuit pendant plus de 60 jours consécutifs."
+      },
+      {
+        "title": "Résiliation",
+        "text": "En plus des recours prévus aux présentes, NOXE peut résilier le contrat entre les parties en donnant au client un préavis écrit de 10 jours si le client (i) refuse d'accepter la livraison d'un envoi de produit conformément au contrat; (ii) omet de payer toute facture de NOXE à échéance; (iii) manque autrement à ses obligations en vertu de l'entente et omet de remédier à ce manquement dans les 10 jours suivant la réception d'un avis écrit de NOXE à cet effet; ou (iv) devient insolvable, dépose une requête en faillite, ou fait l'objet de procédures de faillite, de mise sous séquestre, de réorganisation ou de cession en faveur de ses créanciers. Si l'entente est résiliée pour l'une des raisons susmentionnées, le client devra promptement payer à NOXE les montants dus à NOXE pour les services et installations fournis par NOXE avant la date effective de résiliation de l'entente, avec déchéance du bénéfice du terme. La résiliation de l'entente ne limitera ni ne préjudiciera en aucune façon le droit de NOXE de recouvrer des dommages auprès du client ou d'exercer tout autre droit ou recours statutaire, contractuel ou équitable disponible à NOXE en raison d'une telle violation."
+      },
+      {
+        "title": "Information confidentielle",
+        "text": "Le client traitera comme strictement confidentielle toute information confidentielle ou propriétaire de NOXE qui lui est communiquée par NOXE ou en son nom dans le cadre d'un contrat entre les parties et ne divulguera pas cette information à un tiers. Le client ne divulguera cette information qu'aux employés qui ont besoin de la connaître dans l'exercice de leurs fonctions en vertu de ce contrat et ces employés n'utiliseront cette information que dans l'exercice de ces fonctions."
+      }
+    ]
+  }
+}

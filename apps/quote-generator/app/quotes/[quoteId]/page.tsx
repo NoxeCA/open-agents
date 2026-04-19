@@ -30,6 +30,17 @@ export default async function QuotePage({
     .limit(1);
   if (!quote) notFound();
 
+  const quoteRows = await db
+    .select({
+      id: quotes.id,
+      title: quotes.title,
+      lang: quotes.lang,
+      updatedAt: quotes.updatedAt,
+    })
+    .from(quotes)
+    .where(eq(quotes.userId, session.user.id))
+    .orderBy(desc(quotes.updatedAt));
+
   const [chat] = await db
     .select()
     .from(chats)
@@ -58,6 +69,7 @@ export default async function QuotePage({
         ...quote,
         data: normalizeQuoteData(quote.data as Partial<QuoteData>),
       }}
+      quoteRows={quoteRows}
       chat={chat}
       initialMessages={messages}
       initialPdfFileId={latestPdf?.id ?? null}

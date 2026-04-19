@@ -8,8 +8,8 @@ import { quoteFiles, quotes } from "@/lib/db/schema";
 import { persistQuoteData } from "@/lib/memory/persist-quote-data";
 import { normalizeQuoteData } from "@/lib/quote/normalize";
 import { assessQuoteProductionReadiness } from "@/lib/quote/render-readiness";
-import { callPdfApi, PdfValidationError } from "@/lib/quote/render";
-import type { QuoteData } from "@/lib/quote/schema";
+import { renderQuotePdf } from "@/lib/quote/render";
+import { quoteDataSchema, type QuoteData } from "@/lib/quote/schema";
 import { nanoid } from "@/lib/util/ids";
 
 import type { RenderPdfOutput } from "../tool-types";
@@ -17,7 +17,7 @@ import type { RenderPdfOutput } from "../tool-types";
 export function renderPdfTool({ quoteId }: { quoteId: string }) {
   return tool({
     description:
-      "Render the current QuoteData to a PDF via the Noxe documents API, persist it to blob storage, and attach it to the quote. Call this only when the quote is production-ready: required fields are filled, no placeholder text remains, and unresolved confirmations have already been patched. Returns a `pdfUrl` the UI can load in the preview pane.",
+      "Render the current quote to a PDF using the shared Noxe quote JSON-render pipeline, persist it to blob storage, and attach it to the quote. Call this only when the quote is production-ready: required fields are filled, no placeholder text remains, and unresolved confirmations have already been patched. Returns the `pdfFileId` and `pdfUrl` so the chat UI can open or download the generated PDF immediately.",
     inputSchema: z.object({}),
     execute: async (): Promise<RenderPdfOutput> => {
       const [row] = await db
@@ -43,17 +43,21 @@ export function renderPdfTool({ quoteId }: { quoteId: string }) {
         };
       }
 
+      let parsedQuote: QuoteData;
+      try {
+        parsedQuote = quoteDataSchema.parse(readiness.normalizedData);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        return {
+          ok: false,
+          error: `document_validation_failed: ${message}`,
+        };
+      }
+
       let pdf: ArrayBuffer | Uint8Array | Buffer;
       try {
-        pdf = await callPdfApi(readiness.parsedData);
+        pdf = await renderQuotePdf(parsedQuote);
       } catch (e) {
-        if (e instanceof PdfValidationError) {
-          return {
-            ok: false,
-            error: "pdf_api_validation",
-            missingPaths: e.missingPaths,
-          };
-        }
         const message = e instanceof Error ? e.message : String(e);
         return { ok: false, error: message || "Unknown PDF error" };
       }

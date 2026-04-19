@@ -1,6 +1,5 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { MessagePart } from "./message-part";
 
 type PartLike = {
@@ -18,6 +17,7 @@ type MessageLike = {
 
 type Props = {
   messages: MessageLike[];
+  quoteId: string;
   onToolOutput?: (args: {
     tool?: string;
     toolCallId: string;
@@ -34,43 +34,27 @@ function normalizeParts(msg: MessageLike): PartLike[] {
   return [];
 }
 
-export function MessageList({ messages, onToolOutput }: Props) {
+export function MessageList({ messages, quoteId, onToolOutput }: Props) {
   if (messages.length === 0) {
-    return (
-      <div className="py-10 text-center text-sm text-muted-foreground">
-        Start the conversation — upload an Excel file or describe the project to
-        quote.
-      </div>
-    );
+    return null;
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       {messages.map((m, idx) => {
         const role = m.role ?? "assistant";
         const parts = normalizeParts(m);
+        const isUser = role === "user";
+
         return (
-          <div
-            key={m.id ?? idx}
-            className={cn(
-              "flex",
-              role === "user" ? "justify-end" : "justify-start",
-            )}
-          >
-            <div
-              className={cn(
-                "max-w-[90%] space-y-2 rounded-lg px-3 py-2 text-sm",
-                role === "user"
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-foreground",
-              )}
-            >
+          <div key={m.id ?? idx} className={isUser ? "flex justify-end" : "flex"}>
+            <div className={isUser ? "flex max-w-[95%] flex-col items-end gap-3" : "flex w-full max-w-[95%] flex-col gap-3"}>
               {parts.map((p, i) => (
                 <MessagePart
-                  // eslint-disable-next-line react/no-array-index-key
                   key={i}
                   part={p}
                   role={role}
+                  quoteId={quoteId}
                   onToolOutput={onToolOutput}
                 />
               ))}

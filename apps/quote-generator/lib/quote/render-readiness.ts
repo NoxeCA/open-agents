@@ -1,9 +1,13 @@
 import { normalizeQuoteData } from "./normalize";
-import { quoteDataSchema, type QuoteData } from "./schema";
+import {
+  quoteBusinessDataSchema,
+  type QuoteBusinessData,
+  type QuoteData,
+} from "./schema";
 
 export type QuoteProductionReadiness = {
   normalizedData: Partial<QuoteData>;
-  parsedData?: QuoteData;
+  parsedData?: QuoteBusinessData;
   renderReadiness: "ready" | "blocked";
   blockers: string[];
   blockingIssues: string[];
@@ -115,7 +119,7 @@ function collectPlaceholderIssues(
   return [];
 }
 
-function collectBusinessRuleIssues(data: QuoteData): BlockingIssue[] {
+function collectBusinessRuleIssues(data: QuoteBusinessData): BlockingIssue[] {
   const issues: BlockingIssue[] = [];
 
   if (!data.projectSummary.description.trim()) {
@@ -145,7 +149,7 @@ function collectBusinessRuleIssues(data: QuoteData): BlockingIssue[] {
   return issues;
 }
 
-function collectQualityWarnings(data: QuoteData) {
+function collectQualityWarnings(data: QuoteBusinessData) {
   const warnings: string[] = [];
 
   if (data.services.length === 0) {
@@ -174,7 +178,7 @@ export function assessQuoteProductionReadiness(
 ): QuoteProductionReadiness {
   const normalizedData = normalizeQuoteData(data);
   const blockingIssues = new Map<string, string>();
-  const parsed = quoteDataSchema.safeParse(normalizedData);
+  const parsed = quoteBusinessDataSchema.safeParse(normalizedData);
 
   if (!parsed.success) {
     for (const issue of parsed.error.issues) {

@@ -75,6 +75,82 @@ export type PatchQuoteOutput =
 // strict shape.
 export type { Operation };
 
+// ---- document tools ----------------------------------------------------
+
+export type DocumentThemeId = "editorial" | "executive" | "technical";
+export type DocumentDensityId = "airy" | "balanced" | "compact";
+export type DocumentAccentId = "sand" | "forest" | "ink";
+export type DocumentSectionKind =
+  | "cover"
+  | "overview"
+  | "services"
+  | "about"
+  | "culture"
+  | "leadership"
+  | "team"
+  | "partners"
+  | "commercial";
+
+export type DocumentCatalogOption = {
+  id: string;
+  label: string;
+  description: string;
+};
+
+export type DocumentCatalogSection = {
+  kind: DocumentSectionKind;
+  label: string;
+  description: string;
+  optional: boolean;
+};
+
+export type DocumentCatalogOutput = {
+  themes: DocumentCatalogOption[];
+  densities: DocumentCatalogOption[];
+  accents: DocumentCatalogOption[];
+  sections: DocumentCatalogSection[];
+  components: string[];
+};
+
+export type DocumentSummary = {
+  theme: DocumentThemeId;
+  density: DocumentDensityId;
+  accent: DocumentAccentId;
+  pageCount: number;
+  sections: string[];
+};
+
+export type ComposeDocumentSpecInput = {
+  theme?: DocumentThemeId;
+  density?: DocumentDensityId;
+  accent?: DocumentAccentId;
+  sectionOrder?: DocumentSectionKind[];
+  includeSections?: DocumentSectionKind[];
+  excludeSections?: DocumentSectionKind[];
+};
+
+export type ComposeDocumentSpecOutput =
+  | {
+      ok: true;
+      summary: DocumentSummary;
+      touchedPaths: string[];
+    }
+  | {
+      ok: false;
+      error: string;
+    };
+
+export type PatchDocumentSpecInput = { ops: PatchQuoteOp[] };
+
+export type PatchDocumentSpecOutput =
+  | {
+      ok: true;
+      touchedPaths: string[];
+      issues: PatchQuoteIssue[];
+      summary: DocumentSummary;
+    }
+  | { ok: false; error: string };
+
 // ---- ask_user_question -------------------------------------------------
 
 export type AskUserQuestionOption = {

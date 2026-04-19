@@ -19,6 +19,7 @@ type PartLike = {
 type Props = {
   part: PartLike;
   role: string;
+  quoteId: string;
   onToolOutput?: (args: {
     tool?: string;
     toolCallId: string;
@@ -27,12 +28,24 @@ type Props = {
   }) => void;
 };
 
-export function MessagePart({ part, onToolOutput }: Props) {
+export function MessagePart({ part, role, quoteId, onToolOutput }: Props) {
   const type: string = part.type ?? "";
 
   if (type === "text") {
     const text = (part.text as string | undefined) ?? "";
-    return <CollapsibleMessageText text={text} />;
+    if (role === "user") {
+      return (
+        <div className="w-fit max-w-[min(80%,56ch)] overflow-hidden break-words rounded-2xl rounded-br-lg border border-border/30 bg-gradient-to-br from-secondary to-muted px-3.5 py-2 text-[13px] leading-[1.65] text-foreground shadow-[var(--shadow-card)]">
+          <CollapsibleMessageText text={text} />
+        </div>
+      );
+    }
+
+    return (
+      <div className="flex min-w-0 max-w-full flex-col gap-2 overflow-hidden text-[13px] leading-[1.65] text-foreground">
+        <CollapsibleMessageText text={text} />
+      </div>
+    );
   }
 
   if (type === "step-start" || type === "step-finish") {
@@ -42,6 +55,20 @@ export function MessagePart({ part, onToolOutput }: Props) {
   // File parts (images, uploads): ignore for MVP.
   if (type === "file" || type.startsWith("file-")) return null;
 
+  if (type === "tool-call") {
+    return (
+      <GenericToolCall
+        name={(part.toolName as string | undefined) ?? "tool"}
+        input={part.input}
+        output={part.output}
+        state={(part.state as string | undefined) ?? "completed"}
+        toolCallId={part.toolCallId}
+        quoteId={quoteId}
+        onToolOutput={onToolOutput}
+      />
+    );
+  }
+
   if (type.startsWith("tool-")) {
     const toolName = type.slice("tool-".length);
     const toolProps = {
@@ -50,6 +77,7 @@ export function MessagePart({ part, onToolOutput }: Props) {
       output: part.output,
       state: part.state,
       toolCallId: part.toolCallId,
+      quoteId,
       onToolOutput,
     };
     switch (toolName) {

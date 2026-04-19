@@ -13,12 +13,13 @@ import { projectSummaryPageSchema } from './pages/10-project-summary/schema';
 import { optionalPagesSchema } from './pages/11-optional/schema';
 import { exclusionsConditionsPageSchema } from './pages/12-exclusions-conditions/schema';
 import { termsAndConditionsPageSchema } from './pages/13-terms-and-conditions/schema';
+import { quoteDocumentStateSchema } from "../document/catalog";
 
 const metaSchema = z.object({
   lang: z.enum(['fr', 'en']).default('fr'),
 });
 
-export const quoteDataSchema = metaSchema
+export const quoteBusinessDataSchema = metaSchema
   .merge(coverPageSchema)
   .merge(tableOfContentsPageSchema)
   .merge(aboutUsPageSchema)
@@ -33,5 +34,11 @@ export const quoteDataSchema = metaSchema
   .merge(exclusionsConditionsPageSchema)
   .merge(termsAndConditionsPageSchema)
   .merge(attachedDocumentsSchema);
+
+export type QuoteBusinessData = z.infer<typeof quoteBusinessDataSchema>;
+
+export const quoteDataSchema = quoteBusinessDataSchema.extend({
+  document: quoteDocumentStateSchema.optional(),
+});
 
 export type QuoteData = z.infer<typeof quoteDataSchema>;

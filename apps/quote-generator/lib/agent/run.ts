@@ -26,6 +26,38 @@ export type RunQuoteAgentOptions = {
 
 const MAX_STEPS = 25;
 
+type MessagePartLike = {
+  type?: string;
+};
+
+function sanitizeMessagesForModel(messages: UIMessage[]): UIMessage[] {
+  return messages.flatMap((message) => {
+    const parts = message.parts.filter((part) => {
+      const type = (part as MessagePartLike).type ?? "";
+
+      if (message.role !== "assistant") {
+        return true;
+      }
+
+      // Older persisted messages stored generic tool-call parts that the
+      // modern UI converter does not treat as skippable incomplete tools.
+      // Quote state is already persisted in the database, so these tool cards
+      // are safe to omit from model context.
+      if (type === "tool-call" || type === "reasoning") {
+        return false;
+      }
+
+      return true;
+    });
+
+    if (message.role === "assistant" && parts.length === 0) {
+      return [];
+    }
+
+    return [{ ...message, parts }];
+  });
+}
+
 export async function runQuoteAgent(opts: RunQuoteAgentOptions) {
   const [quote] = await db
     .select()
@@ -45,6 +77,7 @@ export async function runQuoteAgent(opts: RunQuoteAgentOptions) {
     quote,
     userId: opts.userId,
   });
+  const modelReadyMessages = sanitizeMessagesForModel(opts.messages);
 
   return streamText({
     model: resolveQuoteAgentModel(),
@@ -56,7 +89,9 @@ export async function runQuoteAgent(opts: RunQuoteAgentOptions) {
       },
       promptContext,
     }),
-    messages: await convertToModelMessages(opts.messages),
+    messages: await convertToModelMessages(modelReadyMessages, {
+      ignoreIncompleteToolCalls: true,
+    }),
     tools: buildTools({ quoteId: opts.quoteId, userId: opts.userId }),
     stopWhen: stepCountIs(MAX_STEPS),
     onFinish: opts.onFinish,

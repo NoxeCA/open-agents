@@ -1,1 +1,6 @@
-export { quoteDataSchema, type QuoteData } from "./schema/index";
+export {
+  quoteBusinessDataSchema,
+  quoteDataSchema,
+  type QuoteBusinessData,
+  type QuoteData,
+} from "./schema/index";

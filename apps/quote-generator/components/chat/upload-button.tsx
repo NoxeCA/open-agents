@@ -4,12 +4,14 @@ import { Loader2, Paperclip } from "lucide-react";
 import { useRef, type ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { getQuoteUploadAcceptValue } from "@/lib/files/quote-file-types";
+import { cn } from "@/lib/utils";
 
 type Props = {
   onFilesSelected: (files: File[]) => void;
   disabled?: boolean;
   error?: string | null;
   isUploading?: boolean;
+  className?: string;
 };
 
 export function UploadButton({
@@ -17,6 +19,7 @@ export function UploadButton({
   disabled,
   error,
   isUploading = false,
+  className,
 }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -36,11 +39,15 @@ export function UploadButton({
     <div className="flex flex-col">
       <Button
         type="button"
-        variant="outline"
+        variant="ghost"
         size="icon"
         onClick={handlePick}
         disabled={disabled || isUploading}
-        title="Upload one or more workbooks, PDFs, images, or emails"
+        title="Téléverser un ou plusieurs fichiers Excel, PDF, images ou courriels"
+        className={cn(
+          "rounded-full border border-border/60 bg-background shadow-[var(--shadow-card)] hover:bg-accent",
+          className,
+        )}
       >
         {isUploading ? (
           <Loader2 className="size-4 animate-spin" />
@@ -56,7 +63,7 @@ export function UploadButton({
         className="hidden"
         onChange={handleChange}
       />
-      {error && <p className="mt-1 text-[11px] text-destructive">{error}</p>}
+      {error && <p className="mt-1 pl-1 text-[11px] text-destructive">{error}</p>}
     </div>
   );
 }

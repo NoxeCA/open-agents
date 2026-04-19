@@ -6,7 +6,7 @@ import {
   useMemo,
   useRef,
   useState,
-  type DragEvent,
+  type DragEvent as ReactDragEvent,
   type KeyboardEvent,
 } from "react";
 import { useChat } from "@ai-sdk/react";
@@ -14,30 +14,37 @@ import {
   DefaultChatTransport,
   lastAssistantMessageIsCompleteWithToolCalls,
 } from "ai";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Textarea } from "@/components/ui/textarea";
+import { ArrowUp, Loader2, Square } from "lucide-react";
+
 import { MessageList } from "@/components/chat/message-list";
+import { SuggestedPrompts } from "@/components/chat/suggested-prompts";
 import { UploadButton } from "@/components/chat/upload-button";
 import {
   type UploadedQuoteFile,
 } from "@/components/chat/upload-quote-files";
 import { useQuoteFileUpload } from "@/components/chat/use-quote-file-upload";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  buildQuoteWorkspaceSuggestions,
+} from "@/lib/quote/workspace-summary";
 import { cn } from "@/lib/utils";
 
 type Props = {
   quoteId: string;
+  quoteTitle: string;
+  quoteData: Record<string, unknown> | null | undefined;
+  pdfFileId: string | null;
   chatId: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   initialMessages: any[];
   onQuoteUpdated: () => void | Promise<void>;
-  draftedPrompt?: string;
-  draftedPromptVersion?: number;
 };
 
 type PartLike = {
   type?: string;
   state?: string;
+  toolName?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   output?: any;
 };
@@ -49,51 +56,66 @@ type MessageLike = {
 };
 
 function isRefreshableToolPart(part: PartLike): boolean {
-  if (!part?.type || !part.type.startsWith("tool-")) return false;
-  if (part.state !== "output-available") return false;
-  const name = part.type.slice("tool-".length);
-  if (name !== "render_pdf" && name !== "patch_quote") return false;
-  // Treat any output-available as a "success"; tool errors use output-error.
-  return true;
+  if (!part?.type || part.state !== "output-available") return false;
+  const name =
+    part.type === "tool-call"
+      ? (part.toolName as string | undefined)
+      : part.type.startsWith("tool-")
+      ? part.type.slice("tool-".length)
+        : undefined;
+
+  return [
+    "render_pdf",
+    "patch_quote",
+  ].includes(name ?? "");
 }
 
 function buildUploadInstruction(files: UploadedQuoteFile[]) {
   if (files.length === 1) {
     const [file] = files;
     return file.kind === "excel"
-      ? `I uploaded Excel workbook ${file.filename} (fileId: ${file.fileId}). Please parse it, propose a quote skeleton, then ask one consolidated first-pass validation batch that covers the highest-value missing basics before moving into narrower follow-ups. If that requires many questions, that is okay.`
-      : `I uploaded supporting context file ${file.filename} (fileId: ${file.fileId}, mediaType: ${file.mediaType}${file.category ? `, category: ${file.category}` : ""}). Please inspect it, summarize the quote-relevant context it adds, and then patch the quote or ask one consolidated first-pass validation batch that covers the highest-value missing basics. If that requires many questions, that is okay.`;
+      ? `J’ai téléversé le classeur Excel ${file.filename} (fileId: ${file.fileId}). Analyse-le, propose une structure de devis, puis pose un premier lot de questions consolidé couvrant les informations manquantes les plus importantes avant de passer aux détails. S’il faut beaucoup de questions, c’est correct.`
+      : `J’ai téléversé le fichier de contexte ${file.filename} (fileId: ${file.fileId}, mediaType: ${file.mediaType}${file.category ? `, catégorie: ${file.category}` : ""}). Analyse-le, résume ce qu’il apporte au devis, puis mets à jour le devis ou pose un premier lot de questions consolidé couvrant les informations manquantes les plus importantes. S’il faut beaucoup de questions, c’est correct.`;
   }
 
   const fileLines = files.map((file) =>
     file.kind === "excel"
-      ? `- Excel workbook ${file.filename} (fileId: ${file.fileId})`
-      : `- Supporting context file ${file.filename} (fileId: ${file.fileId}, mediaType: ${file.mediaType}${file.category ? `, category: ${file.category}` : ""})`,
+      ? `- Classeur Excel ${file.filename} (fileId: ${file.fileId})`
+      : `- Fichier de contexte ${file.filename} (fileId: ${file.fileId}, mediaType: ${file.mediaType}${file.category ? `, catégorie: ${file.category}` : ""})`,
   );
 
   return [
-    "I uploaded multiple files for this quote:",
+    "J’ai téléversé plusieurs fichiers pour ce devis :",
     ...fileLines,
     "",
-    "Please process them in order:",
-    "1. For each Excel workbook, parse it and propose a quote skeleton.",
-    "2. For each supporting context file, inspect it and summarize the quote-relevant context it adds.",
-    "3. Combine the information across all uploaded files before deciding what to patch next.",
-    "4. Ask one consolidated first-pass validation batch for the highest-value missing basics before moving into narrower follow-ups. If that needs to be a large batch, that is okay.",
+    "Merci de les traiter dans cet ordre :",
+    "1. Pour chaque classeur Excel, analyse-le et propose une structure de devis.",
+    "2. Pour chaque fichier de contexte, analyse-le et résume l’information utile au devis qu’il ajoute.",
+    "3. Combine l’information de tous les fichiers avant de décider quoi mettre à jour ensuite.",
+    "4. Pose ensuite un premier lot de questions consolidé pour couvrir les informations manquantes les plus importantes avant de passer aux suivis plus fins. Si ce lot doit être grand, c’est correct.",
   ].join("\n");
 }
 
 function transferHasFiles(dataTransfer: DataTransfer | null) {
-  return Array.from(dataTransfer?.types ?? []).includes("Files");
+  if (!dataTransfer) return false;
+  if (dataTransfer.files.length > 0) return true;
+  if (Array.from(dataTransfer.items).some((item) => item.kind === "file")) {
+    return true;
+  }
+
+  return Array.from(dataTransfer.types).some(
+    (type) => type === "Files" || type === "public.file-url",
+  );
 }
 
 export function ChatPane({
   quoteId,
+  quoteTitle,
+  quoteData,
+  pdfFileId,
   chatId,
   initialMessages,
   onQuoteUpdated,
-  draftedPrompt,
-  draftedPromptVersion,
 }: Props) {
   const transport = useMemo(
     () =>
@@ -112,8 +134,6 @@ export function ChatPane({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } as any);
 
-  // AI SDK v5 exposes: messages, status, sendMessage, addToolOutput, etc.
-  // We access via `any` to stay compatible across minor shape differences.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const c = chat as any;
   const messages: MessageLike[] = useMemo(() => c.messages ?? [], [c.messages]);
@@ -122,6 +142,7 @@ export function ChatPane({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     msg: any,
   ) => void | Promise<void> = c.sendMessage ?? c.append;
+  const stop: (() => void) | undefined = c.stop;
   const addToolOutput:
     | ((args: {
         tool?: string;
@@ -140,8 +161,18 @@ export function ChatPane({
 
   const isStreaming = status === "streaming" || status === "submitted";
   const canSubmit = input.trim().length > 0 && !isStreaming;
+  const suggestions = useMemo(
+    () => buildQuoteWorkspaceSuggestions({ quoteData, pdfFileId }),
+    [pdfFileId, quoteData],
+  );
 
-  // Scroll to bottom when a new message arrives.
+  const resizeTextarea = useCallback(() => {
+    const textarea = inputRef.current;
+    if (!textarea) return;
+    textarea.style.height = "0px";
+    textarea.style.height = `${Math.min(textarea.scrollHeight, 220)}px`;
+  }, []);
+
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
@@ -149,17 +180,27 @@ export function ChatPane({
   }, [messages.length, status]);
 
   useEffect(() => {
-    if (!draftedPromptVersion || !draftedPrompt) return;
-    const frame = window.requestAnimationFrame(() => {
-      setInput(draftedPrompt);
-      inputRef.current?.focus();
-    });
+    resizeTextarea();
+  }, [input, resizeTextarea]);
 
-    return () => window.cancelAnimationFrame(frame);
-  }, [draftedPrompt, draftedPromptVersion]);
+  useEffect(() => {
+    const preventWindowDrop = (event: globalThis.DragEvent) => {
+      if (!transferHasFiles(event.dataTransfer)) return;
+      event.preventDefault();
+      if (event.dataTransfer) {
+        event.dataTransfer.dropEffect = "copy";
+      }
+    };
 
-  // When the latest assistant message contains a successful render_pdf or
-  // patch_quote tool part, refresh the preview.
+    window.addEventListener("dragover", preventWindowDrop);
+    window.addEventListener("drop", preventWindowDrop);
+
+    return () => {
+      window.removeEventListener("dragover", preventWindowDrop);
+      window.removeEventListener("drop", preventWindowDrop);
+    };
+  }, []);
+
   useEffect(() => {
     if (isStreaming) return;
     const last = messages[messages.length - 1];
@@ -180,8 +221,11 @@ export function ChatPane({
     try {
       void sendMessage({ text });
     } catch {
-      // Fallback shape for older API.
       void sendMessage({ role: "user", content: text });
+    }
+
+    if (inputRef.current) {
+      inputRef.current.style.height = "56px";
     }
   }, [canSubmit, input, sendMessage]);
 
@@ -200,9 +244,7 @@ export function ChatPane({
       const text = buildUploadInstruction(files);
 
       try {
-        void sendMessage({
-          text,
-        });
+        void sendMessage({ text });
       } catch {
         void sendMessage({
           role: "user",
@@ -212,6 +254,7 @@ export function ChatPane({
     },
     [sendMessage],
   );
+
   const {
     clearError: clearUploadError,
     error: uploadError,
@@ -231,7 +274,7 @@ export function ChatPane({
   );
 
   const handleDragEnter = useCallback(
-    (e: DragEvent<HTMLDivElement>) => {
+    (e: ReactDragEvent<HTMLDivElement>) => {
       if (isStreaming || isUploadingFiles || !transferHasFiles(e.dataTransfer)) {
         return;
       }
@@ -244,7 +287,7 @@ export function ChatPane({
   );
 
   const handleDragOver = useCallback(
-    (e: DragEvent<HTMLDivElement>) => {
+    (e: ReactDragEvent<HTMLDivElement>) => {
       if (isStreaming || isUploadingFiles || !transferHasFiles(e.dataTransfer)) {
         return;
       }
@@ -256,7 +299,7 @@ export function ChatPane({
     [isStreaming, isUploadingFiles],
   );
 
-  const handleDragLeave = useCallback((e: DragEvent<HTMLDivElement>) => {
+  const handleDragLeave = useCallback((e: ReactDragEvent<HTMLDivElement>) => {
     if (!transferHasFiles(e.dataTransfer)) {
       return;
     }
@@ -269,7 +312,7 @@ export function ChatPane({
   }, []);
 
   const handleDrop = useCallback(
-    (e: DragEvent<HTMLDivElement>) => {
+    (e: ReactDragEvent<HTMLDivElement>) => {
       if (!transferHasFiles(e.dataTransfer)) {
         return;
       }
@@ -297,70 +340,163 @@ export function ChatPane({
     }) => addToolOutput(args);
   }, [addToolOutput]);
 
+  const handleSuggestedPrompt = useCallback((prompt: string) => {
+    setInput(prompt);
+    window.requestAnimationFrame(() => {
+      inputRef.current?.focus();
+    });
+  }, []);
+
   return (
     <div
-      className="relative flex h-full flex-col bg-background"
+      className="relative flex min-h-0 flex-1 flex-col bg-background"
       onDragEnter={handleDragEnter}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
-      <ScrollArea className="flex-1">
-        <div ref={scrollRef} className="mx-auto max-w-3xl px-4 py-6">
-          <MessageList messages={messages} onToolOutput={onToolOutput} />
-          {isStreaming && (
-            <div className="mt-4 text-sm text-muted-foreground">
-              Assistant is thinking…
-            </div>
-          )}
-        </div>
-      </ScrollArea>
       <div
-        className={cn(
-          "border-t bg-background p-3 transition-colors",
-          isDraggingFiles && "bg-muted/60",
-        )}
+        ref={scrollRef}
+        className="min-h-0 flex-1 overflow-y-auto"
       >
         <div
           className={cn(
-            "mx-auto max-w-3xl rounded-2xl border border-transparent p-2 transition-all",
-            isDraggingFiles &&
-              "border-dashed border-primary/60 bg-primary/5 shadow-sm",
+            "mx-auto flex min-h-full w-full max-w-4xl flex-col gap-5 px-2 py-6 md:gap-7 md:px-4",
+            messages.length === 0 ? "justify-center" : "pb-8",
           )}
         >
-          <div className="flex items-end gap-2">
-          <UploadButton
-            onFilesSelected={handleSelectedFiles}
-            disabled={isStreaming || isUploadingFiles}
-            error={uploadError}
-            isUploading={isUploadingFiles}
-          />
-          <Textarea
-            ref={inputRef}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Ask the assistant, or paste details…"
-            rows={2}
-            className="min-h-[2.5rem] flex-1 resize-none"
-          />
-          <Button onClick={handleSubmit} disabled={!canSubmit}>
-            Send
-          </Button>
+          {messages.length === 0 && (
+            <div className="w-full space-y-6">
+              <div className="space-y-3">
+                  <p className="text-sm text-muted-foreground">
+                    Assistant de devis
+                  </p>
+                  <h2 className="max-w-2xl text-2xl font-semibold tracking-tight text-balance md:text-3xl">
+                    Que doit-on travailler dans {quoteTitle} ?
+                  </h2>
+                  <p className="max-w-2xl text-sm text-muted-foreground">
+                    Téléverse des classeurs Excel, plans, courriels ou anciens
+                    devis, ou demande à l’assistant de verrouiller la portée,
+                    les exclusions, les modalités de paiement et les détails
+                    nécessaires à un PDF prêt à envoyer.
+                  </p>
+                </div>
+
+              <SuggestedPrompts
+                suggestions={suggestions}
+                onPick={handleSuggestedPrompt}
+                layout="cards"
+              />
+            </div>
+          )}
+
+          {messages.length > 0 && (
+            <MessageList
+              messages={messages}
+              quoteId={quoteId}
+              onToolOutput={onToolOutput}
+            />
+          )}
+
+          {isStreaming && (
+            <div className="flex items-center gap-3 rounded-xl border border-border/50 bg-card/80 px-4 py-3 text-sm text-muted-foreground shadow-[var(--shadow-card)]">
+              <Loader2 className="size-4 animate-spin" />
+              <span>
+                L’assistant travaille sur la prochaine étape de ce devis.
+              </span>
+            </div>
+          )}
         </div>
-          <div className="mt-1 flex flex-wrap items-center justify-between gap-2 px-1 text-[11px] text-muted-foreground">
-            <p>Press Cmd/Ctrl + Enter to send</p>
-            <p>
-              Drop one or more files here, or use the paperclip to upload in
-              batch
-            </p>
+      </div>
+
+      <div
+        className={cn(
+          "sticky bottom-0 z-10 mx-auto flex w-full max-w-4xl gap-2 bg-background px-2 pb-3 md:px-4 md:pb-4",
+          isDraggingFiles && "bg-background/95",
+        )}
+      >
+        <div className="w-full">
+          {suggestions.length > 0 && (
+            <div className="mb-2">
+              <SuggestedPrompts
+                suggestions={suggestions}
+                onPick={handleSuggestedPrompt}
+              />
+            </div>
+          )}
+
+          <div
+            className={cn(
+              "rounded-[28px] border border-border/60 bg-card p-2 shadow-[var(--shadow-composer)] transition-all focus-within:shadow-[var(--shadow-composer-focus)]",
+              isDraggingFiles &&
+                "border-foreground/15 bg-accent/40 shadow-[var(--shadow-composer-focus)]",
+            )}
+          >
+            <div className="flex items-end gap-2">
+              <UploadButton
+                onFilesSelected={handleSelectedFiles}
+                disabled={isStreaming || isUploadingFiles}
+                error={uploadError}
+                isUploading={isUploadingFiles}
+                className="mb-1"
+              />
+
+              <Textarea
+                ref={inputRef}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Demandez à l’assistant de structurer la portée, valider les faits, recommander des sections ou générer le PDF..."
+                rows={1}
+                className="min-h-[60px] max-h-[220px] flex-1 resize-none border-0 bg-transparent px-2 py-3 text-[13px] leading-[1.65] shadow-none focus-visible:ring-0"
+              />
+
+              {isStreaming ? (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => stop?.()}
+                  className="mb-1 rounded-full"
+                >
+                  <Square className="size-3.5 fill-current" />
+                </Button>
+              ) : (
+                <Button
+                  type="button"
+                  onClick={handleSubmit}
+                  disabled={!canSubmit}
+                  size="icon"
+                  className="mb-1 rounded-full"
+                  title="Envoyer"
+                >
+                  <ArrowUp className="size-4" />
+                  <span className="sr-only">Envoyer</span>
+                </Button>
+              )}
+            </div>
+
+            <div className="mt-2 flex flex-wrap items-center justify-between gap-2 px-3 pb-1 text-[11px] text-muted-foreground">
+              <p>Appuyez sur Cmd/Ctrl + Entrée pour envoyer</p>
+              <p>
+                {pdfFileId
+                  ? "Le dernier PDF est disponible dans les actions du chat"
+                  : "Le téléversement par lot est activé pour un ou plusieurs fichiers"}
+              </p>
+            </div>
           </div>
         </div>
       </div>
+
       {isDraggingFiles && (
-        <div className="pointer-events-none absolute inset-0 z-10 flex items-end justify-center bg-background/40 p-6">
-          <div className="rounded-2xl border border-dashed border-primary/60 bg-background/95 px-4 py-3 text-sm font-medium text-foreground shadow-lg">
-            Drop files to upload them to this quote
+        <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center bg-background/85 p-6 backdrop-blur-sm">
+          <div className="rounded-2xl border border-dashed border-border bg-card px-6 py-5 text-center shadow-[var(--shadow-float)]">
+            <p className="text-sm font-semibold text-foreground">
+              Déposez vos fichiers pour les joindre à ce devis
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Les fichiers Excel, PDF, images, courriels et textes peuvent
+              tous servir de contexte.
+            </p>
           </div>
         </div>
       )}

@@ -9,14 +9,14 @@ import { newId as nanoid } from "@/lib/util/ids";
 export async function POST() {
   const session = await getSession();
   if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   }
 
   const quoteId = nanoid();
   await db.insert(quotes).values({
     id: quoteId,
     userId: session.user.id,
-    title: "Untitled quote",
+    title: "Devis sans titre",
     lang: "fr",
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data: emptyQuoteData() as any,

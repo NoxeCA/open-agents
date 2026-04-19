@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { ToolHeader, type ToolCallProps } from "./generic";
+import { ToolHeader, toolCardClassName, type ToolCallProps } from "./generic";
 
 type Option = {
   label: string;
@@ -124,7 +124,7 @@ export function AskUserQuestionToolCall({
   });
 
   return (
-    <Card className="my-1 gap-2 py-2">
+    <Card className={toolCardClassName}>
       <CardHeader className="px-3">
         <CardTitle className="text-xs font-normal">
           <ToolHeader name="ask_user_question" state={state} />
@@ -193,10 +193,10 @@ export function AskUserQuestionToolCall({
                               : setSingle(q.question, opt.label)
                           }
                           className={cn(
-                            "flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-xs transition-all",
+                            "flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs transition-all",
                             selected
                               ? "border-primary bg-primary/10 font-medium text-primary"
-                              : "border-border bg-background hover:border-primary/50 hover:bg-accent",
+                              : "border-border bg-background hover:border-border hover:bg-accent",
                           )}
                         >
                           {selected && <Check className="size-3" />}
@@ -207,7 +207,7 @@ export function AskUserQuestionToolCall({
                   </div>
                   <div>
                     <label className="mb-1 block text-[11px] text-muted-foreground">
-                      Other
+                      Autre
                     </label>
                     <Textarea
                       value={otherText[q.question] ?? ""}
@@ -218,8 +218,8 @@ export function AskUserQuestionToolCall({
                         }))
                       }
                       rows={2}
-                      placeholder="Type a custom answer…"
-                      className="text-sm"
+                      placeholder="Saisissez une réponse personnalisée..."
+                      className="rounded-xl text-sm"
                     />
                   </div>
                 </TabsContent>
@@ -249,17 +249,17 @@ export function AskUserQuestionToolCall({
 
         {isDeclined && (
           <p className="text-xs italic text-muted-foreground">
-            You declined to answer.
+            Vous avez choisi de ne pas répondre.
           </p>
         )}
 
         {state === "input-available" && onToolOutput && toolCallId && (
           <div className="flex items-center justify-end gap-2">
             <Button size="sm" variant="ghost" onClick={handleSkip}>
-              Skip
+              Passer
             </Button>
             <Button size="sm" onClick={handleSubmit} disabled={!canSubmit}>
-              Submit answers
+              Envoyer les réponses
             </Button>
           </div>
         )}

@@ -1,6 +1,8 @@
+import { buildQuoteDocumentState } from "./document/builder";
 import type { QuoteData } from "./schema";
+
 export function emptyQuoteData(): Partial<QuoteData> {
-  return {
+  const base: Partial<QuoteData> = {
     lang: "fr",
     includeAboutUs: false,
     includeCulture: false,
@@ -13,5 +15,10 @@ export function emptyQuoteData(): Partial<QuoteData> {
     specialConditions: [],
     notes: [],
     paymentTerms: [],
+  };
+
+  return {
+    ...base,
+    document: buildQuoteDocumentState(base),
   };
 }

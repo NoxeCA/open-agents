@@ -3,7 +3,7 @@
 import { Layers } from "lucide-react";
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Json, ToolHeader, type ToolCallProps } from "./generic";
+import { Json, ToolHeader, toolCardClassName, type ToolCallProps } from "./generic";
 
 export function ProposeQuoteSkeletonToolCall({
   input,
@@ -21,7 +21,7 @@ export function ProposeQuoteSkeletonToolCall({
       ? input.sections.length
       : undefined;
   return (
-    <Card className="my-1 gap-2 py-2">
+    <Card className={toolCardClassName}>
       <CardHeader className="px-3">
         <CardTitle className="text-xs font-normal">
           <ToolHeader
@@ -45,7 +45,7 @@ export function ProposeQuoteSkeletonToolCall({
         <CardContent className="space-y-2 px-3">
           {input !== undefined && (
             <div>
-              <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
                 Input
               </p>
               <Json value={input} />
@@ -53,7 +53,7 @@ export function ProposeQuoteSkeletonToolCall({
           )}
           {output !== undefined && (
             <div>
-              <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
                 Output
               </p>
               <Json value={output} />

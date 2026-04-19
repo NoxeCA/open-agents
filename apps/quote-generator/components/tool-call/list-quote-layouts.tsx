@@ -3,7 +3,7 @@
 import { LayoutTemplate } from "lucide-react";
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Json, ToolHeader, type ToolCallProps } from "./generic";
+import { Json, ToolHeader, toolCardClassName, type ToolCallProps } from "./generic";
 
 type Layout = {
   id?: string;
@@ -23,7 +23,7 @@ export function ListQuoteLayoutsToolCall({
       ? output
       : [];
   return (
-    <Card className="my-1 gap-2 py-2">
+    <Card className={toolCardClassName}>
       <CardHeader className="px-3">
         <CardTitle className="text-xs font-normal">
           <ToolHeader
@@ -46,9 +46,8 @@ export function ListQuoteLayoutsToolCall({
             <ul className="space-y-1 text-xs">
               {layouts.map((l, i) => (
                 <li
-                  // eslint-disable-next-line react/no-array-index-key
                   key={l.id ?? i}
-                  className="rounded border px-2 py-1"
+                  className="rounded-lg border border-border/50 px-2 py-1"
                 >
                   <div className="font-medium">
                     {l.name ?? l.id ?? `Layout ${i + 1}`}
@@ -66,7 +65,7 @@ export function ListQuoteLayoutsToolCall({
           )}
           {input !== undefined && Object.keys(input ?? {}).length > 0 && (
             <div>
-              <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
                 Input
               </p>
               <Json value={input} />

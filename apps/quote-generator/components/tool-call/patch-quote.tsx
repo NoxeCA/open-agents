@@ -3,7 +3,7 @@
 import { Pencil } from "lucide-react";
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Json, ToolHeader, type ToolCallProps } from "./generic";
+import { Json, ToolHeader, toolCardClassName, type ToolCallProps } from "./generic";
 
 type PatchOp = {
   op?: string;
@@ -21,7 +21,7 @@ export function PatchQuoteToolCall({ input, output, state }: ToolCallProps) {
       : [];
 
   return (
-    <Card className="my-1 gap-2 py-2">
+    <Card className={toolCardClassName}>
       <CardHeader className="px-3">
         <CardTitle className="text-xs font-normal">
           <ToolHeader
@@ -43,7 +43,6 @@ export function PatchQuoteToolCall({ input, output, state }: ToolCallProps) {
           {patches.length > 0 && (
             <ul className="space-y-1 text-[11px]">
               {patches.slice(0, 20).map((p, i) => (
-                // eslint-disable-next-line react/no-array-index-key
                 <li key={i} className="font-mono text-muted-foreground">
                   <span className="text-foreground">{p.op ?? "op"}</span>{" "}
                   {p.path ?? ""}{" "}
@@ -61,7 +60,7 @@ export function PatchQuoteToolCall({ input, output, state }: ToolCallProps) {
           )}
           {output !== undefined && (
             <div>
-              <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
                 Output
               </p>
               <Json value={output} />

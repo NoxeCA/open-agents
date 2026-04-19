@@ -41,7 +41,9 @@ export function useQuoteFileUpload({
           setError(failureMessage);
         }
       } catch (error) {
-        setError(error instanceof Error ? error.message : "Upload failed");
+        setError(
+          error instanceof Error ? error.message : "Le téléversement a échoué",
+        );
       } finally {
         setIsUploading(false);
       }

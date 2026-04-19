@@ -37,7 +37,6 @@ production.
    ```env
    DEV_SKIP_AUTH=true
    DEV_LOCAL_BLOB=true
-   NOXE_DOCUMENTS_API_KEY=...
    ```
 
    For the chat model, use one of:
@@ -52,17 +51,14 @@ production.
    AI_GATEWAY_API_KEY=...
    ```
 
-4. If your documents app is already running on `http://localhost:3000`, leave
-   `NOXE_DOCUMENTS_URL=http://localhost:3000`.
-
-5. Apply the existing Drizzle migration:
+4. Apply the existing Drizzle migration:
 
    ```bash
    cd apps/quote-generator
    bun run db:migrate
    ```
 
-6. Start the app on `http://localhost:3001`:
+5. Start the app on `http://localhost:3001`:
 
    ```bash
    bun run dev:local
@@ -85,6 +81,9 @@ apps/quote-generator/.local/blob-storage/
 ```
 
 That lets you test uploads and PDF generation locally without Vercel Blob.
+The quote PDF now renders locally from the shared `@open-harness/quote-documents`
+workspace package through `json-render`, so you do not need a separate
+documents app running on `localhost:3000`.
 
 The included `compose.yaml` provisions Postgres on `localhost:5433` with:
 
