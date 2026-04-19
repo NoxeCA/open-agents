@@ -252,11 +252,38 @@ export type InspectContextFileOutput =
 
 export type RenderPdfInput = Record<string, never>;
 
+export type RenderPdfSummary = {
+  pageCount: number;
+  visibleSections: Array<{
+    key: string;
+    label: string;
+  }>;
+  hiddenSections: string[];
+  pricingLayoutPolicy:
+    | "zero-ventilation"
+    | "itemized-without-price"
+    | "itemized-with-price";
+  serviceLayouts: Array<{
+    index: number;
+    name: string;
+    layout:
+      | "zero-ventilation"
+      | "itemized-without-price"
+      | "itemized-with-price";
+  }>;
+  nonEmptyRegions: Array<{
+    regionId: string;
+    blockCount: number;
+  }>;
+  consistencyWarnings: string[];
+};
+
 export type RenderPdfOutput =
   | {
       ok: true;
       pdfFileId: string;
       pdfUrl: string;
+      renderSummary: RenderPdfSummary;
     }
   | {
       ok: false;

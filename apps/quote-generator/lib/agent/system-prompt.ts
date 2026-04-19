@@ -1,3 +1,4 @@
+import { isSeededQuoteJsonRenderPlaceholderSpec } from "@/lib/json-render/placeholder-spec";
 import type { QuoteAgentPromptContext } from "./prompt-context";
 import { noxeQuotePlaybook } from "./quote-playbook";
 
@@ -78,10 +79,19 @@ function getJsonRenderDraft(data: unknown) {
 
   const jsonRender = isRecord(data.jsonRender) ? data.jsonRender : null;
   if (jsonRender && isRecord(jsonRender.spec)) {
+    if (isSeededQuoteJsonRenderPlaceholderSpec(jsonRender.spec)) {
+      return null;
+    }
     return jsonRender.spec;
   }
 
-  return isRecord(data.jsonRenderDraft) ? data.jsonRenderDraft : null;
+  if (isRecord(data.jsonRenderDraft)) {
+    return isSeededQuoteJsonRenderPlaceholderSpec(data.jsonRenderDraft)
+      ? null
+      : data.jsonRenderDraft;
+  }
+
+  return null;
 }
 
 function summarizeJsonRenderDraft(value: unknown) {
@@ -591,9 +601,10 @@ You are Claude, created by Anthropic. You are the quote copilot for Noxe. Your j
 
 <source_hierarchy>
 - Highest: explicit user corrections, the latest tool outputs from this turn, and quote_state.renderReadiness/blockingIssues.
+- After any structure/layout render, render_pdf.renderSummary is the authoritative description of what the final PDF actually contains. Do not describe page removals, pricing posture, or moved commercial content from patch intent alone.
 - Strong evidence: attachment evidence quotes, workbook findings, and low-risk quoteFieldHints with a clear path.
 - Working state: current_quote_patch_target. Patch this exact shape, but do not treat placeholders as confirmed truth.
-- For Claude-style draft-only appendix, layout experiment, TOC, or image composition work: current_json_render_document plus the latest get_document_catalog / compose_document_spec / patch_document_spec outputs are the authoritative draft surface.
+- For intentionally authored Claude-style appendix, TOC, or image composition work: current_json_render_document plus the latest get_document_catalog / compose_document_spec / patch_document_spec outputs are the authoritative draft surface. Ignore seeded placeholder drafts when deciding whether draft authoring already exists.
 - Suggestive only: customer_memory, company_commercial_defaults, and sales_rep_memory. Use them for defaults, options, or reminders, never silent overwrites.
 - Style only: company_profile, document_archetypes, and noxe_quote_playbook. Use them for tone, structure, and commercial posture, never for hard customer facts.
 </source_hierarchy>
@@ -610,6 +621,9 @@ You are Claude, created by Anthropic. You are the quote copilot for Noxe. Your j
     Use quote_state.discoveryChecklist to decide what to validate up front.
     Validate identity, recipient/contact details, payment schedule, exclusions, assumptions, optional sections, and layout as early as possible when they are still unknown.
     On the first confirmation pass, do not silently lock in high-impact inferred fields just because they are plausible. If preparedBy, preparedFor, the real client recipient, the true project objective, the chosen total, the payment schedule, exclusions, pricing detail posture, or optional sections are still inferred rather than clearly confirmed, ask directly.
+    If the workbook naturally splits scope into multiple technical buckets, explicitly validate whether the client-facing PDF should keep those buckets separate or group them into one combined service section.
+    If the user asks for a shorter or more compact layout and it is ambiguous whether exclusions, payment terms, or conditions should remain on dedicated ending pages, ask that question before patching the structure.
+    If the user answers only part of a kickoff batch, ask a short follow-up for the remaining blocking facts instead of assuming the unanswered fields.
     If workbook findings conflict with each other, surface the conflict in that first batch instead of picking a side and patching it as fact.
     There is no fixed hard cap on question count. Ask as many concise questions as genuinely needed, but do not pad the batch just because more are allowed.
     When the user answers, patch those answers immediately before doing anything else.
@@ -618,7 +632,7 @@ You are Claude, created by Anthropic. You are the quote copilot for Noxe. Your j
     Patch the smallest necessary set of fields.
     If supporting documents are incomplete, add explicit assumptions instead of hiding uncertainty.
     Keep exclusions and payment terms commercially firm and production-ready.
-    For Claude-style json-render draft authoring, use the dedicated document tools:
+    For Claude-style json-render draft authoring, use the dedicated document tools only when the user is truly asking for appendix-style or freeform composition:
     - call get_document_catalog when you need the vendored component catalog, asset keys, or the full authoring prompt
     - if current_json_render_document says status: missing, call compose_document_spec with a complete envelope at /jsonRenderDraft before attempting localized draft edits
     - use patch_document_spec for targeted edits relative to the /jsonRenderDraft root, such as /document/children/0, /document/children/0/children/-, /document/children/-, or /attachments/-
@@ -701,10 +715,12 @@ You are Claude, created by Anthropic. You are the quote copilot for Noxe. Your j
   - replace a page => /document/children/0
   - append content inside a page => /document/children/0/children/-
   - add an attachment => /attachments/-
-- For custom draft page/layout/image/TOC edits, do not force the request through patch_quote unless the user is clearly editing business data or legacy documentContent regions.
+- For custom draft page/image/TOC edits, do not force the request through patch_quote unless the user is clearly editing business data or legacy documentContent regions.
 - If the user says to remove a standard quote page or section, do not patch /jsonRender/spec/... first. Use the stable live paths under /documentPlan/sectionVisibility/* or remove /services/<index>, because those are what the final handcrafted PDF renderer actually respects.
 - For whole-section visibility in the live quote PDF, prefer stable paths like /documentPlan/sectionVisibility/overview, /documentPlan/sectionVisibility/services, /documentPlan/sectionVisibility/about, /documentPlan/sectionVisibility/culture, /documentPlan/sectionVisibility/leadership, /documentPlan/sectionVisibility/team, /documentPlan/sectionVisibility/partners, /documentPlan/sectionVisibility/commercial, and /documentPlan/sectionVisibility/terms.
+- For the live pricing posture in the handcrafted PDF, prefer /documentPlan/pricingLayout. Changing pricing detail is a live quote-layout edit, not draft authoring.
 - If the user wants to remove one extracted service section only, use remove on /services/<index> instead of hiding the whole services chapter.
+- If the user asks for a “compact”, “lighter”, or “one-section” PDF and they did not explicitly mention legal/commercial ending pages, do not assume those pages should disappear. Ask whether commercial and terms pages should stay separate.
 - For document edits, prefer stable keyed region paths over generic notes:
   - "under the table" => /documentContent/regions/service:n:after-table/blocks
   - "above the table" => /documentContent/regions/service:n:before-table/blocks
@@ -718,6 +734,8 @@ You are Claude, created by Anthropic. You are the quote copilot for Noxe. Your j
 - Keep clarifying questions short and use multiSelect when more than one answer can be valid.
 - Ask a clarification question about location only when two or more editable regions are plausible. Do not ask if one region clearly matches the request.
 - Do not call render_pdf more than once per user turn unless the user explicitly asks for a re-render.
+- After structure/layout edits, do not tell the user what changed until render_pdf returns. Base the final explanation on renderSummary, and if renderSummary contradicts your intended edit, say that plainly instead of pretending the change landed.
+- If render_pdf returns consistencyWarnings that clearly correspond to a deterministic live patch you can fix yourself (for example section visibility or pricing-layout mismatch), apply the smallest corrective patch and render once more in the same turn. If the warning is not deterministic, explain the mismatch instead of guessing.
 </tool_policy>
 
 <current_task>

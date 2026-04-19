@@ -5,6 +5,7 @@ import { getDisplayQuoteTitle } from "@/lib/quote/display";
 import Link from "next/link";
 import { useCallback, useState } from "react";
 import { ChatPane } from "./chat-pane";
+import { QuoteStructurePanel } from "./quote-structure-panel";
 import { QuoteSidebar } from "./quote-sidebar";
 
 type QuoteRow = {
@@ -76,6 +77,29 @@ export function QuoteWorkspace({
     }
   }, [quote.id]);
 
+  const onQuotePatched = useCallback(
+    async (nextData: Record<string, unknown>) => {
+      setQuoteData(nextData);
+      setPdfFileId(null);
+      setQuoteMeta((current) => ({
+        ...current,
+        data: nextData,
+        updatedAt: new Date().toISOString(),
+      }));
+      setRecentQuotes((current) =>
+        current.map((row) =>
+          row.id === quote.id
+            ? {
+                ...row,
+                updatedAt: new Date().toISOString(),
+              }
+            : row,
+        ),
+      );
+    },
+    [quote.id],
+  );
+
   return (
     <div className="flex h-dvh w-full flex-row overflow-hidden bg-sidebar text-foreground">
       <QuoteSidebar quotes={recentQuotes} currentQuoteId={quote.id} />
@@ -97,7 +121,7 @@ export function QuoteWorkspace({
           </Button>
         </header>
 
-        <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden bg-background md:rounded-tl-[12px] md:border-t md:border-l md:border-border/40">
+        <div className="relative flex min-h-0 flex-1 overflow-hidden bg-background md:rounded-tl-[12px] md:border-t md:border-l md:border-border/40">
           <ChatPane
             quoteId={quote.id}
             quoteTitle={getDisplayQuoteTitle(quoteMeta.title)}
@@ -106,6 +130,12 @@ export function QuoteWorkspace({
             chatId={chat.id}
             initialMessages={initialMessages}
             onQuoteUpdated={onQuoteUpdated}
+          />
+          <QuoteStructurePanel
+            quoteId={quote.id}
+            quoteData={quoteData}
+            pdfFileId={pdfFileId}
+            onQuotePatched={onQuotePatched}
           />
         </div>
       </div>

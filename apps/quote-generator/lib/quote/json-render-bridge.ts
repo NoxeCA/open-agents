@@ -4,6 +4,7 @@ import { downloadBlob } from "@/lib/blob";
 import { db } from "@/lib/db";
 import { quoteFiles } from "@/lib/db/schema";
 import type { SpecDocument, SpecEnvelope } from "@/lib/json-render";
+import { isSeededQuoteJsonRenderPlaceholderSpec } from "@/lib/json-render/placeholder-spec";
 import type { QuoteRichContentBlock } from "@/lib/documents/quote/rich-content";
 import type { QuoteData } from "@/lib/quote/schema";
 
@@ -838,54 +839,11 @@ function readPersistedSpecValue(
   );
 }
 
-function isSeededPlaceholderSpec(candidate: unknown): boolean {
-  const record = readRecord(candidate);
-  const document = readRecord(record?.document);
-  const children = Array.isArray(document?.children) ? document.children : null;
-  if (!children || children.length !== 1) {
-    return false;
-  }
-
-  const firstPage = readRecord(children[0]);
-  if (!firstPage || firstPage.type !== "Page") {
-    return false;
-  }
-
-  if (firstPage.header !== false || firstPage.footer !== "none") {
-    return false;
-  }
-
-  const pageChildren = Array.isArray(firstPage.children) ? firstPage.children : null;
-  if (!pageChildren || pageChildren.length !== 3) {
-    return false;
-  }
-
-  const [labelNode, headingNode, paragraphNode] = pageChildren.map((child) =>
-    readRecord(child),
-  );
-
-  const labelText = readRecord(labelNode?.text);
-  const headingText = readRecord(headingNode?.text);
-  const paragraphText = readRecord(paragraphNode?.text);
-
-  return (
-    labelNode?.type === "Label" &&
-    labelNode.uppercase === true &&
-    labelText?.$state === "quote.documentType" &&
-    headingNode?.type === "Heading" &&
-    headingNode.level === 1 &&
-    headingText?.$state === "quote.documentTitle" &&
-    paragraphNode?.type === "Paragraph" &&
-    paragraphNode.muted === true &&
-    paragraphText?.$state === "quote.projectIntro"
-  );
-}
-
 export function getPersistedQuoteJsonRenderEnvelope(
   data: Partial<QuoteData> & Record<string, unknown>,
 ): SpecEnvelope | SpecDocument | null {
   const candidate = readPersistedSpecValue(data);
-  if (isSeededPlaceholderSpec(candidate)) {
+  if (isSeededQuoteJsonRenderPlaceholderSpec(candidate)) {
     return null;
   }
   return readRecord(candidate)

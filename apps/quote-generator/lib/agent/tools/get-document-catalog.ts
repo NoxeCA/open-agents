@@ -32,7 +32,7 @@ const JSON_RENDER_ASSET_KEYS = [
 export function getDocumentCatalogTool({ quoteId }: { quoteId: string }) {
   return tool({
     description:
-      "Return the Claude-style json-render catalog prompt, component manifest, and allowed image asset keys for the quote document draft stored at `/jsonRenderDraft`. Use this draft surface for custom appendix-style composition and image-rich insertions, not as the primary control plane for hiding the standard live quote sections.",
+      "Return the Claude-style json-render catalog prompt, component manifest, and allowed image asset keys for the quote document draft stored at `/jsonRenderDraft`. Treat the draft as an appendix/composition surface only after it has been intentionally authored; do not use it as the primary control plane for hiding standard live quote sections or changing the live pricing layout.",
     inputSchema: z.object({}),
     execute: async (): Promise<DocumentCatalogOutput> => {
       const [row] = await db
@@ -54,7 +54,7 @@ export function getDocumentCatalogTool({ quoteId }: { quoteId: string }) {
             "For page-level edits, prefer modifying existing `Page` or `ServiceSection` nodes instead of pushing quote prose into rigid legacy fields.",
             "Uploaded quote images or plans can be referenced with `quote-file:<fileId>` in `Image.src`; the render pipeline resolves those into embedded data URIs automatically.",
             "For new appendix-style material, prefer adding a dedicated `Page` with freeform nodes rather than forcing everything into the commercial summary pages.",
-            "For the live handcrafted Noxe PDF, hide or show standard sections through `patch_quote` on `/documentPlan/sectionVisibility/*` or remove a single extracted service via `/services/<index>`. Do not treat the draft tree as the source of truth for hiding standard legacy sections.",
+            "For the live handcrafted Noxe PDF, hide or show standard sections through `patch_quote` on `/documentPlan/sectionVisibility/*`, change the pricing posture through `/documentPlan/pricingLayout`, or remove a single extracted service via `/services/<index>`. Do not treat the draft tree as the source of truth for hiding standard legacy sections or pricing posture.",
           ],
         }),
         manifest: buildManifest(),

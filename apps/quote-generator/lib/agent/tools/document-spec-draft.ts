@@ -1,4 +1,5 @@
 import { checkIntegrity } from "@/lib/json-render/spec/integrity";
+import { isSeededQuoteJsonRenderPlaceholderSpec } from "@/lib/json-render/placeholder-spec";
 import {
   specDocumentSchema,
   specEnvelopeSchema,
@@ -99,6 +100,9 @@ export function readJsonRenderDraft(data: unknown): JsonRenderDraft | null {
   }
 
   const draft = readCanonicalDraft(data);
+  if (isSeededQuoteJsonRenderPlaceholderSpec(draft)) {
+    return null;
+  }
   const parsed = specEnvelopeSchema.safeParse(draft);
   return parsed.success ? (parsed.data as JsonRenderDraft) : null;
 }

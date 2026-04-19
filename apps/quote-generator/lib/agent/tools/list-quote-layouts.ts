@@ -23,7 +23,7 @@ const LAYOUTS: ListQuoteLayoutsOutput = [
 
 export const listQuoteLayoutsTool = tool({
   description:
-    "List the available PDF layouts with a short description of each. Use when the user asks about layout options or when you need to choose a layout to set on the quote.",
+    "List the available PDF layouts with a short description of each. Use when the user asks about layout options or when you need to choose a live pricing posture to set on the quote through `/documentPlan/pricingLayout`.",
   inputSchema: z.object({}),
   execute: async (): Promise<ListQuoteLayoutsOutput> => LAYOUTS,
 });

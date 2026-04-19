@@ -149,6 +149,18 @@ function syncServiceLayoutAcrossPlans(
     plan.serviceLayout = value;
     plan.serviceLayoutPolicy = value;
   }
+
+  if (Array.isArray(next.services)) {
+    next.services = next.services.map((service) => ({
+      ...service,
+      layout:
+        value === "zero-ventilation" ||
+        value === "itemized-without-price" ||
+        value === "itemized-with-price"
+          ? value
+          : service.layout,
+    }));
+  }
 }
 
 function syncDocumentPlanCompatibility(

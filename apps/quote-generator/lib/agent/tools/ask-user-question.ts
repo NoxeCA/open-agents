@@ -52,7 +52,10 @@ WHEN TO USE:
 USAGE NOTES:
 - There is no fixed hard cap on question count. Ask as many questions as genuinely needed to unblock the quote, but do not treat a large batch as a goal.
 - In the first batch after ingestion, prioritize identity + recipient + commercial choices: who is preparing the quote, who it is for, the final contact block, payment schedule, exclusions, assumptions, optional sections, or layout.
+- In that same first batch, validate how the extracted scope should be grouped for the PDF when the workbook suggests multiple subsystems or cost buckets. Do not silently assume the seller wants separate sections versus one combined section.
 - If files disagree, use the first batch to explicitly confirm the conflicts: client/project identity, recipient, chosen total, project objective, quote number/date, and whether optional brochure-style sections should stay in or be removed.
+- If the user asks for a more compact or simplified PDF and it is ambiguous whether exclusions, payment terms, or conditions should stay on dedicated ending pages, ask that directly before inlining or hiding those pages.
+- If the seller only answers part of a kickoff batch, ask a tight follow-up for the remaining blockers instead of silently locking the rest.
 - Keep option labels to 1-5 words. Use \`description\` for the trade-off.
 - Users can always select "Other" to provide free text.
 - Use \`multiSelect: true\` when more than one answer is valid (e.g. which services to include).

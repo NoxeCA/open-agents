@@ -20,6 +20,17 @@ export function RenderPdfToolCall({
   const blockingIssues = Array.isArray(output?.blockingIssues)
     ? (output.blockingIssues as string[])
     : [];
+  const renderSummary =
+    output?.renderSummary && typeof output.renderSummary === "object"
+      ? (output.renderSummary as {
+          pageCount?: number;
+          pricingLayoutPolicy?: string;
+          visibleSections?: Array<{ label?: string }>;
+          serviceLayouts?: Array<{ name?: string; layout?: string }>;
+          nonEmptyRegions?: Array<{ regionId?: string; blockCount?: number }>;
+          consistencyWarnings?: string[];
+        })
+      : null;
   const canOpenPdf = Boolean(pdfFileId && quoteId);
 
   return (
@@ -68,6 +79,59 @@ export function RenderPdfToolCall({
                 Télécharger
               </a>
             </Button>
+          </div>
+        )}
+
+        {renderSummary && (
+          <div className="rounded-xl border border-border/60 bg-background/70 p-3 text-sm">
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+              <span>{renderSummary.pageCount ?? "?"} pages</span>
+              {renderSummary.pricingLayoutPolicy && (
+                <span>layout: {renderSummary.pricingLayoutPolicy}</span>
+              )}
+            </div>
+            {Array.isArray(renderSummary.visibleSections) &&
+              renderSummary.visibleSections.length > 0 && (
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Sections:{" "}
+                  {renderSummary.visibleSections
+                    .map((section) => section.label)
+                    .filter(Boolean)
+                    .join(" · ")}
+                </p>
+              )}
+            {Array.isArray(renderSummary.serviceLayouts) &&
+              renderSummary.serviceLayouts.length > 0 && (
+                <ul className="mt-2 space-y-1 text-xs text-muted-foreground">
+                  {renderSummary.serviceLayouts.map((service, index) => (
+                    <li key={`${service.name ?? "service"}-${index}`}>
+                      {service.name ?? `Service ${index + 1}`} · {service.layout ?? "unknown"}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            {Array.isArray(renderSummary.nonEmptyRegions) &&
+              renderSummary.nonEmptyRegions.length > 0 && (
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Zones enrichies:{" "}
+                  {renderSummary.nonEmptyRegions
+                    .map((region) =>
+                      region.regionId
+                        ? `${region.regionId}${typeof region.blockCount === "number" ? ` (${region.blockCount})` : ""}`
+                        : null,
+                    )
+                    .filter(Boolean)
+                    .join(" · ")}
+                </p>
+              )}
+            {Array.isArray(renderSummary.consistencyWarnings) &&
+              renderSummary.consistencyWarnings.length > 0 && (
+                <ul className="mt-2 space-y-1 rounded-lg border border-amber-500/20 bg-amber-500/8 px-2 py-2 text-xs text-amber-950">
+                  {renderSummary.consistencyWarnings.map((warning) => (
+                    <li key={warning}>{warning}</li>
+                  ))}
+                </ul>
+              )}
           </div>
         )}
 

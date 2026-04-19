@@ -1,5 +1,6 @@
 import { tool } from "ai";
 import { eq } from "drizzle-orm";
+import { PDFDocument } from "pdf-lib";
 import { z } from "zod";
 
 import { uploadBlob } from "@/lib/blob";
@@ -9,6 +10,7 @@ import { persistQuoteData } from "@/lib/memory/persist-quote-data";
 import { normalizeQuoteData } from "@/lib/quote/normalize";
 import { assessQuoteProductionReadiness } from "@/lib/quote/render-readiness";
 import { renderQuotePdf } from "@/lib/quote/render";
+import { buildQuoteRenderSummary } from "@/lib/quote/render-summary";
 import { quoteDataSchema, type QuoteData } from "@/lib/quote/schema";
 import { nanoid } from "@/lib/util/ids";
 
@@ -63,6 +65,11 @@ export function renderPdfTool({ quoteId }: { quoteId: string }) {
       }
 
       const pdfFileId = nanoid();
+      const renderedPdfDoc = await PDFDocument.load(pdf);
+      const renderSummary = buildQuoteRenderSummary(
+        parsedQuote,
+        renderedPdfDoc.getPageCount(),
+      );
       const { url, pathname, size } = await uploadBlob({
         pathname: `quotes/${quoteId}/pdfs/${pdfFileId}.pdf`,
         body: pdf,
@@ -113,6 +120,7 @@ export function renderPdfTool({ quoteId }: { quoteId: string }) {
         ok: true,
         pdfFileId,
         pdfUrl: `/api/quotes/${quoteId}/pdfs/${pdfFileId}`,
+        renderSummary,
       };
     },
   });

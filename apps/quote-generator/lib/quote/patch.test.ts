@@ -174,4 +174,57 @@ describe("quote patch compatibility", () => {
     expect(next.services).toHaveLength(1);
     expect(next.services?.[0]?.sectionName).toBe("Intrusion");
   });
+
+  test("changing the live pricing layout updates all extracted services", () => {
+    const current = normalizeQuoteData({
+      lang: "fr",
+      services: [
+        {
+          sectionNumber: 1,
+          sectionName: "Acces",
+          description: "Controle d'acces",
+          bomItems: [],
+          bomSubtotal: 0,
+          laborCategories: [],
+          laborSubtotal: 0,
+          totalCost: 1000,
+          layout: "itemized-with-price",
+        },
+        {
+          sectionNumber: 2,
+          sectionName: "Intrusion",
+          description: "Detection intrusion",
+          bomItems: [],
+          bomSubtotal: 0,
+          laborCategories: [],
+          laborSubtotal: 0,
+          totalCost: 500,
+          layout: "itemized-with-price",
+        },
+      ],
+      exclusions: [],
+      paymentTerms: [],
+      specialConditions: [],
+      notes: [],
+    } as Partial<QuoteData>);
+
+    const next = applyPatch(current, [
+      {
+        op: "replace",
+        path: "/documentPlan/serviceLayoutPolicy",
+        value: "itemized-without-price",
+      },
+    ]);
+
+    expect(next.documentPlan?.serviceLayoutPolicy).toBe(
+      "itemized-without-price",
+    );
+    expect(next.composition?.serviceLayoutPolicy).toBe(
+      "itemized-without-price",
+    );
+    expect(next.services?.map((service) => service.layout)).toEqual([
+      "itemized-without-price",
+      "itemized-without-price",
+    ]);
+  });
 });

@@ -1,5 +1,7 @@
 import { describe, expect, test } from "bun:test";
 
+import { readJsonRenderDraft } from "@/lib/agent/tools/document-spec-draft";
+
 import {
   buildQuoteJsonRenderEnvelope,
   getPersistedQuoteJsonRenderEnvelope,
@@ -129,6 +131,7 @@ describe("quote json-render state", () => {
     );
 
     expect(getPersistedQuoteJsonRenderEnvelope(normalized)).toBeNull();
+    expect(readJsonRenderDraft(normalized)).toBeNull();
   });
 
   test("builds a full quote envelope for sparse fresh quotes", () => {
